@@ -225,10 +225,31 @@ void def_matiere(SCENE *scene, int i) {
 	rgb2rgbaf(&scene->tabmat[i].speculaire, 1, &propc);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, propc.rgba);
 
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, scene->tabmat[i].brillance);
+    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene->tabmat[i].brillance);
 
     rgb2rgbaf(&scene->tabmat[i].emission, 1, &propc);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, propc.rgba);
+
+    // Texture
+    texIndex = scene->tabmat[i].tex;
+    glBindTexture(GL_TEXTURE_2D, scene->tabtex[texIndex].glnum);
+}
+
+void def_selectedMatiere(SCENE *scene, int i) {
+    INDICE_TEX texIndex;
+    RGBAF propc;
+
+    // Couleur
+    propc.r = 0.4f;
+    propc.g = 0.0f;
+    propc.b = 0.0f;
+    propc.a = 0.4f;
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT  , propc.rgba);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE  , propc.rgba);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR , propc.rgba);
+    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene->tabmat[i].brillance);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION , propc.rgba);
 
     // Texture
     texIndex = scene->tabmat[i].tex;

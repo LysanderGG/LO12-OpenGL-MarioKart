@@ -92,15 +92,13 @@ void dessine_face(INDICE_FACE iface, int _differentColorForEachVertex)
         glDisable(GL_LIGHTING);
     }
     
-    /*if(g_isCurrentObject) {
-        // TODO : donner une matiere différente trop stylee
-        glDisable(GL_LIGHTING);
-		glColor3f(1.0f, .0f, .0f);
-    } else {*/
+    if(g_isCurrentObject) {
+		def_selectedMatiere(scene, scene->tabface[iface].imat);
+    } else {
         def_matiere(scene, scene->tabface[iface].imat);
-    //}
+    }
 
-        glEnable( GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     glBegin(GL_POLYGON);
     glNormal3dv(scene->tabface[iface].n.vect);
 
