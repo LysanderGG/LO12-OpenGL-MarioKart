@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="affiche.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatUtils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneUtils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="observateur.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="animations.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="interactions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="eclairage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pngloader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="affiche.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="observateur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="animations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interactions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eclairage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pngloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

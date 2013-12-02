@@ -1,0 +1,194 @@
+###FICHIER SCENE - CUBE 6 FACES###
+3 #nb fichiers de texture
+4 #nb coordonées de texture
+20 #nb total de points dans la scene#
+3	#nb de matieres #
+13	#nb de faces  #
+2	#nb objets#
+2	#nb de sources de lumiere #
+##DEFINITON DES FICHIERS DE TEXTURE##
+img/bois.png
+img/caisse.png
+img/img1.png
+##DEFINITON DES COORDONEES DE TEXTURE##
+0.0 0.0
+0.0 1.0
+1.0 1.0
+1.0 0.0
+##DEFINITON DES POINTS##
+1.0   1.0   1.0 #<point> 0#
+1.0   1.0   -1.0 #<point> 1#
+1.0   -1.0  -1.0 #<point> 2#
+1.0   -1.0  1.0 #<point> 3#
+-1.0   1.0   1.0 #<point> 4#
+-1.0   1.0   -1.0 #<point> 5#
+-1.0   -1.0  -1.0 #<point> 6#
+-1.0   -1.0  1.0 #<point> 7#
+
+1.0   1.0   1.0 #<point> 8#
+1.0   1.0   -1.0 #<point> 9#
+1.0   -1.0  -1.0 #<point> 10#
+1.0   -1.0  1.0 #<point> 11#
+-1.0   1.0   1.0 #<point> 12#
+-1.0   1.0   -1.0 #<point> 13#
+-1.0   -1.0  -1.0 #<point> 14#
+-1.0   -1.0  1.0 #<point> 15#
+
+1.01   0.5   0.5 #<point> 16#
+1.01   0.5   -1.0 #<point> 17#
+1.01   -0.5  -1.0 #<point> 18#
+1.01   -0.5  0.5 #<point> 19#
+
+##DEFINITION DES MATIERES##
+#<matiere 0>#
+1.0 #alpha
+0.4	0.0	0.0			#reflectance ambiante #
+1.0	0.0	0.0			#reflectance diffuse #
+0.0	0.0	0.0			#reflectance emise #
+1.0	0.0	0.0			#reflectance speculaire #
+0.0					#brillance #
+0					#texture
+
+#<matiere 1>#
+1.0 #alpha
+0.0	0.4	0.0			#reflectance ambiante #
+0.0	1.0	0.0			#reflectance diffuse #
+0.0	0.0	0.0			#reflectance emise #
+0.0	1.0	0.0			#reflectance speculaire #
+0.0					#brillance #
+1					#texture
+
+#<matiere 2>#
+1.0 #alpha
+0.0	0.0	0.4			#reflectance ambiante #
+0.0	0.0	1.0			#reflectance diffuse #
+0.0	0.0	0.0			#reflectance emise #
+1.0	1.0	1.0			#reflectance speculaire #
+128.0				#brillance #
+-1					#texture
+##DEFINTION DES FACES##
+#<face 0>#
+#face avant#
+4					#nb de pts de la face 0
+0	1	2	3			#points
+0						#matiere
+4						#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 1>#
+#face arriere
+4					#nb de pts de la face 1
+7	6	5	4			#points
+0						#matiere
+4						#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 2>#
+#face droite
+4					#nb de pts de la face 2
+0	4	5	1			#points
+0						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 3>#
+#face gauche
+4					#nb de pts de la face 3
+7	3	2	6			#points
+0						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 4>#
+#face bas
+4					#nb de pts de la face 4
+5	6	2	1			#points
+0						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 5>#
+#face haut
+4					#nb de pts de la face 5
+0	3	7	4			#points
+0						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+
+
+#<face 6>#
+#face avant#
+4					#nb de pts de la face 0
+8	9	10	11			#points
+1						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 7>#
+#face arriere
+4					#nb de pts de la face 1
+15	14	13	12			#points
+1						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 8>#
+#face droite
+4					#nb de pts de la face 2
+8	12	13	9			#points
+1						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 9>#
+#face gauche
+4					#nb de pts de la face 3
+15	11	10	14			#points
+1						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 10>#
+#face bas
+4					#nb de pts de la face 4
+13	14	10	9			#points
+1						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+#<face 11>#
+#face haut
+4					#nb de pts de la face 5
+8	11	15	12			#points
+1						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+
+#<face 12>#
+#porte
+4					#nb de pts de la face 12
+16	17	18	19			#points
+2						#matiere
+4					#nb coordonées de texture
+2 1 0 3					#coordonées texture
+##DEFINTION DES OBJETS##
+#<objet 0>#
+6					#	nb de faces de la plate-forme
+0 1 2 3 4 5 #faces
+1.0	0.0	0.0	0.0  #Matrice de transformations
+0.0	1.0	0.0	3.0 #
+0.0	0.0	1.0	0.0 #
+0.0	0.0	0.0	1.0 #
+
+#<objet 1>#
+7					#	nb de faces de la plate-forme
+6 7 8 9 10 11 12#faces
+1.0	0.0	0.0	3.0  #Matrice de transformations
+0.0	1.0	0.0	0.0 #
+0.0	0.0	1.0	0.0 #
+0.0	0.0	0.0	1.0 #
+
+##DEFINITION DES SOURCES##
+#<source 0>#
+0.5	0.5	0.5		#couleur ambiante
+1.0	1.0	1.0		#couleur source
+0.0	0.0	4.0	1.0	#position initiale
+1.0	40.0			#allure du faisceau
+0.0	0.0	-1.0		#direction du faisceau
+
+#<source 1>#
+0.2	0.2	0.2		#couleur ambiante
+1.0	1.0	1.0		#couleur source
+7.0	0.0	0.0	1.0	#position initiale
+1.0	70.0			#allure du faisceau
+-1.0	0.0	0.0		#direction du faisceau
