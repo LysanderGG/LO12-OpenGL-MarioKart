@@ -20,7 +20,7 @@ int g_mousePreviousY = 0;
 int g_switchLight = 1;
 
 void callSpecialFunc(int key, int x, int y) {
-	int sens; /* sens positif ou négatif */
+	int sens; /* sens positif ou negatif */
 
 	if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
 		sens = -1;
@@ -102,6 +102,9 @@ void callKeyboardFunc(unsigned char key, int x, int y){
 		case 'O':
 			changeMode();
 			break;
+        case 'h':
+        case 'H':
+            print_help();
 	}
 
 	glutPostRedisplay();
@@ -141,4 +144,32 @@ void callMotionFunc(int x, int y) {
 
     g_mousePreviousX = x;
     g_mousePreviousY = y;
+}
+
+void print_help() {
+    char* s = "***************************\n"
+              "*** Touches de controle ***\n"
+              "***************************\n"
+              "F1: avance l'objet selon direction axe x\n"
+              "F2: avance l'objet selon direction axe y\n"
+              "F3: avance l'objet selon direction axe z\n"
+              "F4: tourne l'objet selon axe x\n"
+              "F5: tourne l'objet selon axe y\n"
+              "F6: tourne l'objet selon axe z\n"              "F9: allumer/eteindre la source a l'infini\n"              "F10:   l'observateur tourne autour de l'axe z de la scene\n"
+              "LEFT:  l'observateur tourne la tete a droite\n"
+              "RIGHT: l'observateur tourne la tete a gauche\n"
+              "UP:    l'observateur leve la tete\n"
+              "DOWN:  l'observateur baisse la tete\n"              "*****************************\n"              "*** Commandes a la souris ***\n"              "*****************************\n"              "clic gauche: \n"
+              "\t * haut-bas: lever, baisser la tête\n"
+              "\t * gauche-droite: tourner la tête a gauche, a droite\n"
+              "clic droit: \n"
+              "\t * haut-bas: monter-descendre parallelement a l'axe x\n"
+              "\t * gauche-droite: aller a gauche, a droite, parallelement a l'axe y"
+              "clic milieu: \n"
+              "\t * haut-bas: se rapprocher, s'eloigner (effet de zoom)\n"
+              "\t * gauche-droite: tourner autour de l'axe z de la scene\n"
+              "*****************************\n"
+              ;
+    
+    printf(s);
 }

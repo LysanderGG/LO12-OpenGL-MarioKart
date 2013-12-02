@@ -22,4 +22,6 @@ void callSpecialFunc(int key, int x, int y);
 void callMouseFunc(int button,int state, int x, int y);
 void callMotionFunc(int x, int y);
 
+void print_help();
+
 #endif
