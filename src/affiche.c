@@ -42,6 +42,7 @@
 #include "affiche.h"
 #include "eclairage.h"
 #include "interactions.h"
+#include "scene3ds.h"
 
 extern SCENE* scene;
 
@@ -110,11 +111,6 @@ void dessine_face(INDICE_FACE iface, int _differentColorForEachVertex)
         glVertex3d(scene->tabpt[j].x, scene->tabpt[j].y, scene->tabpt[j].z);
     }
 
-    /*if(g_isCurrentObject) {
-        glEnable(GL_LIGHTING);
-    }*/
-    
-
     glEnd();
     glDisable( GL_TEXTURE_2D);
 
@@ -166,6 +162,12 @@ void dessine_scene()
 
 		dessine_objet(scene->tabobj[i]);
     }
+
+    // Draw 3DS scene
+    glPushMatrix();
+    glScaled(0.1,0.1,0.1);
+    dessine_scene3ds();
+    glPopMatrix();
 
     glutSwapBuffers();
 }

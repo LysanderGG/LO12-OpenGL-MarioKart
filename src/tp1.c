@@ -41,6 +41,7 @@
 #include "animations.h"
 #include "interactions.h"
 #include "texture.h"
+#include "scene3ds.h"
 
 //**************//
 //DEFINITIONS : //
@@ -48,6 +49,8 @@
 
 #define PROJECT_NAME "scene"
 #define FILE_EXT ".dat"
+
+#define SCENE_FILE_3DS "img/3d/jeep.3ds"
 
 /*******************************************************************************/
 /*                      Initialisations pour GL et Glut                        */
@@ -106,6 +109,8 @@ int main(int argc, char**argv) {
     if(verbose) {
         print_scene_data(scene);
     }
+
+    charge_scene3ds(SCENE_FILE_3DS);
 
     glutInit(&argc, argv);
     glutInitWindowSize(500, 500);   /* taille de la fenetre ecran */
