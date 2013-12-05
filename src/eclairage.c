@@ -49,7 +49,7 @@ On ne prend pas en compte la quatrieme composante.
 ----------------------------------------------- */
 
 GLdouble norme(MCOORD v) {
-	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 /* -----------------------------------------------
@@ -59,24 +59,24 @@ vecteurs
 ----------------------------------------------- */
 
 void prod_vectoriel(MCOORD u, MCOORD v, MCOORD *w) {
-	w->x = u.y * v.z - u.z * v.y;
-	w->y = u.x * v.z - u.z * v.x;
-	w->z = u.x * v.y - u.y * v.x;
+    w->x = u.y * v.z - u.z * v.y;
+    w->y = u.x * v.z - u.z * v.x;
+    w->z = u.x * v.y - u.y * v.x;
 }
 
 void calcule_vecteur(MCOORD p1, MCOORD p2, MCOORD *v) {
-	v->x = p2.x - p1.x;
-	v->y = p2.y - p1.y;
-	v->z = p2.z - p1.z;
+    v->x = p2.x - p1.x;
+    v->y = p2.y - p1.y;
+    v->z = p2.z - p1.z;
 }
 
 void normalise(MCOORD *v) {
-	GLdouble norm = norme(*v);
-	if(norm > 0.0000001) {
-		v->x /= norm;
-		v->y /= norm;
-		v->z /= norm;
-	} else {
+    GLdouble norm = norme(*v);
+    if(norm > 0.0000001) {
+        v->x /= norm;
+        v->y /= norm;
+        v->z /= norm;
+    } else {
         v->x = 0.0;
         v->y = 0.0;
         v->z = 0.0;
@@ -86,22 +86,22 @@ void normalise(MCOORD *v) {
 
 /*****************************************************************************/
 void calcule_normales(SCENE *scene) {
-	int i = 0;
-	for(i = 0; i < scene->nbface; ++i) {
-		calcule_normale(scene, i);
-	}
+    int i = 0;
+    for(i = 0; i < scene->nbface; ++i) {
+        calcule_normale(scene, i);
+    }
 }
 
 void calcule_normale(SCENE *scene, int i) {
-	MCOORD v1, v2;
-	
-	calcule_vecteur( scene->tabpt[scene->tabface[i].tabpt[0]]
-				   , scene->tabpt[scene->tabface[i].tabpt[1]]
-				   , &v1);
-	calcule_vecteur( scene->tabpt[scene->tabface[i].tabpt[0]]
-				   , scene->tabpt[scene->tabface[i].tabpt[scene->tabface[i].nbpt-1]]
+    MCOORD v1, v2;
+    
+    calcule_vecteur( scene->tabpt[scene->tabface[i].tabpt[0]]
+                   , scene->tabpt[scene->tabface[i].tabpt[1]]
+                   , &v1);
+    calcule_vecteur( scene->tabpt[scene->tabface[i].tabpt[0]]
+                   , scene->tabpt[scene->tabface[i].tabpt[scene->tabface[i].nbpt-1]]
                    , &v2);
-	prod_vectoriel(v1, v2, &scene->tabface[i].n);
+    prod_vectoriel(v1, v2, &scene->tabface[i].n);
 
     normalise(&scene->tabface[i].n);
 }
@@ -212,23 +212,23 @@ void def_modele(SCENE *scene) {
 
 /*****************************************************************************/
 void def_matiere(SCENE *scene, int i) {
-	RGBAF propc;
-	INDICE_TEX texIndex;
+    RGBAF propc;
+    INDICE_TEX texIndex;
 
     // Couleur
     rgb2rgbaf(&scene->tabmat[i].ambiante, 1, &propc);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, propc.rgba);
 
     rgb2rgbaf(&scene->tabmat[i].diffuse, 1, &propc);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, propc.rgba);
 
-	rgb2rgbaf(&scene->tabmat[i].speculaire, 1, &propc);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, propc.rgba);
+    rgb2rgbaf(&scene->tabmat[i].speculaire, 1, &propc);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, propc.rgba);
 
     glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene->tabmat[i].brillance);
 
     rgb2rgbaf(&scene->tabmat[i].emission, 1, &propc);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, propc.rgba);
 
     // Texture
     texIndex = scene->tabmat[i].tex;
@@ -245,11 +245,11 @@ void def_selectedMatiere(SCENE *scene, int i) {
     propc.b = 0.0f;
     propc.a = 0.4f;
 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT  , propc.rgba);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE  , propc.rgba);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR , propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT  , propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE  , propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR , propc.rgba);
     glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene->tabmat[i].brillance);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION , propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION , propc.rgba);
 
     // Texture
     texIndex = scene->tabmat[i].tex;

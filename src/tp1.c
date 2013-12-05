@@ -1,19 +1,19 @@
 /*
  
-        Universite Technologique de Compiegne
+    Universite Technologique de Compiegne
         
-        UV: LO12
+    UV: LO12
         
-        FICHIER: tp1.c
+    FICHIER: tp1.c
  
-        COMMENTAIRE:
-                Fichier principal
-                Interface OpenGL (GLUT, GLU, GL)
+    COMMENTAIRE:
+            Fichier principal
+            Interface OpenGL (GLUT, GLU, GL)
  
-        AUTEURS:
-                Veronique BERGE-CHERFAOUI
-                Olivier BEZET  A2002-A2005
-                Romain HERAULT A2005-A2006
+    AUTEURS:
+            Veronique BERGE-CHERFAOUI
+            Olivier BEZET  A2002-A2005
+            Romain HERAULT A2005-A2006
 */
 
 //******************//
@@ -24,13 +24,13 @@
 #include <string.h>
 
 #if defined(__APPLE__) && defined(__MACH__)
-        #include <GLUT/glut.h>
-        #include <OpenGL/gl.h>
-        #include <OpenGL/glu.h>
+    #include <GLUT/glut.h>
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
 #else
-        #include <GL/glut.h>
-        #include <GL/gl.h>
-        #include <GL/glu.h>
+    #include <GL/glut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
 #endif
 
 #include "eclairage.h"
@@ -63,7 +63,7 @@ void init()
     glLoadIdentity();
     gluPerspective(90,1.0,0.1,100) ;
 
-	initView();
+    initView();
 
     /* initialise la table des couleurs : mode index
         glutSetColor(1,0.0, 0.0, 0.0);
@@ -75,7 +75,7 @@ void init()
     glClearColor(0,0,0,1);
 
     /* applique la couleur de fond */
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     def_modele(scene);
     loadTextures();
@@ -117,20 +117,19 @@ int main(int argc, char**argv) {
 
     /* glutInitDisplayMode(GLUT_INDEX | GLUT_SINGLE);   mode index*/
         
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);     /* mode rgb */
-		
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);     /* mode rgb */
+        
     glutCreateWindow("TP5+");
-	glutDisplayFunc(dessine_scene);
-	glutReshapeFunc(reshape);
-	glutIdleFunc(idleFunc);
-	glutSpecialFunc(callSpecialFunc);
-	glutKeyboardFunc(callKeyboardFunc);
-	glutMouseFunc(callMouseFunc);
-	glutMotionFunc(callMotionFunc);
+    glutDisplayFunc(dessine_scene);
+    glutReshapeFunc(reshape);
+    glutIdleFunc(idleFunc);
+    glutSpecialFunc(callSpecialFunc);
+    glutKeyboardFunc(callKeyboardFunc);
+    glutMouseFunc(callMouseFunc);
+    glutMotionFunc(callMotionFunc);
 
     init();
     glutMainLoop();
     return 0;
 }
-
 

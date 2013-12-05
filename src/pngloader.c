@@ -8,10 +8,10 @@
  
         COMMENTAIRE:
                 Charge et convertie un fichier png en vue d'utilisation 
-		pour texture opengl
-		
-		source originale: png.c de David Henry
-		http://tfcduke.developpez.com/tutoriel/format/png/
+        pour texture opengl
+        
+        source originale: png.c de David Henry
+        http://tfcduke.developpez.com/tutoriel/format/png/
  
         AUTEURS:
                 Veronique BERGE-CHERFAOUI
@@ -55,14 +55,14 @@
 
 /* Microsoft Visual C++ */
 #ifdef _MSC_VER
-		#ifdef _DEBUG
-			#pragma comment (lib, "libpngmtd.lib")
-			#pragma comment (linker, "/nodefaultlib:libcmtd")
-		#else
-			#pragma comment (lib, "libpngmt.lib")
-			#pragma comment (linker, "/nodefaultlib:libcmt")
-		#endif
-#endif	/* _MSC_VER */
+        #ifdef _DEBUG
+            #pragma comment (lib, "libpngmtd.lib")
+            #pragma comment (linker, "/nodefaultlib:libcmtd")
+        #else
+            #pragma comment (lib, "libpngmt.lib")
+            #pragma comment (linker, "/nodefaultlib:libcmt")
+        #endif
+#endif    /* _MSC_VER */
 
 
 #include <stdio.h>

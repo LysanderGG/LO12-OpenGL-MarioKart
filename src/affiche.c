@@ -1,19 +1,19 @@
 /*
  
-        Universite Technologique de Compiegne
+    Universite Technologique de Compiegne
         
-        UV: LO12
+    UV: LO12
         
-        FICHIER: affiche.c
+    FICHIER: affiche.c
  
-        COMMENTAIRE:
-                Routines d'affichage
+    COMMENTAIRE:
+            Routines d'affichage
  
-        AUTEURS:
-                Veronique BERGE-CHERFAOUI
-                DG
-                Olivier BEZET  A2002-A2005
-                Romain HERAULT A2005-A2006
+    AUTEURS:
+            Veronique BERGE-CHERFAOUI
+            DG
+            Olivier BEZET  A2002-A2005
+            Romain HERAULT A2005-A2006
 */
 
 #ifdef _MSC_VER
@@ -30,13 +30,13 @@
 #include <stdio.h>
 
 #if defined(__APPLE__) && defined(__MACH__)
-        #include <GLUT/glut.h>
-        #include <OpenGL/gl.h>
-        #include <OpenGL/glu.h>
+    #include <GLUT/glut.h>
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
 #else
-        #include <GL/glut.h>
-        #include <GL/gl.h>
-        #include <GL/glu.h>
+    #include <GL/glut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
 #endif
 
 #include "affiche.h"
@@ -49,7 +49,7 @@ extern SCENE* scene;
 static float g_rotateAngle = 0.0f;
 
 /*******************************************************************************/
-/*            Fonctions pour afficher le contenu de la structure scene			*/
+/*            Fonctions pour afficher le contenu de la structure scene            */
 /*******************************************************************************/
 
 void dessine_face(INDICE_FACE iface, int _differentColorForEachVertex)
@@ -94,7 +94,7 @@ void dessine_face(INDICE_FACE iface, int _differentColorForEachVertex)
     }
     
     if(g_isCurrentObject) {
-		def_selectedMatiere(scene, scene->tabface[iface].imat);
+        def_selectedMatiere(scene, scene->tabface[iface].imat);
     } else {
         def_matiere(scene, scene->tabface[iface].imat);
     }
@@ -122,9 +122,9 @@ void dessine_objet(OBJET objet)
     int  i;      /* compteur de faces */
 
     for (i = 0 ; i < objet.nbface ; ++i) {
-		glPushMatrix();
-		glMultMatrixd(objet.transfo);
-		dessine_face(objet.tabface[i], 0);
+        glPushMatrix();
+        glMultMatrixd(objet.transfo);
+        dessine_face(objet.tabface[i], 0);
 #ifdef TEMPO_UNIX
             sleep(1);
             glutSwapBuffers();
@@ -133,7 +133,7 @@ void dessine_objet(OBJET objet)
             Sleep(1000);
             glutSwapBuffers();
 #endif
-		glPopMatrix();
+        glPopMatrix();
     }
 
 }
@@ -144,23 +144,23 @@ void dessine_scene()
 {
     int i;  /* indice d'objet */
 
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // efface l'ecran
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // efface l'ecran
 
     dessine_repere();
 
     calcule_normales(scene); // A optimiser peut etre
     def_sources(scene);
-		
-    //glIndexi(2);		 /* couleur de la scene en mode index */
+        
+    //glIndexi(2);         /* couleur de la scene en mode index */
     for(i = 0 ; i < scene->nbobj; ++i) {
-		if(i == g_currentObj) {
+        if(i == g_currentObj) {
             g_isCurrentObject = 1;
         } else {
             g_isCurrentObject = 0;
         }
 
-		dessine_objet(scene->tabobj[i]);
+        dessine_objet(scene->tabobj[i]);
     }
 
     // Draw 3DS scene
@@ -178,23 +178,23 @@ void dessine_scene()
 void dessine_repere() {
     glDisable(GL_LIGHTING);
 
-	glBegin(GL_LINES);
-	glColor3f(1.0f, .0f, .0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(10.0f, 0.0f, 0.0f);
+    glBegin(GL_LINES);
+    glColor3f(1.0f, .0f, .0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(10.0f, 0.0f, 0.0f);
 
-	glColor3f(0.5f, .0f, .0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(-10.0f, 0.0f, 0.0f);
+    glColor3f(0.5f, .0f, .0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(-10.0f, 0.0f, 0.0f);
 
-	glColor3f(0.0f, 1.0f, .0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 10.0f, 0.0f);
+    glColor3f(0.0f, 1.0f, .0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 10.0f, 0.0f);
 
-	glColor3f(.0f, .0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 10.0f);
-	glEnd();
+    glColor3f(.0f, .0f, 1.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 10.0f);
+    glEnd();
 
     glEnable(GL_LIGHTING);
 }
@@ -202,17 +202,17 @@ void dessine_repere() {
 
 /****************************************************************************/
 void reshape(int _w, int _h) {
-	if(_h < 1) { _h = 1; }
-	glViewport(0, 0, _w, _h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(90.0 , (GLdouble)_w / _h, 0.1, 100.0);
-	glMatrixMode(GL_MODELVIEW);
+    if(_h < 1) { _h = 1; }
+    glViewport(0, 0, _w, _h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(90.0 , (GLdouble)_w / _h, 0.1, 100.0);
+    glMatrixMode(GL_MODELVIEW);
 }
 /****************************************************************************/
 
 void idleFunc() {
-	Sleep(10);
-	g_rotateAngle += 0.5f;
-	glutPostRedisplay();
+    Sleep(10);
+    g_rotateAngle += 0.5f;
+    glutPostRedisplay();
 }

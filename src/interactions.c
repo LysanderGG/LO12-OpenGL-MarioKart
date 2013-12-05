@@ -6,11 +6,11 @@
 #include "scene.h"
 #include "observateur.h"
 
-#define TRANSLATING			1
-#define ROTATING			10
-#define OBS_ROTATING_Z		5
-#define OBS_ROTATING_HEAD	5
-#define OBS_NODING_HEAD		5
+#define TRANSLATING         1
+#define ROTATING            10
+#define OBS_ROTATING_Z      5
+#define OBS_ROTATING_HEAD   5
+#define OBS_NODING_HEAD     5
 
 int g_currentObj = -1;
 int g_isCurrentObject = 0;
@@ -20,94 +20,94 @@ int g_mousePreviousY = 0;
 int g_switchLight = 1;
 
 void callSpecialFunc(int key, int x, int y) {
-	int sens; /* sens positif ou negatif */
+    int sens; /* sens positif ou negatif */
 
-	if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
-		sens = -1;
+    if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
+        sens = -1;
     } else {
-		sens = 1;
+        sens = 1;
     }
 
-	// Global modifications
-	switch(key) {
-		case GLUT_KEY_F10: /* rotate selon direction axe z */
-			rotateZ(sens * OBS_ROTATING_Z);
-			break;
-		case GLUT_KEY_LEFT:
-			rotateHead(OBS_ROTATING_HEAD);
-			break;
-		case GLUT_KEY_RIGHT:
-			rotateHead(-OBS_ROTATING_HEAD);
-			break;
-		case GLUT_KEY_UP:
-			nodHead(-OBS_NODING_HEAD);
-			break;
-		case GLUT_KEY_DOWN:
-			nodHead(OBS_NODING_HEAD);
-			break;
+    // Global modifications
+    switch(key) {
+        case GLUT_KEY_F10: /* rotate selon direction axe z */
+            rotateZ(sens * OBS_ROTATING_Z);
+            break;
+        case GLUT_KEY_LEFT:
+            rotateHead(OBS_ROTATING_HEAD);
+            break;
+        case GLUT_KEY_RIGHT:
+            rotateHead(-OBS_ROTATING_HEAD);
+            break;
+        case GLUT_KEY_UP:
+            nodHead(-OBS_NODING_HEAD);
+            break;
+        case GLUT_KEY_DOWN:
+            nodHead(OBS_NODING_HEAD);
+            break;
         case GLUT_KEY_F8: /* switch lighting */
             g_switchLight ^= 1;
             break;
-	}
+    }
 
-	// Is an object currently selected ?
-	if(g_currentObj < 0) { return ; }
+    // Is an object currently selected ?
+    if(g_currentObj < 0) { return ; }
 
-	// Local modification ==> On an object
-	switch (key) {
-		case GLUT_KEY_F1: /* avance selon direction axe x */
-			translate(&(scene->tabobj[g_currentObj]), TRANSLATING * sens, 0.0, 0.0);
-			break;
-		case GLUT_KEY_F2: /* avance selon direction axe y */
-			if(g_currentObj < 0) { return ; }
-			translate(&(scene->tabobj[g_currentObj]), 0.0, TRANSLATING * sens, 0.0);
-			break;
-		case GLUT_KEY_F3: /* avance selon direction axe z */
-			if(g_currentObj < 0) { return ; }
-			translate(&(scene->tabobj[g_currentObj]), 0.0, 0.0, TRANSLATING * sens);
-			break;
-		case GLUT_KEY_F4: /* rotate selon direction axe x */
-			if(g_currentObj < 0) { return ; }
-			rotate(&(scene->tabobj[g_currentObj]), ROTATING * sens, 0.0, 0.0);
-			break;
-		case GLUT_KEY_F5: /* rotate selon direction axe y */
-			if(g_currentObj < 0) { return ; }
-			rotate(&(scene->tabobj[g_currentObj]), 0.0, ROTATING * sens, 0.0);
-			break;
-		case GLUT_KEY_F6: /* rotate selon direction axe z */
-			if(g_currentObj < 0) { return ; }
-			rotate(&(scene->tabobj[g_currentObj]), 0.0, 0.0, ROTATING * sens);
-			break;
-	}
+    // Local modification ==> On an object
+    switch (key) {
+        case GLUT_KEY_F1: /* avance selon direction axe x */
+            translate(&(scene->tabobj[g_currentObj]), TRANSLATING * sens, 0.0, 0.0);
+            break;
+        case GLUT_KEY_F2: /* avance selon direction axe y */
+            if(g_currentObj < 0) { return ; }
+            translate(&(scene->tabobj[g_currentObj]), 0.0, TRANSLATING * sens, 0.0);
+            break;
+        case GLUT_KEY_F3: /* avance selon direction axe z */
+            if(g_currentObj < 0) { return ; }
+            translate(&(scene->tabobj[g_currentObj]), 0.0, 0.0, TRANSLATING * sens);
+            break;
+        case GLUT_KEY_F4: /* rotate selon direction axe x */
+            if(g_currentObj < 0) { return ; }
+            rotate(&(scene->tabobj[g_currentObj]), ROTATING * sens, 0.0, 0.0);
+            break;
+        case GLUT_KEY_F5: /* rotate selon direction axe y */
+            if(g_currentObj < 0) { return ; }
+            rotate(&(scene->tabobj[g_currentObj]), 0.0, ROTATING * sens, 0.0);
+            break;
+        case GLUT_KEY_F6: /* rotate selon direction axe z */
+            if(g_currentObj < 0) { return ; }
+            rotate(&(scene->tabobj[g_currentObj]), 0.0, 0.0, ROTATING * sens);
+            break;
+    }
 
-	glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 void callKeyboardFunc(unsigned char key, int x, int y){
-	int sens; /* sens positif ou négatif */
-	if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
-		sens = -1;
+    int sens; /* sens positif ou négatif */
+    if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
+        sens = -1;
     } else {
-		sens = 1;
+        sens = 1;
     }
 
-	switch (key) {
-		case ' ':
-			g_currentObj = abs((g_currentObj + sens) % (scene->nbobj + 1));
+    switch (key) {
+        case ' ':
+            g_currentObj = abs((g_currentObj + sens) % (scene->nbobj + 1));
             if(g_currentObj == scene->nbobj) {
                 g_currentObj = -1;
             }
-			break;
-		case 'o':
-		case 'O':
-			changeMode();
-			break;
+            break;
+        case 'o':
+        case 'O':
+            changeMode();
+            break;
         case 'h':
         case 'H':
             print_help();
-	}
+    }
 
-	glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 void callMouseFunc(int button,int state, int x, int y) {
