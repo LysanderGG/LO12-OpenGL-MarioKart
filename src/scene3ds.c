@@ -17,12 +17,10 @@
 Lib3dsFile* scene3ds;
 static int  log_level = LIB3DS_LOG_INFO;
 
-static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin) 
-{
+static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin) {
     FILE *f = (FILE*)self;
     int o;
-    switch (origin) 
-    {
+    switch(origin) {
         case LIB3DS_SEEK_SET:
             o = SEEK_SET;
             break;
@@ -35,39 +33,39 @@ static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin)
     }
     return (fseek(f, offset, o));
 }
+
 //***********************************************************************************
-static long fileio_tell_func(void *self) 
-{
+static long fileio_tell_func(void *self) {
     FILE *f = (FILE*)self;
     return(ftell(f));
 }
+
 //***********************************************************************************
-static size_t fileio_read_func(void *self, void *buffer, size_t size) 
-{
+static size_t fileio_read_func(void *self, void *buffer, size_t size) {
     FILE *f = (FILE*)self;
     return (fread(buffer, 1, size, f));
 }
+
 //***********************************************************************************
-static size_t fileio_write_func(void *self, const void *buffer, size_t size) 
-{
+static size_t fileio_write_func(void *self, const void *buffer, size_t size) {
     FILE *f = (FILE*)self;
     return (fwrite(buffer, 1, size, f));
 }
+
 //***********************************************************************************
-static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg)
-{
-    static const char * level_str[] = {"ERROR", "WARN", "INFO", "DEBUG"    };
-    if (log_level >=  level) 
-    {
+static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg) {
+    static const char * level_str[] = {"ERROR", "WARN", "INFO", "DEBUG"};
+    if (log_level >= level) {
         int i;
         printf("%5s : ", level_str[level]);
-        for (i = 1; i < indent; ++i) printf("\t");
+        for (i = 1; i < indent; ++i)
+			printf("\t");
         printf("%s\n", msg);
     }
 }
+
 //////////////////////////////////////////////////////////////////////////////////////
-void defMatiere(int i)
-{
+void defMatiere(int i) {
     GLfloat params[4];
     /*params[0]=scene3ds->materials[i]->ambient;
     params[1]=0.5;
@@ -79,15 +77,14 @@ void defMatiere(int i)
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, scene3ds->materials[i]->specular);
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
 }
+
 //*************************************************************************************
-void dessineFace(Lib3dsMesh * Obj, int iFace)
-{
+void dessineFace(Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
     defMatiere(Obj->faces[iFace].material);    
     glBegin(GL_POLYGON);    
-    for(i=0;i<3;i++)
-    {
+    for(i=0; i<3; i++){
         x=Obj->vertices[ Obj->faces[iFace].index[i] ][0];
         y=Obj->vertices[ Obj->faces[iFace].index[i] ][1];
         z=Obj->vertices[ Obj->faces[iFace].index[i] ][2];
@@ -98,20 +95,20 @@ void dessineFace(Lib3dsMesh * Obj, int iFace)
     }
     glEnd();
 }
+
 //***************************************************************************************
-void dessine_3dsobj(Lib3dsMesh * Obj)
-{
+void dessine_3dsobj(Lib3dsMesh * Obj) {
     int i;
     for(i=0; i<Obj->nfaces; i++)
         dessineFace(Obj, i);
 }
+
 //***********************************************************************************
-void charge_scene3ds(char * fichier3ds)
-{
+void charge_scene3ds(char * fichier3ds) {
     FILE * file;
     Lib3dsIo io;
 
-    scene3ds=lib3ds_file_new();
+    scene3ds = lib3ds_file_new();
 
     printf("LOAD 3DS SCENE FILE\n");
 
@@ -136,9 +133,9 @@ void charge_scene3ds(char * fichier3ds)
 
     printf("LOAD 3DS SCENE FILE - END\n");
 }
+
 //**************************************************************************
-void dessine_scene3ds()
-{
+void dessine_scene3ds() {
     int i;
 
     for (i=0; i<scene3ds->nmeshes; i++)
