@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include "scene3ds.h"
+#include "eclairage.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
         #include <GLUT/glut.h>
@@ -14,6 +15,7 @@
         #include <GL/glu.h>
 #endif
 
+extern int g_isCurrentObject;
 static int  log_level = LIB3DS_LOG_INFO;
 
 static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin) {
@@ -78,11 +80,36 @@ void defMatiere(Lib3dsFile* scene3ds, int i) {
     glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
 }
 
+void defSelectedMatiere(Lib3dsFile* scene3ds, int i) {
+    /*GLfloat params[4];
+    params[0]=scene3ds->materials[i]->ambient;
+    params[1]=0.5;
+    params[2]=0.0;
+    params[3]=1.0;*/
+
+    RGBAF propc;
+    propc.r = 0.4f;
+    propc.g = 0.0f;
+    propc.b = 0.0f;
+    propc.a = 0.4f;
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, propc.rgba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, propc.rgba);
+    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
+}
+
 //*************************************************************************************
 void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
-    defMatiere(scene3ds, Obj->faces[iFace].material);    
+
+    if(g_isCurrentObject) {
+        defSelectedMatiere(scene3ds, Obj->faces[iFace].material);
+    } else {
+        defMatiere(scene3ds, Obj->faces[iFace].material);    
+    }
+    
     glBegin(GL_POLYGON);    
     for(i=0; i<3; i++) {
         x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
