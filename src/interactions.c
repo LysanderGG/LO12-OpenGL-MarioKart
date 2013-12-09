@@ -13,6 +13,7 @@
 #define OBS_NODING_HEAD     5
 
 int g_currentObj = -1;
+int g_current3DSScene = 0;
 int g_isCurrentObject = 0;
 EMouseButton g_mouseCurrentButton = NONE;
 int g_mousePreviousX = 0;
@@ -93,8 +94,8 @@ void callKeyboardFunc(unsigned char key, int x, int y){
 
     switch (key) {
         case ' ':
-            g_currentObj = abs((g_currentObj + sens) % (scene->nbobj + 1));
-            if(g_currentObj == scene->nbobj) {
+            g_currentObj = abs((g_currentObj + sens) % (getTotalNbObjects() + 1));
+            if(g_currentObj == getTotalNbObjects()) {
                 g_currentObj = -1;
             }
             break;

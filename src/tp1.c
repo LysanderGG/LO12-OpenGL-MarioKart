@@ -50,7 +50,8 @@
 #define PROJECT_NAME "scene"
 #define FILE_EXT ".dat"
 
-#define SCENE_FILE_3DS "img/3d/jeep.3ds"
+#define SCENE_FILE_3DS "img/3d/kart.3ds"
+
 
 /*******************************************************************************/
 /*                      Initialisations pour GL et Glut                        */
@@ -79,6 +80,8 @@ void init()
 
     def_modele(scene);
     loadTextures();
+
+
 }
 
 /* ========================================================================= */
@@ -99,10 +102,13 @@ int main(int argc, char**argv) {
         }
     }
 
-    scene = (SCENE *)malloc(sizeof(SCENE));
+    scene     = (SCENE*)malloc(sizeof(SCENE));
+    for(i = 0; i < NB_MAX_3DS_SCENE; ++i) {
+        scenes3DS[i] = NULL;
+    }
 
     if(read_scene_file(scene,filename)) {
-        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n",filename);
+        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename);
         return -1;
     }
 
@@ -110,7 +116,8 @@ int main(int argc, char**argv) {
         print_scene_data(scene);
     }
 
-    charge_scene3ds(SCENE_FILE_3DS);
+    charge_scene3ds(SCENE_FILE_3DS,     &scenes3DS[0]);
+    charge_scene3ds("img/3d/tuyau.3ds", &scenes3DS[1]);
 
     glutInit(&argc, argv);
     glutInitWindowSize(500, 500);   /* taille de la fenetre ecran */

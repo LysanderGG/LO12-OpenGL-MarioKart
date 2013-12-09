@@ -14,7 +14,6 @@
         #include <GL/glu.h>
 #endif
 
-Lib3dsFile* scene3ds;
 static int  log_level = LIB3DS_LOG_INFO;
 
 static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin) {
@@ -55,19 +54,20 @@ static size_t fileio_write_func(void *self, const void *buffer, size_t size) {
 //***********************************************************************************
 static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg) {
     static const char * level_str[] = {"ERROR", "WARN", "INFO", "DEBUG"};
-    if (log_level >= level) {
+    if(log_level >= level) {
         int i;
         printf("%5s : ", level_str[level]);
-        for (i = 1; i < indent; ++i)
+        for(i = 1; i < indent; ++i) {
 			printf("\t");
+        }
         printf("%s\n", msg);
     }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-void defMatiere(int i) {
-    GLfloat params[4];
-    /*params[0]=scene3ds->materials[i]->ambient;
+void defMatiere(Lib3dsFile* scene3ds, int i) {
+    /*GLfloat params[4];
+    params[0]=scene3ds->materials[i]->ambient;
     params[1]=0.5;
     params[2]=0.0;
     params[3]=1.0;*/
@@ -75,21 +75,21 @@ void defMatiere(int i) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, scene3ds->materials[i]->ambient);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, scene3ds->materials[i]->diffuse);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, scene3ds->materials[i]->specular);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
+    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
 }
 
 //*************************************************************************************
-void dessineFace(Lib3dsMesh * Obj, int iFace) {
+void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
-    defMatiere(Obj->faces[iFace].material);    
+    defMatiere(scene3ds, Obj->faces[iFace].material);    
     glBegin(GL_POLYGON);    
-    for(i=0; i<3; i++){
-        x=Obj->vertices[ Obj->faces[iFace].index[i] ][0];
-        y=Obj->vertices[ Obj->faces[iFace].index[i] ][1];
-        z=Obj->vertices[ Obj->faces[iFace].index[i] ][2];
-        texx=Obj->texcos[ Obj->faces[iFace].index[i] ][0];
-        texy=Obj->texcos[ Obj->faces[iFace].index[i] ][1];
+    for(i=0; i<3; i++) {
+        x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
+        y = Obj->vertices[ Obj->faces[iFace].index[i] ][1];
+        z = Obj->vertices[ Obj->faces[iFace].index[i] ][2];
+        texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
+        texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
         glTexCoord2d(texx, texy);
         glVertex3d(x,y,z);
     }
@@ -97,18 +97,19 @@ void dessineFace(Lib3dsMesh * Obj, int iFace) {
 }
 
 //***************************************************************************************
-void dessine_3dsobj(Lib3dsMesh * Obj) {
+void dessine_3dsobj(Lib3dsFile* scene3ds, Lib3dsMesh * Obj) {
     int i;
-    for(i=0; i<Obj->nfaces; i++)
-        dessineFace(Obj, i);
+    for(i=0; i<Obj->nfaces; i++) {
+        dessineFace(scene3ds, Obj, i);
+    }
 }
 
 //***********************************************************************************
-void charge_scene3ds(char * fichier3ds) {
+void charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
     FILE * file;
     Lib3dsIo io;
 
-    scene3ds = lib3ds_file_new();
+    *out_scene3ds = lib3ds_file_new();
 
     printf("LOAD 3DS SCENE FILE\n");
 
@@ -122,22 +123,23 @@ void charge_scene3ds(char * fichier3ds) {
         return;
     }
 
-    io.self = file;
-    io.seek_func = fileio_seek_func;
-    io.tell_func = fileio_tell_func;
-    io.read_func = fileio_read_func;
-    io.write_func = fileio_write_func;
-    io.log_func = fileio_log_func;
+    io.self         = file;
+    io.seek_func    = fileio_seek_func;
+    io.tell_func    = fileio_tell_func;
+    io.read_func    = fileio_read_func;
+    io.write_func   = fileio_write_func;
+    io.log_func     = fileio_log_func;
     
-    lib3ds_file_read(scene3ds, &io);
+    lib3ds_file_read(*out_scene3ds, &io);
 
     printf("LOAD 3DS SCENE FILE - END\n");
 }
 
 //**************************************************************************
-void dessine_scene3ds() {
+void dessine_scene3ds(Lib3dsFile* scene3ds) {
     int i;
 
-    for (i=0; i<scene3ds->nmeshes; i++)
-        dessine_3dsobj(scene3ds->meshes[i]);
+    for (i = 0; i < scene3ds->nmeshes; ++i) {
+        dessine_3dsobj(scene3ds, scene3ds->meshes[i]);
+    }
 }

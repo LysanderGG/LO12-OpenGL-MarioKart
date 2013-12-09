@@ -11,6 +11,7 @@ typedef enum {
 } EMouseButton;
 
 extern int g_currentObj;
+extern int g_current3DSScene;
 extern int g_isCurrentObject;
 extern EMouseButton g_mouseCurrentButton;
 extern int g_mousePreviousX;

@@ -143,6 +143,17 @@ void dessine_objet(OBJET objet)
 void dessine_scene()
 {
     int i;  /* indice d'objet */
+    int currentSceneObject = 0;
+
+    //printf("==============================\n");
+    //printf("========= dessine_scene ======\n");
+    //printf("==============================\n");
+    printf("===> %d\n", scenes3DS[1]->nmeshes);
+    printf("===> %d\n", getTotalNbObjects());
+
+    // Reinitialisation des variables globales utilisee dans dessine_scene
+    g_current3DSScene = 0;
+
 
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // efface l'ecran
@@ -151,23 +162,54 @@ void dessine_scene()
 
     calcule_normales(scene); // A optimiser peut etre
     def_sources(scene);
-        
-    //glIndexi(2);         /* couleur de la scene en mode index */
-    for(i = 0 ; i < scene->nbobj; ++i) {
+
+    i = 0;
+    while(i < getTotalNbObjects()) {
+        //printf("-------------------\n");
+        //printf("Iteration i = %d\n", i);
+        //printf("g_current3DSScene = %d\n", g_current3DSScene);
+        //printf("currentSceneObject = %d\n", currentSceneObject);
+
         if(i == g_currentObj) {
             g_isCurrentObject = 1;
         } else {
             g_isCurrentObject = 0;
         }
 
-        dessine_objet(scene->tabobj[i]);
-    }
+        if(i < scene->nbobj) {
+            // Objets definis dans le .dat
+            dessine_objet(scene->tabobj[i]);
+        } else {
+            // Objets definis dans un fichier 3DS
 
-    // Draw 3DS scene
-    glPushMatrix();
-    glScaled(0.1,0.1,0.1);
-    dessine_scene3ds();
-    glPopMatrix();
+            // S'il n'y a plus rien a dessiner on arrete
+            if(g_current3DSScene >= NB_MAX_3DS_SCENE) {
+                break;
+            }
+                
+            // Si la scene g_current3DSScene n'est pas/plus definie, on passe a la suivante
+            if(scenes3DS[g_current3DSScene] == NULL) {
+                ++g_current3DSScene;
+                continue;
+            }
+
+            // Si on a dessine tous les objets de la scene 3DS, on passe a la prochaine scene
+            if(currentSceneObject == scenes3DS[g_current3DSScene]->nmeshes ) {
+                currentSceneObject = 0;
+                ++g_current3DSScene;
+                continue;
+            }
+
+            // Scene 3ds
+            glPushMatrix();
+            glScaled(0.1,0.1,0.1);
+            // On dessine le currentSceneDrawnObjects eme objet de la scene 3DS
+            dessine_3dsobj(scenes3DS[g_current3DSScene], scenes3DS[g_current3DSScene]->meshes[currentSceneObject++]);
+            glPopMatrix();
+        }
+        ++i;
+    }
+    
 
     glutSwapBuffers();
 }

@@ -18,4 +18,15 @@
 
 #include "scene.h"
 
-SCENE* scene;
+SCENE*          scene;
+Lib3dsFile*     scenes3DS[NB_MAX_3DS_SCENE];
+
+int getTotalNbObjects() {
+    int res, i;
+
+    res = scene->nbobj;
+    for(i = 0; i < NB_MAX_3DS_SCENE; ++i) {
+        res += (scenes3DS[i] != NULL) ? scenes3DS[i]->nmeshes : 0;
+    }
+    return res;
+}

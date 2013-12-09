@@ -29,6 +29,10 @@
         #include <GL/glu.h>
 #endif
 
+#include "scene3ds.h"
+
+#define NB_MAX_3DS_SCENE    10
+
 
 typedef GLint INDICE_PT;       /* indice de poGLint */
 typedef GLint INDICE_MAT;      /* indice de matiere */
@@ -234,7 +238,14 @@ SCENE;
 //Variables Globales : //
 //*********************//
 
-extern SCENE  *scene;    /* description de la scene */
+extern SCENE*       scene;              /* description de la scene */
+extern Lib3dsFile*  scenes3DS[NB_MAX_3DS_SCENE];      /* scenes 3DS */
+
+//*********************//
+//Fonctions :          //
+//*********************//
+int getTotalNbObjects();
+
 
 #endif
 
