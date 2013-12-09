@@ -94,7 +94,7 @@ void callKeyboardFunc(unsigned char key, int x, int y){
 
     switch (key) {
         case ' ':
-            g_currentObj = abs((g_currentObj + sens) % (getTotalNbObjects() + 1));
+            g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + sens) % (getTotalNbObjects() + 1));
             if(g_currentObj == getTotalNbObjects()) {
                 g_currentObj = -1;
             }
