@@ -66,48 +66,15 @@ static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const 
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
-void defMatiere(Lib3dsFile* scene3ds, int i) {
-    /*GLfloat params[4];
-    params[0]=scene3ds->materials[i]->ambient;
-    params[1]=0.5;
-    params[2]=0.0;
-    params[3]=1.0;*/
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, scene3ds->materials[i]->ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, scene3ds->materials[i]->diffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, scene3ds->materials[i]->specular);
-    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
-}
-
-void defSelectedMatiere(Lib3dsFile* scene3ds, int i) {
-    /*GLfloat params[4];
-    params[0]=scene3ds->materials[i]->ambient;
-    params[1]=0.5;
-    params[2]=0.0;
-    params[3]=1.0;*/
-
-    RGBAF propc;
-    propc.r = 0.4f;
-    propc.g = 0.0f;
-    propc.b = 0.0f;
-    propc.a = 0.4f;
-
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, propc.rgba);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, propc.rgba);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, propc.rgba);
-    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
-}
-
 //*************************************************************************************
 void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
 
     if(g_isCurrentObject) {
-        defSelectedMatiere(scene3ds, Obj->faces[iFace].material);
+        def3DSSelectedMatiere(scene3ds, Obj->faces[iFace].material);
     } else {
-        defMatiere(scene3ds, Obj->faces[iFace].material);    
+        def3DSMatiere(scene3ds, Obj->faces[iFace].material);    
     }
     
     glBegin(GL_POLYGON);    
