@@ -148,8 +148,6 @@ void dessine_scene()
     //printf("==============================\n");
     //printf("========= dessine_scene ======\n");
     //printf("==============================\n");
-    printf("===> %d\n", scenes3DS[1]->nmeshes);
-    printf("===> %d\n", getTotalNbObjects());
 
     // Reinitialisation des variables globales utilisee dans dessine_scene
     g_current3DSScene = 0;
