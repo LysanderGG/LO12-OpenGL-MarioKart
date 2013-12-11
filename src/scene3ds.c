@@ -16,7 +16,7 @@
 #endif
 
 extern int g_isCurrentObject;
-static int  log_level = LIB3DS_LOG_INFO;
+static int log_level = LIB3DS_LOG_INFO;
 
 static long fileio_seek_func(void *self, long offset, Lib3dsIoSeek origin) {
     FILE *f = (FILE*)self;

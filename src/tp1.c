@@ -50,7 +50,7 @@
 #define PROJECT_NAME "scene"
 #define FILE_EXT ".dat"
 
-#define SCENE_FILE_3DS "img/3d/kart.3ds"
+#define SCENE_FILE_3DS "img/3d/kartPhare.3ds"
 
 
 /*******************************************************************************/
@@ -102,7 +102,7 @@ int main(int argc, char**argv) {
         }
     }
 
-    scene     = (SCENE*)malloc(sizeof(SCENE));
+    scene = (SCENE*)malloc(sizeof(SCENE));
     for(i = 0; i < NB_MAX_3DS_SCENE; ++i) {
         scenes3DS[i] = NULL;
     }
