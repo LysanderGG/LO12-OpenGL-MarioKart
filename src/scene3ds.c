@@ -91,11 +91,14 @@ void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
 }
 
 //***************************************************************************************
-void dessine_3dsobj(Lib3dsFile* scene3ds, Lib3dsMesh * Obj) {
+void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
     int i;
+    glPushMatrix();
+    glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
     for(i=0; i<Obj->nfaces; i++) {
-        dessineFace(scene3ds, Obj, i);
+        dessineFace(scene3ds.lib3dsfile, Obj, i);
     }
+    glPopMatrix();
 }
 
 //***********************************************************************************
@@ -130,10 +133,10 @@ void charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
 }
 
 //**************************************************************************
-void dessine_scene3ds(Lib3dsFile* scene3ds) {
+void dessine_scene3ds(SCENE_3DS scene3ds) {
     int i;
-
-    for (i = 0; i < scene3ds->nmeshes; ++i) {
-        dessine_3dsobj(scene3ds, scene3ds->meshes[i]);
+    glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
+    for (i = 0; i < scene3ds.lib3dsfile->nmeshes; ++i) {
+        dessine_3dsobj(scene3ds, scene3ds.lib3dsfile->meshes[i]);
     }
 }

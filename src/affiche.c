@@ -200,7 +200,6 @@ void dessine_scene()
 
             // Scene 3ds
             glPushMatrix();
-            glScaled(0.1,0.1,0.1);
             // On dessine le currentSceneDrawnObjects eme objet de la scene 3DS
             dessine_3dsobj(g_scenes3DS[g_current3DSScene], g_scenes3DS[g_current3DSScene].lib3dsfile->meshes[currentSceneObject++]);
             glPopMatrix();
