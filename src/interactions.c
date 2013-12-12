@@ -7,7 +7,7 @@
 #include "observateur.h"
 
 #define TRANSLATING         1
-#define ROTATING            10
+#define ROTATING            5
 #define OBS_ROTATING_Z      5
 #define OBS_ROTATING_HEAD   5
 #define OBS_NODING_HEAD     5
@@ -109,9 +109,20 @@ void callKeyboardFunc(unsigned char key, int x, int y){
             print_help();
         case 'z':
         case 'Z':
-            moveKartForward(0.1);
+            moveKartForward(-TRANSLATING);
             break;
-
+        case 's':
+        case 'S':
+            moveKartForward(TRANSLATING);
+            break;
+        case 'q':
+        case 'Q':
+            rotateKart(ROTATING);
+            break;
+        case 'd':
+        case 'D':
+            rotateKart(-ROTATING);
+            break;
     }
 
     glutPostRedisplay();

@@ -46,8 +46,6 @@
 
 extern SCENE* scene;
 
-static float g_rotateAngle = 0.0f;
-
 /*******************************************************************************/
 /*            Fonctions pour afficher le contenu de la structure scene            */
 /*******************************************************************************/
@@ -245,13 +243,12 @@ void reshape(int _w, int _h) {
     glViewport(0, 0, _w, _h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90.0 , (GLdouble)_w / _h, 0.1, 100.0);
+    gluPerspective(90.0, (GLdouble)_w / _h, 0.1, 100.0);
     glMatrixMode(GL_MODELVIEW);
 }
 /****************************************************************************/
 
 void idleFunc() {
     Sleep(10);
-    g_rotateAngle += 0.5f;
     glutPostRedisplay();
 }

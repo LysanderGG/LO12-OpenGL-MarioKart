@@ -4,6 +4,8 @@
 #include <string.h>
 #include "scene3ds.h"
 #include "eclairage.h"
+#include "animations.h"
+#include "interactions.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
         #include <GLUT/glut.h>
@@ -94,7 +96,16 @@ void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
 void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
     int i;
     glPushMatrix();
+    // Scale for each opengl object
     glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
+
+    // Kart only translate and rotate
+    if(g_current3DSScene == KART_ID) {
+        glTranslated(g_kartX, g_kartY, g_kartZ);
+        glRotated(g_kartAngle, 0, 0, 1);
+        glTranslated(-g_kartX, -g_kartY, -g_kartZ);
+    }
+
     for(i=0; i<Obj->nfaces; i++) {
         dessineFace(scene3ds.lib3dsfile, Obj, i);
     }
