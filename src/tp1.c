@@ -48,6 +48,7 @@
 //**************//
 
 #define PROJECT_NAME "scene"
+#define EXT_3DS "_3ds"
 #define FILE_EXT ".dat"
 
 #define SCENE_FILE_3DS "img/3d/kartPhare.3ds"
@@ -88,7 +89,9 @@ void init()
 
 int main(int argc, char**argv) {
     char  default_filename[80] = PROJECT_NAME FILE_EXT;
-    char *filename = default_filename;
+    char  default_filename_3ds[80] = PROJECT_NAME EXT_3DS FILE_EXT;
+    char* filename = default_filename;
+    char* filename_3ds = default_filename_3ds;
     int i, verbose = 0;
 
     for(i = 1; i < argc; ++i) {
@@ -103,21 +106,20 @@ int main(int argc, char**argv) {
     }
 
     scene = (SCENE*)malloc(sizeof(SCENE));
-    for(i = 0; i < NB_MAX_3DS_SCENE; ++i) {
-        scenes3DS[i] = NULL;
+
+    if(read_scene_file(scene, filename)) {
+        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename);
+        return -1;
     }
 
-    if(read_scene_file(scene,filename)) {
-        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename);
+    if(read_scene_file_3ds(scenes3DS, filename_3ds)) {
+        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename_3ds);
         return -1;
     }
 
     if(verbose) {
         print_scene_data(scene);
     }
-
-    charge_scene3ds(SCENE_FILE_3DS,     &scenes3DS[0]);
-    charge_scene3ds("img/3d/tuyau.3ds", &scenes3DS[1]);
 
     glutInit(&argc, argv);
     glutInitWindowSize(500, 500);   /* taille de la fenetre ecran */
