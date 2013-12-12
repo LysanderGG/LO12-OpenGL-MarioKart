@@ -20,8 +20,7 @@ GLdouble cx, cy, cz; //position camera
     
 
 //******************************************************************************************
-void calcul_pos_cam()
-{
+void calcul_pos_cam() {
     GLdouble  model[16], proj[16];
     GLint viewport[4],res;
     glGetIntegerv(GL_VIEWPORT, viewport);
@@ -31,12 +30,12 @@ void calcul_pos_cam()
                    model, proj, viewport,  
                    &cx,&cy,&cz);
 }
+
 //*****************************************************************************************************************************
-int charger_skybox(void)
-{
+int charger_skybox(void) {
     int i, j;
-    MTEX *texture=(MTEX *)malloc(6*sizeof(MTEX));    
-    textureBox=(GLuint *)malloc(6*sizeof(GLuint));
+    MTEX *texture = (MTEX *)malloc(6*sizeof(MTEX));    
+    textureBox = (GLuint *)malloc(6*sizeof(GLuint));
     glGenTextures(6, textureBox);
 
     texture[0].filename="img/XN.png";
@@ -54,6 +53,7 @@ int charger_skybox(void)
         }
         /* à compléter */
         
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
@@ -62,45 +62,77 @@ int charger_skybox(void)
     free(texture);    
     return 0;
 }
+
 //*****************************************************************************************************************************
-void dessine_box()
-{
-    float t=1.0;
+void dessine_box() {
+    float t = 1.0f;
     // Configuration des états OpenGL
+    glDisable(GL_LIGHTING);
     
-    /* à compléter */ // Désactivation de l'ecriture dans le z-buffer
-    /* à compléter */
+    // Désactivation de l'ecriture dans le z-buffer
+    glDisable(GL_DEPTH_TEST);
     
 
     // Réglage de la position de la box
     /* à compléter */
+    //glPushMatrix();
+    //glLoadIdentity();
+    
     
 
-    // Rendu de la géométrie
+    // Rendu de la geometrie
     glBindTexture(GL_TEXTURE_2D, textureBox[0]);
-    glBegin(GL_QUADS);            // X Négatif        
-        glTexCoord2f(0.0, 0.0); glVertex3f(-t,-t,-t);     
-        glTexCoord2f(1.0, 0.0); glVertex3f(-t,t,-t);
-        glTexCoord2f(1.0, 1.0); glVertex3f(-t,t,t);
-        glTexCoord2f(0.0, 1.0); glVertex3f(-t,-t,t); 
+    glBegin(GL_QUADS);            // X Negatif        
+        glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);
+        glTexCoord2f(1.0, 0.0); glVertex3f(-t, t, -t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(-t, t, t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-t, -t, t);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, textureBox[1]);
     glBegin(GL_QUADS);            // X Positif
-        glTexCoord2f(0.0, 0.0); glVertex3f(t,t,-t);     
-        glTexCoord2f(1.0, 0.0); glVertex3f(t,-t,-t);
-        glTexCoord2f(1.0, 1.0); glVertex3f(t,-t,t);
-        glTexCoord2f(0.0, 1.0); glVertex3f(t,t,t);     
+        glTexCoord2f(0.0, 0.0); glVertex3f(t, t, -t);
+        glTexCoord2f(1.0, 0.0); glVertex3f(t, -t, -t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(t, -t, t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);
     glEnd();
 
-    /* à compléter */
+    glBindTexture(GL_TEXTURE_2D, textureBox[2]);
+    glBegin(GL_QUADS);            // Y Negatif
+        glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);
+        glTexCoord2f(1.0, 0.0); glVertex3f(-t, -t, t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(t, -t, -t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(t, -t, t);
+    glEnd();
 
-    
+    glBindTexture(GL_TEXTURE_2D, textureBox[3]);
+    glBegin(GL_QUADS);            // Y Positif
+        glTexCoord2f(0.0, 0.0); glVertex3f(-t, t, -t);     
+        glTexCoord2f(1.0, 0.0); glVertex3f(t, t, -t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(-t, t, t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);     
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, textureBox[4]);
+    glBegin(GL_QUADS);            // Z Negatif
+        glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);     
+        glTexCoord2f(1.0, 0.0); glVertex3f(t, -t, -t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(-t, t, -t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, -t);     
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, textureBox[5]);
+    glBegin(GL_QUADS);            // Z Positif
+        glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, t);     
+        glTexCoord2f(1.0, 0.0); glVertex3f(-t, t, t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(t, -t, t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);     
+    glEnd();
     
     // Réactivation de l'écriture dans le z-buffer
-    /* à compléter */
+    glEnable(GL_DEPTH_TEST);
     
     // Réinitialisation des états OpenGL    
-    /* à compléter */
+    glEnable(GL_LIGHTING);
 }
 

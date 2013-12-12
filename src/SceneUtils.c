@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "scene.h"
 #include "SceneUtils.h"
@@ -422,54 +421,6 @@ int read_scene_file(SCENE *scene,char *filename)
 
 }
 
-void trim(char * s) {
-    char * p = s;
-    int l = strlen(p);
-
-    while(isspace(p[l - 1])) p[--l] = 0;
-    while(* p && isspace(* p)) ++p, --l;
-
-    memmove(s, p, l + 1);
-}
-
-int read_scene_file_3ds(SCENE_3DS* scene,char *filename) {
-    FILE *file;                        /* identificateur du fichier */
-    int   i, line = 0;
-    char  buffer[100];
-    char  filename3ds[100];
-    float scale = 0.0f;
-    int   scene3dsIdx = 0;
-
-    /*-----------------------------------------------------------------------*/
-
-    printf("Lecture du fichier %s\n", filename);
-
-    file = fopen(filename, "r");
-    if(!file) {
-        fprintf(stderr, "\007\nProbleme a l'ouverture du fichier %s\n", filename);
-        return(-1);
-    }
-
-    while(!feof(file)) {
-        fgets(buffer, 100, file);
-        strcpy(filename3ds, buffer);
-        trim(filename3ds);
-        fgets(buffer, 100, file);
-        scale = atof(buffer);
-        printf("FILENAME : %s - SCALE : %f\n", filename3ds, scale);
-
-        if(scene3dsIdx >= NB_MAX_3DS_SCENE) {
-            fprintf(stderr, "\007\nTrop de fichiers de scene 3DS.\n");
-            return(-1);
-        }
-        charge_scene3ds(filename3ds, &scene[scene3dsIdx].lib3dsfile);
-        scene[scene3dsIdx].scale = scale;
-
-        ++scene3dsIdx;
-    }
-
-    return 0;
-}
 
 
 /*-----------------------------------------------------------------------*/

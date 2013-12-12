@@ -2,7 +2,6 @@
 #define ECLAIRAGE_H
 
 #include "scene.h"
-#include "scene3ds.h"
 
 #define SELECTED_OBJECT_COLOR_R 0.4f
 #define SELECTED_OBJECT_COLOR_G 0.0f
