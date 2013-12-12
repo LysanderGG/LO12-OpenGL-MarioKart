@@ -43,6 +43,7 @@
 #include "eclairage.h"
 #include "interactions.h"
 #include "scene3ds.h"
+#include "skybox.h"
 
 extern SCENE* scene;
 
@@ -142,6 +143,8 @@ void dessine_scene()
 {
     int i;  /* indice d'objet */
     int currentSceneObject = 0;
+
+    dessine_box();
 
     //printf("==============================\n");
     //printf("========= dessine_scene ======\n");

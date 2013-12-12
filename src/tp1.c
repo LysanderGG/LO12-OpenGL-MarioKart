@@ -42,6 +42,7 @@
 #include "interactions.h"
 #include "texture.h"
 #include "scene3ds.h"
+#include "skybox.h"
 
 //**************//
 //DEFINITIONS : //
@@ -80,6 +81,7 @@ void init()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     def_modele(scene);
+    charger_skybox();
     loadTextures();
 }
 
@@ -120,7 +122,7 @@ int main(int argc, char**argv) {
     }
 
     glutInit(&argc, argv);
-    glutInitWindowSize(500, 500);   /* taille de la fenetre ecran */
+    glutInitWindowSize(800, 600);   /* taille de la fenetre ecran */
 
     /* glutInitDisplayMode(GLUT_INDEX | GLUT_SINGLE);   mode index*/
         
