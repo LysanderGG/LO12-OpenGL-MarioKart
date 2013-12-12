@@ -78,7 +78,7 @@ void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
     }
     
     glBegin(GL_POLYGON);    
-    for(i=0; i<3; i++) {
+    for(i = 0; i < 3; ++i) {
         x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
         y = Obj->vertices[ Obj->faces[iFace].index[i] ][1];
         z = Obj->vertices[ Obj->faces[iFace].index[i] ][2];

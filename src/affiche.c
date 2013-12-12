@@ -186,13 +186,13 @@ void dessine_scene()
             }
                 
             // Si la scene g_current3DSScene n'est pas/plus definie, on passe a la suivante
-            if(scenes3DS[g_current3DSScene].lib3dsfile == NULL) {
+            if(g_scenes3DS[g_current3DSScene].lib3dsfile == NULL) {
                 ++g_current3DSScene;
                 continue;
             }
 
             // Si on a dessine tous les objets de la scene 3DS, on passe a la prochaine scene
-            if(currentSceneObject == scenes3DS[g_current3DSScene].lib3dsfile->nmeshes ) {
+            if(currentSceneObject == g_scenes3DS[g_current3DSScene].lib3dsfile->nmeshes ) {
                 currentSceneObject = 0;
                 ++g_current3DSScene;
                 continue;
@@ -201,7 +201,7 @@ void dessine_scene()
             // Scene 3ds
             glPushMatrix();
             // On dessine le currentSceneDrawnObjects eme objet de la scene 3DS
-            dessine_3dsobj(scenes3DS[g_current3DSScene], scenes3DS[g_current3DSScene].lib3dsfile->meshes[currentSceneObject++]);
+            dessine_3dsobj(g_scenes3DS[g_current3DSScene], g_scenes3DS[g_current3DSScene].lib3dsfile->meshes[currentSceneObject++]);
             glPopMatrix();
         }
         ++i;
