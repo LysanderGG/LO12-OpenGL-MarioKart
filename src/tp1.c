@@ -59,7 +59,7 @@
 void init()
 {
     glEnable(GL_DEPTH_TEST | GL_LIGHTING);
-    
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(90,1.0,0.1,100) ;
@@ -80,8 +80,6 @@ void init()
 
     def_modele(scene);
     loadTextures();
-
-
 }
 
 /* ========================================================================= */
@@ -107,8 +105,13 @@ int main(int argc, char**argv) {
         scenes3DS[i] = NULL;
     }
 
+<<<<<<< HEAD
     if(read_scene_file(scene,filename)) {
         printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename);
+=======
+    if(read_scene_file_3ds(g_scenes3DS, filename_3ds)) {
+        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename_3ds);
+>>>>>>> a00729d6d144ff66c5557e74a60e4b9603b2a163
         return -1;
     }
 
@@ -126,7 +129,7 @@ int main(int argc, char**argv) {
         
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);     /* mode rgb */
         
-    glutCreateWindow("TP5+");
+    glutCreateWindow("Mario Kart LO12");
     glutDisplayFunc(dessine_scene);
     glutReshapeFunc(reshape);
     glutIdleFunc(idleFunc);

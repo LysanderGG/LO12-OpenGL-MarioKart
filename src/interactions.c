@@ -19,6 +19,7 @@ EMouseButton g_mouseCurrentButton = NONE;
 int g_mousePreviousX = 0;
 int g_mousePreviousY = 0;
 int g_switchLight = 1;
+int g_eventList[10];
 
 void callSpecialFunc(int key, int x, int y) {
     int sens; /* sens positif ou negatif */
@@ -106,6 +107,11 @@ void callKeyboardFunc(unsigned char key, int x, int y){
         case 'h':
         case 'H':
             print_help();
+        case 'z':
+        case 'Z':
+            moveKartForward(0.1);
+            break;
+
     }
 
     glutPostRedisplay();
