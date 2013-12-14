@@ -55,17 +55,15 @@ int charger_skybox(void) {
             return -1;
         }
         /* à compléter */
-        textureBox[i] = texture[i].glnum;
-        glBindTexture(GL_TEXTURE_2D, textureBox[i]);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, texture[i].internalFormat,
-                      texture[i].width, texture[i].height, 0, texture[i].format,
-                      GL_UNSIGNED_BYTE, texture[i].texels);
-
+        texture[i].glnum = textureBox[i];
+        glBindTexture(GL_TEXTURE_2D, texture[i].glnum);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexImage2D(GL_TEXTURE_2D, 0, texture[i].internalFormat,
+                      texture[i].width, texture[i].height, 0, texture[i].format,
+                      GL_UNSIGNED_BYTE, texture[i].texels);
     }
     free(texture);    
     return 0;
@@ -75,21 +73,18 @@ int charger_skybox(void) {
 void dessine_box() {
     float t = 1.0f;
     // Configuration des états OpenGL
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_LIGHTING);
-    
-    // Désactivation de l'ecriture dans le z-buffer
-    glDepthMask(GL_FALSE);
-    
+    glDisable(GLUT_DEPTH | GL_LIGHTING);// Désactivation de l'ecriture dans le z-buffer
 
     // Réglage de la position de la box
-    /* à compléter */
-    calcul_pos_cam();
+    //calcul_pos_cam();
     glPushMatrix();
-    glLoadIdentity();
-    glRotatef(90, cx, cy, cz); //tangage
-    
+    //glLoadIdentity();
+    //glRotatef(90, cx, cy, cz); //tangage
+	glScaled(750, 750, 750);
+	glEnable(GL_TEXTURE_2D);
+
     // Rendu de la geometrie
+	//gauche
     glBindTexture(GL_TEXTURE_2D, textureBox[0]);
     glBegin(GL_QUADS);            // X Negatif        
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);
@@ -98,6 +93,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(-t, -t, t);
     glEnd();
 
+	//droite
     glBindTexture(GL_TEXTURE_2D, textureBox[1]);
     glBegin(GL_QUADS);            // X Positif
         glTexCoord2f(0.0, 0.0); glVertex3f(t, t, -t);
@@ -106,6 +102,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);
     glEnd();
 
+	//fond
     glBindTexture(GL_TEXTURE_2D, textureBox[2]);
     glBegin(GL_QUADS);            // Y Negatif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);
@@ -114,6 +111,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(t, -t, t);
     glEnd();
 
+	//bas (sol)
     glBindTexture(GL_TEXTURE_2D, textureBox[3]);
     glBegin(GL_QUADS);            // Y Positif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, t, -t);     
@@ -122,6 +120,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);     
     glEnd();
 
+	//haut (ciel)
     glBindTexture(GL_TEXTURE_2D, textureBox[4]);
     glBegin(GL_QUADS);            // Z Negatif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);     
@@ -139,10 +138,9 @@ void dessine_box() {
     glEnd();
     
     // Réactivation de l'écriture dans le z-buffer
-    glDepthMask(GL_TRUE);
+	glEnable(GLUT_DEPTH | GL_LIGHTING);
     
     // Réinitialisation des états OpenGL
-    glEnable(GL_LIGHTING);
-    glEnable(GL_TEXTURE_2D);
+	glPopMatrix();
 }
 

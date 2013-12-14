@@ -39,10 +39,10 @@ void initView() {
 void changeMode() {
     if(g_obsMode == OBS_MODE_PILOT_VIEW) {
         g_obsMode = OBS_MODE_POLAR_VIEW;
-        glutSetWindowTitle("Polar View");
+        glutSetWindowTitle("Mario Kart LO12 - Polar View");
     } else {
         g_obsMode = OBS_MODE_PILOT_VIEW;
-        glutSetWindowTitle("Pilot View");
+        glutSetWindowTitle("Mario Kart LO12 - Pilot View");
     }
 
     recomputeView();

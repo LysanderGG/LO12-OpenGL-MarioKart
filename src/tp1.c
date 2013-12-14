@@ -81,8 +81,9 @@ void init()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     def_modele(scene);
-    charger_skybox();
+    
     loadTextures();
+    charger_skybox();
 }
 
 /* ========================================================================= */
