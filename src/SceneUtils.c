@@ -16,10 +16,10 @@
             Romain HERAULT A2005-A2006
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "scene.h"
 #include "SceneUtils.h"
@@ -436,6 +436,7 @@ int read_scene_file_3ds(SCENE_3DS* scene,char *filename) {
     FILE *file;                        /* identificateur du fichier */
     int   i, line = 0;
     char  buffer[100];
+    char* s;
     char  filename3ds[100];
     float scale = 0.0f;
     int   scene3dsIdx = 0;
@@ -451,19 +452,45 @@ int read_scene_file_3ds(SCENE_3DS* scene,char *filename) {
     }
 
     while(!feof(file)) {
+        // Load filename
         fgets(buffer, 100, file);
         strcpy(filename3ds, buffer);
         trim(filename3ds);
-        fgets(buffer, 100, file);
-        scale = atof(buffer);
-        printf("FILENAME : %s - SCALE : %f\n", filename3ds, scale);
 
+        // Load Scale
+        fgets(buffer, 100, file);
+        scene[scene3dsIdx].scale = atof(buffer);
+
+        // Load Translate
+        fgets(buffer, 100, file);
+        trim(buffer);
+        s = strtok(buffer, " ");
+        for(i = 0; s != NULL; ++i) {
+            scene[scene3dsIdx].translate[i] = atof(s);
+            s = strtok(NULL, " ");
+        }
+
+        // Load Rotate
+        fgets(buffer, 100, file);
+        trim(buffer);
+        s = strtok(buffer, " ");
+        for(i = 0; s != NULL; ++i) {
+            scene[scene3dsIdx].rotate[i] = atof(s);
+            s = strtok(NULL, " ");
+        }
+
+        // Debug printf
+        printf("FILENAME : %s - SCALE : %4.2f - TRANSLATE %4.2f %4.2f %4.2f - ROTATE %4.2f %4.2f %4.2f\n"
+            , filename3ds, scene[scene3dsIdx].scale
+            , scene[scene3dsIdx].translate[0], scene[scene3dsIdx].translate[1], scene[scene3dsIdx].translate[2]
+            , scene[scene3dsIdx].rotate[0], scene[scene3dsIdx].rotate[1], scene[scene3dsIdx].rotate[2]);
+
+        // Load 3DS scene
         if(scene3dsIdx >= NB_MAX_3DS_SCENE) {
             fprintf(stderr, "\007\nTrop de fichiers de scene 3DS.\n");
             return(-1);
         }
         charge_scene3ds(filename3ds, &scene[scene3dsIdx].lib3dsfile);
-        scene[scene3dsIdx].scale = scale;
 
         ++scene3dsIdx;
     }

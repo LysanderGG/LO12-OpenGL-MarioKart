@@ -7,6 +7,8 @@
 
 typedef struct {
     Lib3dsFile* lib3dsfile;
+    float       translate[3];
+    float       rotate[3];
     float       scale;
 } SCENE_3DS;
 

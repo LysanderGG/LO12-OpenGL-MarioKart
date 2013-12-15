@@ -1,13 +1,11 @@
 #define _USE_MATH_DEFINES
 
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "animations.h"
 #include "scene3ds.h"
-#include <math.h>
-
-double g_kartAngle = 0.0f;
-double g_kartX = 0.0f;
-double g_kartY = 0.0f;
-double g_kartZ = 0.0f;
 
 
 void translate(OBJET* _obj, double _dx, double _dy, double _dz) {
@@ -35,23 +33,27 @@ void moveKartForward(double _d) {
     int i, j;
     double dx, dy, dz;
 
+    dx = _d * cos(g_scenes3DS[KART_ID].rotate[2] * M_PI / 180.0);
+    dy = _d * sin(g_scenes3DS[KART_ID].rotate[2] * M_PI / 180.0);
     dz = 0.0f;
-    dx = _d * cos(g_kartAngle * M_PI / 180.0);
-    dy = _d * sin(g_kartAngle * M_PI / 180.0);
 
-    g_kartX += dx;
-    g_kartY += dy;
-    g_kartZ += dz;
+    g_scenes3DS[KART_ID].translate[0] += dx;
+    g_scenes3DS[KART_ID].translate[1] += dy;
+    g_scenes3DS[KART_ID].translate[2] += dz;
+
+    printf("angle a Ox : %4.2f\n", g_scenes3DS[KART_ID].rotate[2]);
+    printf("dx = %4.2f - dy = %4.2f - dz = %4.2f\n", dx, dy, dz);
+    printf("tx = %4.2f - ty = %4.2f - tz = %4.2f\n", g_scenes3DS[KART_ID].translate[0], g_scenes3DS[KART_ID].translate[1], g_scenes3DS[KART_ID].translate[2]);
 
     // Iterate on objects
-    for(i = 0; i < g_scenes3DS[KART_ID].lib3dsfile->nmeshes; ++i) {
+    /*for(i = 0; i < g_scenes3DS[KART_ID].lib3dsfile->nmeshes; ++i) {
         obj = g_scenes3DS[KART_ID].lib3dsfile->meshes[i];
         for(j = 0; j < obj->nvertices; ++j) {
             obj->vertices[j][0] += dx;
             obj->vertices[j][1] += dy;
             obj->vertices[j][2] += dz;
         }
-    }
+    }*/
 }
 
 /*
@@ -59,5 +61,5 @@ void moveKartForward(double _d) {
  * _a is in degree.
  */
 void rotateKart(double _a) {
-    g_kartAngle += _a + 360 % 360;
+    g_scenes3DS[KART_ID].rotate[2] = fmod(g_scenes3DS[KART_ID].rotate[2] + _a + 360, 360);
 }
