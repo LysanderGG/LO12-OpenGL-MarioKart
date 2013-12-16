@@ -84,7 +84,7 @@ void recomputeView() {
                  , g_scenes3DS[KART_ID].translate[2] + KART_VIEW_Z_OFFSET
                  , DEFAULT_PLANE_ROULIS  - g_scenes3DS[KART_ID].rotate[0] + g_kartRoulis
                  , DEFAULT_PLANE_TANGAGE - g_scenes3DS[KART_ID].rotate[1] + g_kartTangage
-                 , DEFAULT_PLANE_LACET   - g_scenes3DS[KART_ID].rotate[2] + g_kartLacet
+                 ,                       - g_scenes3DS[KART_ID].rotate[2] + g_kartLacet
             );
     }
 }

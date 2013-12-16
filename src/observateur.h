@@ -33,7 +33,7 @@
 
 #define KART_VIEW_X_OFFSET 0
 #define KART_VIEW_Y_OFFSET 0
-#define KART_VIEW_Z_OFFSET 6
+#define KART_VIEW_Z_OFFSET 0
 
 // Variables globales
 extern char*  g_obsModeTitles[3];
