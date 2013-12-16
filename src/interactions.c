@@ -110,11 +110,11 @@ void callKeyboardFunc(unsigned char key, int x, int y){
             break;
         case 'z':
         case 'Z':
-            moveKartForward(-TRANSLATING);
+            moveKartForward(TRANSLATING);
             break;
         case 's':
         case 'S':
-            moveKartForward(TRANSLATING);
+            moveKartForward(-TRANSLATING);
             break;
         case 'q':
         case 'Q':

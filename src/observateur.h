@@ -14,6 +14,8 @@
 // Defines
 #define OBS_MODE_POLAR_VIEW        0
 #define OBS_MODE_PILOT_VIEW        1
+#define OBS_MODE_KART_VIEW         2
+#define NB_OBS_MODES               3
 
 #define DEFAULT_OBS_MODE        OBS_MODE_POLAR_VIEW
 
@@ -29,7 +31,13 @@
 #define DEFAULT_PLANE_TANGAGE       90
 #define DEFAULT_PLANE_LACET         180
 
+#define KART_VIEW_X_OFFSET 0
+#define KART_VIEW_Y_OFFSET 0
+#define KART_VIEW_Z_OFFSET 6
+
 // Variables globales
+extern char*  g_obsModeTitles[3];
+
 extern int    g_obsMode;
 extern double g_polarDistance;
 extern double g_polarAzimut;
@@ -42,6 +50,10 @@ extern double g_planeZ;
 extern double g_planeRoulis;
 extern double g_planeTangage;
 extern double g_planeLacet;
+
+extern double g_kartRoulis;
+extern double g_kartTangage;
+extern double g_kartLacet;
 
 void initView       ();
 void changeMode     ();

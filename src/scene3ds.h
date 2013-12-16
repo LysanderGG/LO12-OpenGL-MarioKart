@@ -3,6 +3,7 @@
 #include <3DS/lib3ds.h>
 #include "scene.h"
 
+#define KART_ID             1
 #define NB_MAX_3DS_SCENE    10
 
 typedef struct {
