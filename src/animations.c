@@ -41,19 +41,6 @@ void moveKartForward(double _d) {
     g_scenes3DS[KART_ID].translate[1] += dy;
     g_scenes3DS[KART_ID].translate[2] += dz;
 
-    printf("angle a Ox : %4.2f\n", g_scenes3DS[KART_ID].rotate[2]);
-    printf("dx = %4.2f - dy = %4.2f - dz = %4.2f\n", dx, dy, dz);
-    printf("tx = %4.2f - ty = %4.2f - tz = %4.2f\n", g_scenes3DS[KART_ID].translate[0], g_scenes3DS[KART_ID].translate[1], g_scenes3DS[KART_ID].translate[2]);
-
-    // Iterate on objects
-    /*for(i = 0; i < g_scenes3DS[KART_ID].lib3dsfile->nmeshes; ++i) {
-        obj = g_scenes3DS[KART_ID].lib3dsfile->meshes[i];
-        for(j = 0; j < obj->nvertices; ++j) {
-            obj->vertices[j][0] += dx;
-            obj->vertices[j][1] += dy;
-            obj->vertices[j][2] += dz;
-        }
-    }*/
 }
 
 /*
