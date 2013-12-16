@@ -38,7 +38,7 @@ void calcul_pos_cam() {
 //*****************************************************************************************************************************
 int charger_skybox(void) {
     int i, j;
-    MTEX *texture = (MTEX *)malloc(6*sizeof(MTEX));    
+    MTEX *texture = (MTEX *)malloc(6*sizeof(MTEX));
     textureBox = (GLuint *)malloc(6*sizeof(GLuint));
     glGenTextures(6, textureBox);
 
@@ -49,7 +49,7 @@ int charger_skybox(void) {
     texture[4].filename = "img/ZN.png";
     texture[5].filename = "img/ZP.png";
     
-    for(i = 0; i < 6; ++i) {        
+    for(i = 0; i < 6; ++i) {
         if(ReadPNGFromFile(&texture[i])) {
             printf("Je n'arrive pas à lire %s\n", texture->filename);
             return -1;
@@ -65,7 +65,7 @@ int charger_skybox(void) {
                       texture[i].width, texture[i].height, 0, texture[i].format,
                       GL_UNSIGNED_BYTE, texture[i].texels);
     }
-    free(texture);    
+    free(texture);
     return 0;
 }
 
@@ -73,15 +73,15 @@ int charger_skybox(void) {
 void dessine_box() {
     float t = 1.0f;
     // Configuration des états OpenGL
-    glDisable(GLUT_DEPTH | GL_LIGHTING);// Désactivation de l'ecriture dans le z-buffer
+    glDisable(GL_DEPTH_TEST); //Désactivation de l'ecriture dans le z-buffer
+    glDisable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glColor3d(1.0, 1.0, 1.0);
 
     // Réglage de la position de la box
-    //calcul_pos_cam();
+    calcul_pos_cam();
     glPushMatrix();
-    //glLoadIdentity();
-    //glRotatef(90, cx, cy, cz); //tangage
-	glScaled(750, 750, 750);
-	glEnable(GL_TEXTURE_2D);
+    glTranslated(cx, cy, cz);
 
     // Rendu de la geometrie
 	//gauche
@@ -105,42 +105,44 @@ void dessine_box() {
 	//fond
     glBindTexture(GL_TEXTURE_2D, textureBox[2]);
     glBegin(GL_QUADS);            // Y Negatif
-        glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);
-        glTexCoord2f(1.0, 0.0); glVertex3f(-t, -t, t);
-        glTexCoord2f(1.0, 1.0); glVertex3f(t, -t, -t);
+        glTexCoord2f(0.0, 0.0); glVertex3f(t, -t, -t);
+        glTexCoord2f(1.0, 0.0); glVertex3f(-t, -t, -t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(-t, -t, t);
         glTexCoord2f(0.0, 1.0); glVertex3f(t, -t, t);
     glEnd();
 
-	//bas (sol)
+	//avant
     glBindTexture(GL_TEXTURE_2D, textureBox[3]);
     glBegin(GL_QUADS);            // Y Positif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, t, -t);     
         glTexCoord2f(1.0, 0.0); glVertex3f(t, t, -t);
-        glTexCoord2f(1.0, 1.0); glVertex3f(-t, t, t);
-        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);     
+        glTexCoord2f(1.0, 1.0); glVertex3f(t, t, t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-t, t, t);     
     glEnd();
 
-	//haut (ciel)
+	//sol
     glBindTexture(GL_TEXTURE_2D, textureBox[4]);
     glBegin(GL_QUADS);            // Z Negatif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);     
         glTexCoord2f(1.0, 0.0); glVertex3f(t, -t, -t);
-        glTexCoord2f(1.0, 1.0); glVertex3f(-t, t, -t);
-        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, -t);     
+        glTexCoord2f(1.0, 1.0); glVertex3f(t, t, -t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-t, t, -t);     
     glEnd();
 
+    //haut
     glBindTexture(GL_TEXTURE_2D, textureBox[5]);
     glBegin(GL_QUADS);            // Z Positif
-        glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, t);     
-        glTexCoord2f(1.0, 0.0); glVertex3f(-t, t, t);
-        glTexCoord2f(1.0, 1.0); glVertex3f(t, -t, t);
-        glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);     
-    glEnd();
-    
-    // Réactivation de l'écriture dans le z-buffer
-	glEnable(GLUT_DEPTH | GL_LIGHTING);
-    
+        glTexCoord2f(0.0, 0.0); glVertex3f(t, t, t);     
+        glTexCoord2f(1.0, 0.0); glVertex3f(t, -t, t);
+        glTexCoord2f(1.0, 1.0); glVertex3f(-t, -t, t);
+        glTexCoord2f(0.0, 1.0); glVertex3f(-t, t, t);    
+    glEnd();                    
+
     // Réinitialisation des états OpenGL
 	glPopMatrix();
+
+    // Réactivation de l'écriture dans le z-buffer
+	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
 }
 

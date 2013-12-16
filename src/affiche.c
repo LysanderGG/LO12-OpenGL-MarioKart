@@ -139,12 +139,9 @@ void dessine_objet(OBJET objet)
 
 
 /****************************************************************************/
-void dessine_scene()
-{
+void dessine_scene() {
     int i;  /* indice d'objet */
     int currentSceneObject = 0;
-
-    dessine_box();
 
     //printf("==============================\n");
     //printf("========= dessine_scene ======\n");
@@ -156,7 +153,8 @@ void dessine_scene()
 
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // efface l'ecran
-
+    
+    dessine_box();
     dessine_repere();
 
     calcule_normales(scene); // A optimiser peut etre
