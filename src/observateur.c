@@ -1,12 +1,15 @@
 #define _USE_MATH_DEFINES
 
-#include "observateur.h"
-#include "Utils.h"
 #include <math.h>
 #include <stdio.h>
 
+#include "observateur.h"
+#include "Utils.h"
+#include "scene3ds.h"
+
 
 int g_obsMode = DEFAULT_OBS_MODE;
+char* g_obsModeTitles[3] = { "Mario Kart LO12 - Polar View", "Mario Kart LO12 - Pilot View", "Mario Kart LO12 - Kart View" };
 
 double g_polarDistance  = 0.0;
 double g_polarAzimut    = 0.0;
@@ -19,6 +22,10 @@ double g_planeZ         = 0.0;
 double g_planeRoulis    = 0.0;
 double g_planeTangage   = 0.0;
 double g_planeLacet     = 0.0;
+
+double g_kartRoulis     = 0.0;
+double g_kartTangage    = 0.0;
+double g_kartLacet      = 0.0;
 
 void initView() {
     g_polarDistance     = DEFAULT_POLAR_DISTANCE;
@@ -37,13 +44,8 @@ void initView() {
 }
 
 void changeMode() {
-    if(g_obsMode == OBS_MODE_PILOT_VIEW) {
-        g_obsMode = OBS_MODE_POLAR_VIEW;
-        glutSetWindowTitle("Mario Kart LO12 - Polar View");
-    } else {
-        g_obsMode = OBS_MODE_PILOT_VIEW;
-        glutSetWindowTitle("Mario Kart LO12 - Pilot View");
-    }
+    g_obsMode = (g_obsMode + 1) % NB_OBS_MODES;
+    glutSetWindowTitle(g_obsModeTitles[g_obsMode]);
 
     recomputeView();
 }
@@ -73,6 +75,17 @@ void recomputeView() {
         polarView(g_polarDistance, g_polarAzimut, g_polarElevation, g_polarTwist);
     } else if(g_obsMode == OBS_MODE_PILOT_VIEW) {
         pilotView(g_planeX, g_planeY, g_planeZ, g_planeRoulis, g_planeTangage, g_planeLacet);
+    } else if(g_obsMode == OBS_MODE_KART_VIEW) {
+
+        //printf("KART VIEW - x = %4.2f - y = %4.2f - z = %4.2f\n", g_scenes3DS[KART_ID].translate[0], g_scenes3DS[KART_ID].translate[1], g_scenes3DS[KART_ID].translate[2]);
+
+        pilotView( g_scenes3DS[KART_ID].translate[0] + KART_VIEW_X_OFFSET
+                 , g_scenes3DS[KART_ID].translate[1] + KART_VIEW_Y_OFFSET
+                 , g_scenes3DS[KART_ID].translate[2] + KART_VIEW_Z_OFFSET
+                 , DEFAULT_PLANE_ROULIS  - g_scenes3DS[KART_ID].rotate[0] + g_kartRoulis
+                 , DEFAULT_PLANE_TANGAGE - g_scenes3DS[KART_ID].rotate[1] + g_kartTangage
+                 , DEFAULT_PLANE_LACET   - g_scenes3DS[KART_ID].rotate[2] + g_kartLacet
+            );
     }
 }
 
@@ -92,6 +105,7 @@ void rotateZ(double _az) {
 
         //printf("az : %f, planeX : %f, planeY : %f, lacet : %f \n", _az, g_planeX, g_planeY, g_planeLacet);
     }
+
     recomputeView();
 }
 
@@ -99,7 +113,9 @@ void rotateHead(double _az) {
     if(g_obsMode == OBS_MODE_POLAR_VIEW) {
         g_polarAzimut = fmod(g_polarAzimut + _az, 360);
     } else if(g_obsMode == OBS_MODE_PILOT_VIEW) {
-        g_planeLacet += _az;
+        g_planeLacet = fmod(g_planeLacet + _az, 360);
+    } else if(g_obsMode == OBS_MODE_KART_VIEW) {
+        g_kartLacet = fmod(g_kartLacet - _az + 360, 360);
     }
     recomputeView();
 }
@@ -108,8 +124,12 @@ void nodHead(double _az) {
     if(g_obsMode == OBS_MODE_POLAR_VIEW) {
         g_polarElevation = fmod(g_polarElevation + _az, 360);
     } else if(g_obsMode == OBS_MODE_PILOT_VIEW) {
-        g_planeTangage += _az;
-    }
+        g_planeTangage = fmod(g_planeTangage + _az, 360);
+    } 
+    //@todo doesnt work yet
+    /*else if(g_obsMode == OBS_MODE_KART_VIEW) {
+        g_kartTangage = fmod(g_kartTangage + _az, 360);
+    }*/
     recomputeView();
 }
 

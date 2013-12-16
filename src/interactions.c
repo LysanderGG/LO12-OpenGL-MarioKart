@@ -107,13 +107,14 @@ void callKeyboardFunc(unsigned char key, int x, int y){
         case 'h':
         case 'H':
             print_help();
+            break;
         case 'z':
         case 'Z':
-            moveKartForward(-TRANSLATING);
+            moveKartForward(TRANSLATING);
             break;
         case 's':
         case 'S':
-            moveKartForward(TRANSLATING);
+            moveKartForward(-TRANSLATING);
             break;
         case 'q':
         case 'Q':
