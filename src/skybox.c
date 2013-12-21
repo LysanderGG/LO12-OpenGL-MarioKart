@@ -37,7 +37,7 @@ void calcul_pos_cam() {
 
 //*****************************************************************************************************************************
 int charger_skybox(void) {
-    int i, j;
+    int i;
     MTEX *texture = (MTEX *)malloc(6*sizeof(MTEX));
     textureBox = (GLuint *)malloc(6*sizeof(GLuint));
     glGenTextures(6, textureBox);

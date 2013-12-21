@@ -30,8 +30,6 @@ void rotate(OBJET* _obj, double _ax, double _ay, double _az) {
  * If _d is < 0, the kart will move backward.
  */
 void moveKartForward(double _d) {
-    Lib3dsMesh * obj;
-    int i, j;
     double dx, dy, dz;
 
     dx = _d * cos(g_scenes3DS[KART_ID].rotate[2] * M_PI / 180.0);

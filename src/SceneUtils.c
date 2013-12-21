@@ -69,11 +69,10 @@ int read_int(FILE *file,int *line,char *str,int num, int *value)
         printf("ATTENTION ligne %d lecture de %s, trop d'elements\n",*line,str);
         printf("J'attends %d INT et je lis: ",num);
         printValueList(vlf);
-}
+    }
     freeValueList(vlf);
     return 0;
 }
-
 
 /*Lit #num double de la ligne courante et le stocke dans le tableau de double value*/
 int read_double(FILE *file,int *line,char *str,int num, double *value)
@@ -149,7 +148,6 @@ int read_str(FILE *file,int *line,char *str,int num, char **pstr)
     freeValueList(vlf);
     return 0;
 }
-
 
 /*Lit un MTEXCOORD (en 2 double) dans la ligne courante et le stocke dans coord*/
 int read_texcoord2d(FILE *file,int *line,char *str,MTEXCOORD *coord)
@@ -230,7 +228,6 @@ int read_transfo4x4d(FILE *file,int *line,char *str,MTRANSFO transfo)
     transfo[15]=buff[3];
     return 0;
 }
-
 
 /*Lit un ALLURE_FAISCEAU  (en 2 double) dans la ligne courante et le stocke dans allure  */
 int read_allure2d(FILE *file, int *line, char *str, ALLURE_FAISCEAU *allure)
