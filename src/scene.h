@@ -234,6 +234,8 @@ SCENE;
 //Variables Globales : //
 //*********************//
 
+#define KART_ID             0
+
 extern SCENE*       scene;                          /* description de la scene */
 
 
