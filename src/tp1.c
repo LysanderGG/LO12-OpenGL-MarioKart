@@ -134,7 +134,8 @@ int main(int argc, char**argv) {
     glutReshapeFunc(reshape);
     glutIdleFunc(idleFunc);
     glutSpecialFunc(callSpecialFunc);
-    glutKeyboardFunc(callKeyboardFunc);
+    glutKeyboardFunc(callKeyboardDownFunc);
+    glutKeyboardUpFunc(callKeyboardUpFunc);
     glutMouseFunc(callMouseFunc);
     glutMotionFunc(callMotionFunc);
 

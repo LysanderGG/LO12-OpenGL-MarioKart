@@ -143,6 +143,9 @@ void dessine_scene() {
     int i;  /* indice d'objet */
     int currentSceneObject = 0;
 
+    // First handles user inputs
+    handleKeyboardEvents();
+
     //printf("==============================\n");
     //printf("========= dessine_scene ======\n");
     //printf("==============================\n");

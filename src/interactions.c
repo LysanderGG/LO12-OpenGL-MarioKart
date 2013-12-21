@@ -6,12 +6,6 @@
 #include "scene.h"
 #include "observateur.h"
 
-#define TRANSLATING         1
-#define ROTATING            5
-#define OBS_ROTATING_Z      5
-#define OBS_ROTATING_HEAD   5
-#define OBS_NODING_HEAD     5
-
 int g_currentObj = -1;
 int g_current3DSScene = 0;
 int g_isCurrentObject = 0;
@@ -19,7 +13,9 @@ EMouseButton g_mouseCurrentButton = NONE;
 int g_mousePreviousX = 0;
 int g_mousePreviousY = 0;
 int g_switchLight = 1;
-int g_eventList[10];
+unsigned char g_eventList[EVENT_LIST_MAX_SIZE];
+unsigned int  g_eventListSize = 0;
+int           g_eventDirection = 1;
 
 void callSpecialFunc(int key, int x, int y) {
     int sens; /* sens positif ou negatif */
@@ -85,46 +81,99 @@ void callSpecialFunc(int key, int x, int y) {
     glutPostRedisplay();
 }
 
-void callKeyboardFunc(unsigned char key, int x, int y){
-    int sens; /* sens positif ou négatif */
-    if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
-        sens = -1;
-    } else {
-        sens = 1;
+void callKeyboardUpFunc(unsigned char key, int x, int y) {
+    //Remove the key from the event list.
+    unsigned int i;
+    int found = 0;
+
+    for(i = 0; i < g_eventListSize; ++i) {
+        if(g_eventList[i] == key) {
+            found = 1;
+            --g_eventListSize;
+            break;
+        }
     }
 
-    switch (key) {
-        case ' ':
-            g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + sens) % (getTotalNbObjects() + 1));
-            if(g_currentObj == getTotalNbObjects()) {
-                g_currentObj = -1;
-            }
-            break;
-        case 'o':
-        case 'O':
-            changeMode();
-            break;
-        case 'h':
-        case 'H':
-            print_help();
-            break;
-        case 'z':
-        case 'Z':
-            moveKartForward(TRANSLATING);
-            break;
-        case 's':
-        case 'S':
-            moveKartForward(-TRANSLATING);
-            break;
-        case 'q':
-        case 'Q':
-            rotateKart(ROTATING);
-            break;
-        case 'd':
-        case 'D':
-            rotateKart(-ROTATING);
-            break;
+    if(found) {
+        while(i < EVENT_LIST_MAX_SIZE) {
+            g_eventList[i] = g_eventList[i++];
+        }
     }
+}
+
+void callKeyboardDownFunc(unsigned char key, int x, int y) {
+    // Check if the value is already in the event list
+    unsigned int i;
+
+    // Handles shift pressing.
+    if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
+        g_eventDirection = -1;
+    } else {
+        g_eventDirection = 1;
+    }
+
+    for(i = 0; i < g_eventListSize; ++i) {
+        if(g_eventList[i] == key) {
+            return;
+        }
+    }
+
+    // If the event is not in the event list adds it.
+    if(g_eventListSize >= EVENT_LIST_MAX_SIZE) {
+        printf("[ERROR] The event list can not handle more than %d events.\n", EVENT_LIST_MAX_SIZE);
+        return;
+    } else {
+        g_eventList[g_eventListSize++] = key;
+    }
+}
+
+void handleKeyboardEvents() {
+    unsigned int i;
+    unsigned char key;
+
+    //printf("Event List : { ");
+
+    // Parse event list
+    for(i = 0; i < g_eventListSize; ++i) {
+        key = g_eventList[i];
+
+        //printf("%d ", key);
+
+        switch (key) {
+            case ' ':
+                g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + g_eventDirection) % (getTotalNbObjects() + 1));
+                if(g_currentObj == getTotalNbObjects()) {
+                    g_currentObj = -1;
+                }
+                break;
+            case 'o':
+            case 'O':
+                changeMode();
+                break;
+            case 'h':
+            case 'H':
+                print_help();
+                break;
+            case 'z':
+            case 'Z':
+                moveKartForward(TRANSLATING);
+                break;
+            case 's':
+            case 'S':
+                moveKartForward(-TRANSLATING);
+                break;
+            case 'q':
+            case 'Q':
+                rotateKart(ROTATING);
+                break;
+            case 'd':
+            case 'D':
+                rotateKart(-ROTATING);
+                break;
+        }
+    }
+
+    //printf("} \n");
 
     glutPostRedisplay();
 }
