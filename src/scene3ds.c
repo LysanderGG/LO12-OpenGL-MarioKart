@@ -57,7 +57,7 @@ static size_t fileio_write_func(void *self, const void *buffer, size_t size) {
 
 //***********************************************************************************
 static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const char *msg) {
-    static const char * level_str[] = {"ERROR", "WARN", "INFO", "DEBUG"};
+    /*static const char * level_str[] = {"ERROR", "WARN", "INFO", "DEBUG"};
     if(log_level >= level) {
         int i;
         printf("%5s : ", level_str[level]);
@@ -65,7 +65,7 @@ static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const 
 			printf("\t");
         }
         printf("%s\n", msg);
-    }
+    }*/
 }
 
 //*************************************************************************************
@@ -116,22 +116,22 @@ void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
 }
 
 //***********************************************************************************
-void charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
+int charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
     FILE * file;
     Lib3dsIo io;
 
     *out_scene3ds = lib3ds_file_new();
 
-    printf("LOAD 3DS SCENE FILE\n");
+    printf("LOAD 3DS SCENE FILE : %s\n", fichier3ds);
 
     if(!fichier3ds) {
         printf("[ERROR] File name NULL.\n");
-        return;
+        return -1;
     }
 
     if(!(file = fopen(fichier3ds, "rb"))) {
         printf("[ERROR] File not found : %s\n", fichier3ds);
-        return;
+        return -1;
     }
 
     io.self         = file;
@@ -144,6 +144,8 @@ void charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
     lib3ds_file_read(*out_scene3ds, &io);
 
     printf("LOAD 3DS SCENE FILE - END\n");
+
+    return 0;
 }
 
 //**************************************************************************

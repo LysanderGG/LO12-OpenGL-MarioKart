@@ -231,13 +231,24 @@ SCENE;
 /*---------------------------------------------------------------------------*/
 
 //*********************//
+//Defines :            //
+//*********************//
+
+#define KART_ID                 0
+#define NB_MAX_3DS_SCENES       100
+#define NB_MAX_3DS_MODELS       10
+#define NB_MIN_RANDOM_OBJECTS   5
+#define NB_MAX_RANDOM_OBJECTS   20
+#define SCENE_X_MIN             -100
+#define SCENE_X_MAX             +100
+#define SCENE_Y_MIN             -100
+#define SCENE_Y_MAX             +100
+
+//*********************//
 //Variables Globales : //
 //*********************//
 
-#define KART_ID             0
-
 extern SCENE*       scene;                          /* description de la scene */
-
 
 //*********************//
 //Fonctions :          //

@@ -51,8 +51,7 @@
 #define PROJECT_NAME "scene"
 #define EXT_3DS "_3ds"
 #define FILE_EXT ".dat"
-
-#define SCENE_FILE_3DS "img/3d/kartPhare.3ds"
+#define MODELE_FILE_NAME "random_models.dat"
 
 
 /*******************************************************************************/
@@ -89,11 +88,14 @@ void init()
 /* ========================================================================= */
 
 int main(int argc, char**argv) {
-    char  default_filename[80] = PROJECT_NAME FILE_EXT;
-    char  default_filename_3ds[80] = PROJECT_NAME EXT_3DS FILE_EXT;
-    char* filename = default_filename;
-    char* filename_3ds = default_filename_3ds;
+    char  default_filename[80]          = PROJECT_NAME FILE_EXT;
+    char  default_filename_3ds[80]      = PROJECT_NAME EXT_3DS FILE_EXT;
+    char  default_filename_models[80]   = MODELE_FILE_NAME;
+    char* filename          = default_filename;
+    char* filename_3ds      = default_filename_3ds;
+    char* filename_models   = default_filename_models;
     int i, verbose = 0;
+    int nb3DSRandomObjects;
 
     for(i = 1; i < argc; ++i) {
         if(!strcmp("-v", argv[i])) {
@@ -113,10 +115,36 @@ int main(int argc, char**argv) {
         return -1;
     }
 
-    if(read_scene_file_3ds(g_scenes3DS, filename_3ds)) {
+    if(read_scene_file_3ds(g_scenes3DS, filename_3ds, &g_nbScenes3DS)) {
         printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename_3ds);
         return -1;
     }
+
+    for(i = 0; i < g_nbScenes3DS; ++i) {
+        printf("3DS Scene\n");
+        printf("Scene #%d\n", i);
+        printf("  libs3dsfile: %p\n", g_scenes3DS[i].lib3dsfile);
+        printf("  Scale    : %4.2f\n", g_scenes3DS[i].scale);
+        printf("  Translate: %4.2f %4.2f %4.2f\n", g_scenes3DS[i].translate[0], g_scenes3DS[i].translate[1], g_scenes3DS[i].translate[2]);
+        printf("  Rotate   : %4.2f %4.2f %4.2f\n", g_scenes3DS[i].rotate[0], g_scenes3DS[i].rotate[1], g_scenes3DS[i].rotate[2]);
+    }
+    if(load_3ds_models_and_randomize(g_scenes3DS, filename_models, &nb3DSRandomObjects)) {
+        printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename_models);
+        return -1;
+    }
+
+    // Add Random 3DS objects to the number of scenes.
+    g_nbScenes3DS += nb3DSRandomObjects;
+
+    for(i = 0; i < g_nbScenes3DS; ++i) {
+        printf("3DS Scene\n");
+        printf("Scene #%d\n", i);
+        printf("  libs3dsfile: %p\n", g_scenes3DS[i].lib3dsfile);
+        printf("  Scale    : %4.2f\n", g_scenes3DS[i].scale);
+        printf("  Translate: %4.2f %4.2f %4.2f\n", g_scenes3DS[i].translate[0], g_scenes3DS[i].translate[1], g_scenes3DS[i].translate[2]);
+        printf("  Rotate   : %4.2f %4.2f %4.2f\n", g_scenes3DS[i].rotate[0], g_scenes3DS[i].rotate[1], g_scenes3DS[i].rotate[2]);
+    }
+
 
     if(verbose) {
         print_scene_data(scene);

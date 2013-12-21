@@ -183,7 +183,7 @@ void dessine_scene() {
             // Objets definis dans un fichier 3DS
 
             // S'il n'y a plus rien a dessiner on arrete
-            if(g_current3DSScene >= NB_MAX_3DS_SCENE) {
+            if(g_current3DSScene >= NB_MAX_3DS_SCENES) {
                 break;
             }
                 

@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "scene.h"
 #include "SceneUtils.h"
@@ -429,7 +430,7 @@ void trim(char * s) {
     memmove(s, p, l + 1);
 }
 
-int read_scene_file_3ds(SCENE_3DS* scene,char *filename) {
+int read_scene_file_3ds(SCENE_3DS* scene, char *filename, int* out_nbScenes) {
     FILE *file;                        /* identificateur du fichier */
     int   i, line = 0;
     char  buffer[100];
@@ -498,18 +499,127 @@ int read_scene_file_3ds(SCENE_3DS* scene,char *filename) {
             , scene[scene3dsIdx].rotate[0], scene[scene3dsIdx].rotate[1], scene[scene3dsIdx].rotate[2]);
 
         // Load 3DS scene
-        if(scene3dsIdx >= NB_MAX_3DS_SCENE) {
+        if(scene3dsIdx >= NB_MAX_3DS_SCENES) {
             fprintf(stderr, "\007\nTrop de fichiers de scene 3DS.\n");
             return(-1);
         }
-        charge_scene3ds(filename3ds, &scene[scene3dsIdx].lib3dsfile);
 
-        ++scene3dsIdx;
+        if(charge_scene3ds(filename3ds, &scene[scene3dsIdx].lib3dsfile) != -1) {
+            ++scene3dsIdx;
+        }
     }
+
+    *out_nbScenes = scene3dsIdx;
 
     return 0;
 }
 
+/*
+ *
+ */
+int load_3ds_models_and_randomize(SCENE_3DS* models, char* filename, int* out_nbScenes) {
+    FILE *file;                        /* identificateur du fichier */
+    int   i;
+    char  buffer[100];
+    char* s;
+    char  filename3ds[100];
+    float scale         = 0.0f;
+    int   modele3DSIdx  = 0;
+    int   nbModeles3DS  = 0;
+    int   objectIndex   = g_nbScenes3DS;
+    int   nbObjects;
+    Lib3dsFile* tmp3DSLibFiles[NB_MAX_3DS_MODELS];
+    float       tmp3DSScale[NB_MAX_3DS_MODELS];
+    
+
+    printf("---------------------------------------------\n");
+    printf("--------  Random Objects Generation  -------- \n");
+    printf("---------------------------------------------\n");
+    
+    /*-----------------------------------------------------------------------*/
+    // First read the file and store a local save of models.
+
+    printf("Lecture du fichier %s\n", filename);
+
+    file = fopen(filename, "r");
+    if(!file) {
+        fprintf(stderr, "\007\nProbleme a l'ouverture du fichier %s\n", filename);
+        return -1;
+    }
+
+    while(!feof(file)) {
+        // Load new line
+        fgets(buffer, 100, file);
+        while(isspace(buffer[0]) || buffer[0] == '#') {
+            fgets(buffer, 100, file);
+        }
+        trim(buffer);
+        // Fill filename
+        strcpy(filename3ds, buffer);
+        trim(filename3ds);
+
+        // Load new line
+        fgets(buffer, 100, file);
+        while(isspace(buffer[0]) || buffer[0] == '#') {
+            fgets(buffer, 100, file);
+        }
+        // Fill Scale
+        tmp3DSScale[nbModeles3DS] = atof(buffer);
+        printf("SCALE = %4.2f\n", atof(buffer));
+
+        // Load 3DS scene
+        if(nbModeles3DS >= NB_MAX_3DS_MODELS) {
+            fprintf(stderr, "\007\nTrop de fichiers de scene 3DS.\n");
+            return -1;
+        }
+
+        if(charge_scene3ds(filename3ds, &tmp3DSLibFiles[nbModeles3DS]) != -1) {
+            ++nbModeles3DS;
+        }
+    }
+
+    /*-----------------------------------------------------------------------*/
+    // Now create a random number of objects using the models.
+    printf("---------------------------------------------\n");
+
+    // Number of random objects
+    /* initialize random seed: */
+    srand(time(NULL));
+    nbObjects = rand() % (NB_MAX_3DS_MODELS + 1 - NB_MIN_RANDOM_OBJECTS) + NB_MIN_RANDOM_OBJECTS;
+    printf("Number of generated objects : %d\n", nbObjects);
+
+    // Generate each object
+    for(i = 0; i < nbObjects; ++i) {
+        // Random Model
+        modele3DSIdx = rand() % nbModeles3DS;
+        // Copy the information of the model.
+        models[objectIndex].lib3dsfile = tmp3DSLibFiles[modele3DSIdx];
+        printf("\n->%p\n", g_scenes3DS[objectIndex].lib3dsfile);
+        models[objectIndex].scale      = tmp3DSScale[modele3DSIdx];
+        // Random translation
+        models[objectIndex].translate[0]   = rand() % (SCENE_X_MAX + 1 - SCENE_X_MIN) + SCENE_X_MIN;
+        models[objectIndex].translate[1]   = rand() % (SCENE_Y_MAX + 1 - SCENE_Y_MIN) + SCENE_Y_MIN;
+        models[objectIndex].translate[2]   = 0.0f;
+        // No rotation
+        models[objectIndex].rotate[0]      = 0.0f;
+        models[objectIndex].rotate[1]      = 0.0f;
+        models[objectIndex].rotate[2]      = 0.0f;
+        
+        printf("\n");
+        printf("Generated object [%d]: \n", objectIndex - g_nbScenes3DS);
+        printf("  Model    : %d\n", modele3DSIdx);
+        printf("  Scale    : %4.2f\n", models[objectIndex].scale);
+        printf("  Translate: %4.2f %4.2f %4.2f\n", models[objectIndex].translate[0], models[objectIndex].translate[1], models[objectIndex].translate[2]);
+        printf("  Rotate   : %4.2f %4.2f %4.2f\n", models[objectIndex].rotate[0], models[objectIndex].rotate[1], models[objectIndex].rotate[2]);
+
+        ++objectIndex;
+    }
+    printf("---------------------------------------------\n");
+
+    *out_nbScenes = nbObjects;
+
+    return 0;
+}
 
 /*-----------------------------------------------------------------------*/
 /* affichage des donnees */
