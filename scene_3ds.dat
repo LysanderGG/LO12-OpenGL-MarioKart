@@ -1,7 +1,13 @@
+# Kart 
 img/3d/kartMultipleSubObjects.3ds
+# Scale
 0.2
+# Translate
 10.0 10.0 7.0
+# Rotate
 0.0 0.0 45.0
+
+
 img/3d/tuyau.3ds
 0.1
 0.0 0.0 0.0

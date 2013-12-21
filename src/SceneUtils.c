@@ -452,27 +452,42 @@ int read_scene_file_3ds(SCENE_3DS* scene,char *filename) {
     }
 
     while(!feof(file)) {
-        // Load filename
+        // Load new line
         fgets(buffer, 100, file);
+        while(isspace(buffer[0]) || buffer[0] == '#') {
+            fgets(buffer, 100, file);
+        }
+        trim(buffer);
+        // Fill filename
         strcpy(filename3ds, buffer);
         trim(filename3ds);
 
-        // Load Scale
+        // Load new line
         fgets(buffer, 100, file);
+        while(isspace(buffer[0]) || buffer[0] == '#') {
+            fgets(buffer, 100, file);
+        }
+        // Fill Scale
         scene[scene3dsIdx].scale = atof(buffer);
 
-        // Load Translate
+        // Load new line
         fgets(buffer, 100, file);
-        trim(buffer);
+        while(isspace(buffer[0]) || buffer[0] == '#') {
+            fgets(buffer, 100, file);
+        }
+        // Fill Translate
         s = strtok(buffer, " ");
         for(i = 0; s != NULL; ++i) {
             scene[scene3dsIdx].translate[i] = atof(s);
             s = strtok(NULL, " ");
         }
 
-        // Load Rotate
+        // Load new line
         fgets(buffer, 100, file);
-        trim(buffer);
+        while(isspace(buffer[0]) || buffer[0] == '#') {
+            fgets(buffer, 100, file);
+        }
+        // Fill Rotate
         s = strtok(buffer, " ");
         for(i = 0; s != NULL; ++i) {
             scene[scene3dsIdx].rotate[i] = atof(s);
