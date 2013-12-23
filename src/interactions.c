@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "interactions.h"
 #include "animations.h"
-#include "scene.h"
-#include "observateur.h"
 #include "eclairage.h"
+#include "interactions.h"
+#include "observateur.h"
+#include "scene.h"
+#include "skybox.h"
 
 int g_currentObj = -1;
 int g_current3DSScene = 0;
@@ -14,6 +15,7 @@ EMouseButton g_mouseCurrentButton = NONE;
 int g_mousePreviousX = 0;
 int g_mousePreviousY = 0;
 int g_switchLight = 1;
+int g_dayTime = DAY;
 unsigned char g_eventList[EVENT_LIST_MAX_SIZE];
 unsigned int  g_eventListSize = 0;
 int           g_eventDirection = 1;
@@ -48,11 +50,20 @@ void callSpecialFunc(int key, int x, int y) {
             g_switchLight ^= 1;
             break;
         case GLUT_KEY_F9: /* turn on or off infinite light */
-            setLight(GL_LIGHT0);
+            if(g_dayTime == DAY) {
+                g_dayTime = NIGHT;
+                charger_skybox(NIGHT);
+                turnOnLight(GL_LIGHT0);
+            }
+            else if(g_dayTime == NIGHT) {
+                g_dayTime = DAY;
+                charger_skybox(DAY);
+                turnOffLight(GL_LIGHT0);
+            }
             break;
         case GLUT_KEY_F11: /* turn on or off kart's lights */
-            setLight(g_scenes3DS[KART_ID].lights[0]);
-            setLight(g_scenes3DS[KART_ID].lights[1]);
+            switchLight(g_scenes3DS[KART_ID].lights[0]);
+            switchLight(g_scenes3DS[KART_ID].lights[1]);
             break;
     }
 

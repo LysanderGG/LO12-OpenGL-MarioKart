@@ -311,7 +311,7 @@ void def3DSSources(SCENE_3DS* scene3ds) {
             pos[0] = pos[0]*cos(scene3ds[iScene].rotate[2]) -pos[0]*sin(scene3ds[iScene].rotate[2]);
             pos[1] = pos[1]*sin(scene3ds[iScene].rotate[2]) - pos[1]*cos(scene3ds[iScene].rotate[2]);*/
 
-            printf("light position %f, %f, %f \n", pos[0], pos[1], pos[2]);
+            //printf("light position %f, %f, %f \n", pos[0], pos[1], pos[2]);
 
             glLightfv(scene3ds[iScene].lights[iLight], GL_DIFFUSE, diff);
 	        glLightfv(scene3ds[iScene].lights[iLight], GL_POSITION, pos);
@@ -335,7 +335,7 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                 tar[1] = tar[1]*sin(angle) - tar[1]*cos(angle);
                 */
 
-                printf("light target %f, %f, %f \n", tar[0], tar[1], tar[2]);
+                //printf("light target %f, %f, %f \n", tar[0], tar[1], tar[2]);
 
                 glLightfv(scene3ds[iScene].lights[iLight], GL_SPOT_DIRECTION, pos);
 
@@ -377,9 +377,17 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
     glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
 }
 
-void setLight(GLuint light) {
+void switchLight(GLuint light) {
     if(glIsEnabled(light))
         glDisable(light);
     else
         glEnable(light);
+}
+
+void turnOnLight(GLuint light){
+    glEnable(light);
+}
+
+void turnOffLight(GLuint light){
+    glDisable(light);
 }

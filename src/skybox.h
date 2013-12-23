@@ -1,9 +1,11 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#define GL_TEXTURE_CUBE_MAP_ARB    0x8513
+#define DAY 0
+#define NIGHT 1
 
-int charger_skybox();
+
+int charger_skybox(int choix);
 void dessine_box();
 
 #endif

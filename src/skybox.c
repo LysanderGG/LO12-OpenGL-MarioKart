@@ -36,32 +36,30 @@ void calcul_pos_cam() {
 }
 
 //*****************************************************************************************************************************
-int charger_skybox(void) {
+int charger_skybox(int choix) {
     int i;
     MTEX *texture = (MTEX *)malloc(6*sizeof(MTEX));
     textureBox = (GLuint *)malloc(6*sizeof(GLuint));
     glGenTextures(6, textureBox);
 
-    /*texture[0].filename = "img/XN.png";
-    texture[1].filename = "img/XP.png";
-    texture[2].filename = "img/YN.png";
-    texture[3].filename = "img/YP.png";
-    texture[4].filename = "img/ZN.png";
-    texture[5].filename = "img/ZP.png";*/
-
-    texture[0].filename = "img/light/XN.png";
-    texture[1].filename = "img/light/XP.png";
-    texture[2].filename = "img/light/YN.png";
-    texture[3].filename = "img/light/YP.png";
-    texture[4].filename = "img/light/ZN.png";
-    texture[5].filename = "img/light/ZP.png";
-
-    /*texture[0].filename = "img/dark/XN.png";
-    texture[1].filename = "img/dark/XP.png";
-    texture[2].filename = "img/dark/YN.png";
-    texture[3].filename = "img/dark/YP.png";
-    texture[4].filename = "img/dark/ZN.png";
-    texture[5].filename = "img/dark/ZP.png";*/
+    if(choix == DAY) {
+        texture[0].filename = "img/light/XN.png";
+        texture[1].filename = "img/light/XP.png";
+        texture[2].filename = "img/light/YN.png";
+        texture[3].filename = "img/light/YP.png";
+        texture[4].filename = "img/light/ZN.png";
+        texture[5].filename = "img/light/ZP.png";
+        printf("light\n");
+    }
+    else if(choix == NIGHT) {
+        printf("night\n");
+        texture[0].filename = "img/dark/XN.png";
+        texture[1].filename = "img/dark/XP.png";
+        texture[2].filename = "img/dark/YN.png";
+        texture[3].filename = "img/dark/YP.png";
+        texture[4].filename = "img/dark/ZN.png";
+        texture[5].filename = "img/dark/ZP.png";
+    }
     
     for(i = 0; i < 6; ++i) {
         if(ReadPNGFromFile(&texture[i])) {

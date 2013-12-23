@@ -33,16 +33,16 @@
     #include <GL/glu.h>
 #endif
 
-#include "eclairage.h"
-#include "scene.h"
-#include "SceneUtils.h"
 #include "affiche.h"
-#include "observateur.h"
 #include "animations.h"
+#include "eclairage.h"
 #include "interactions.h"
-#include "texture.h"
+#include "observateur.h"
 #include "scene3ds.h"
 #include "skybox.h"
+#include "scene.h"
+#include "SceneUtils.h"
+#include "texture.h"
 
 //**************//
 //DEFINITIONS : //
@@ -82,7 +82,7 @@ void init()
     def_modele(scene);
     
     loadTextures();
-    charger_skybox();
+    charger_skybox(DAY);
 }
 
 /* ========================================================================= */
