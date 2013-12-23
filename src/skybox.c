@@ -42,12 +42,19 @@ int charger_skybox(void) {
     textureBox = (GLuint *)malloc(6*sizeof(GLuint));
     glGenTextures(6, textureBox);
 
-    texture[0].filename = "img/XN.png";
+    /*texture[0].filename = "img/XN.png";
     texture[1].filename = "img/XP.png";
     texture[2].filename = "img/YN.png";
     texture[3].filename = "img/YP.png";
     texture[4].filename = "img/ZN.png";
-    texture[5].filename = "img/ZP.png";
+    texture[5].filename = "img/ZP.png";*/
+
+    texture[0].filename = "img/light/XN.png";
+    texture[1].filename = "img/light/XP.png";
+    texture[2].filename = "img/light/YN.png";
+    texture[3].filename = "img/light/YP.png";
+    texture[4].filename = "img/light/ZN.png";
+    texture[5].filename = "img/light/ZP.png";
     
     for(i = 0; i < 6; ++i) {
         if(ReadPNGFromFile(&texture[i])) {
