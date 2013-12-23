@@ -55,6 +55,13 @@ int charger_skybox(void) {
     texture[3].filename = "img/light/YP.png";
     texture[4].filename = "img/light/ZN.png";
     texture[5].filename = "img/light/ZP.png";
+
+    /*texture[0].filename = "img/dark/XN.png";
+    texture[1].filename = "img/dark/XP.png";
+    texture[2].filename = "img/dark/YN.png";
+    texture[3].filename = "img/dark/YP.png";
+    texture[4].filename = "img/dark/ZN.png";
+    texture[5].filename = "img/dark/ZP.png";*/
     
     for(i = 0; i < 6; ++i) {
         if(ReadPNGFromFile(&texture[i])) {
