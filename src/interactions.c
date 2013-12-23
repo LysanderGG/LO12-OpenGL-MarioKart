@@ -5,6 +5,7 @@
 #include "animations.h"
 #include "scene.h"
 #include "observateur.h"
+#include "eclairage.h"
 
 int g_currentObj = -1;
 int g_current3DSScene = 0;
@@ -45,6 +46,13 @@ void callSpecialFunc(int key, int x, int y) {
             break;
         case GLUT_KEY_F8: /* switch lighting */
             g_switchLight ^= 1;
+            break;
+        case GLUT_KEY_F9: /* turn on or off infinite light */
+            setLight(GL_LIGHT0);
+            break;
+        case GLUT_KEY_F11: /* turn on or off kart's lights */
+            setLight(g_scenes3DS[KART_ID].lights[0]);
+            setLight(g_scenes3DS[KART_ID].lights[1]);
             break;
     }
 

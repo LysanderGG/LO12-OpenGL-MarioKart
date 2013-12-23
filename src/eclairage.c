@@ -33,6 +33,7 @@
 #include "scene.h"
 
 extern SCENE* scene;
+GLuint g_nextLight = GL_LIGHT0;
 
 // Prototypes
 void calcule_normale(SCENE *scene, int i);
@@ -165,9 +166,10 @@ void def_sources(SCENE *scene) {
     MCOORDF propp;
     GLenum source;
     int i = 0;
-
+    g_nextLight = GL_LIGHT0;
     for(i = 0; i < scene->nbsource; ++i) {
-        source = lumiere_i(i);
+        source = g_nextLight;
+        ++g_nextLight;
 
         if(scene->tabsource[i].allume) {
             rgb2rgbaf(&scene->tabsource[i].ambiante, 1, &propc);
@@ -185,6 +187,26 @@ void def_sources(SCENE *scene) {
 
             mcoord2mcoordf(&scene->tabsource[i].direction, &propp);
             glLightfv(source,GL_SPOT_DIRECTION,propp.vect);
+
+            /*glDisable(GL_LIGHTING);
+            glBegin(GL_POINT);
+            glColor3f(1.0f, .0f, .0f);
+            glPointSize(50.0);
+            glVertex3f(scene->tabsource[i].position.x,
+                        scene->tabsource[i].position.y,
+                        scene->tabsource[i].position.z);
+            glEnd();
+
+            glBegin(GL_LINES);
+            glVertex3f(scene->tabsource[i].position.x,
+                        scene->tabsource[i].position.y,
+                        scene->tabsource[i].position.z);
+
+            glVertex3f(scene->tabsource[i].direction.x,
+                        scene->tabsource[i].direction.y,
+                        scene->tabsource[i].direction.z);
+            glEnd();
+            glEnable(GL_LIGHTING);*/
 
             glEnable(source);
         } else {
@@ -254,6 +276,87 @@ void def_selectedMatiere(SCENE *scene, int i) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+void def3DSSources(SCENE_3DS* scene3ds) {
+    Lib3dsLight* light;
+    GLfloat diff[4];
+    GLfloat amb[4];
+    GLfloat pos[4];
+    GLfloat tar[4];
+    float angle;
+    int j;
+    int iScene;
+    int iLight;
+
+    for(iScene = 0; iScene < NB_MAX_3DS_SCENES && scene3ds[iScene].lib3dsfile != NULL; ++iScene) {
+        for(iLight = 0; iLight < scene3ds[iScene].lib3dsfile->nlights; ++iLight) {
+            light = scene3ds[iScene].lib3dsfile->lights[iLight];
+            scene3ds[iScene].lights[iLight] = g_nextLight;
+            ++g_nextLight;
+
+	        for(j = 0; j < 3; ++j) {
+		        diff[j] = light->color[j];
+		        amb[j] = light->color[j] / 4.5;
+                pos[j] = light->position[j] * scene3ds[iScene].scale + scene3ds[iScene].translate[j];
+	        }
+	        diff[3] = amb[3] = pos[3] = 1.0;
+
+           /*bullshit
+            angle = scene3ds[iScene].rotate[0]*3.14/360;
+            pos[1] = pos[1]*cos(scene3ds[iScene].rotate[0]) - pos[1]*sin(scene3ds[iScene].rotate[0]);
+            pos[2] = pos[2]*sin(scene3ds[iScene].rotate[0]) + pos[2]*cos(scene3ds[iScene].rotate[0]);
+            angle = scene3ds[iScene].rotate[1]*3.14/360;
+            pos[0] = pos[0]*cos(scene3ds[iScene].rotate[1]) + pos[0]*sin(scene3ds[iScene].rotate[1]);
+            pos[2] = -pos[2]*sin(scene3ds[iScene].rotate[1]) + pos[2]*cos(scene3ds[iScene].rotate[1]);
+            angle = scene3ds[iScene].rotate[2]*3.14/360;
+            pos[0] = pos[0]*cos(scene3ds[iScene].rotate[2]) -pos[0]*sin(scene3ds[iScene].rotate[2]);
+            pos[1] = pos[1]*sin(scene3ds[iScene].rotate[2]) - pos[1]*cos(scene3ds[iScene].rotate[2]);*/
+
+            printf("light position %f, %f, %f \n", pos[0], pos[1], pos[2]);
+
+            glLightfv(scene3ds[iScene].lights[iLight], GL_DIFFUSE, diff);
+	        glLightfv(scene3ds[iScene].lights[iLight], GL_POSITION, pos);
+	        glLightfv(scene3ds[iScene].lights[iLight], GL_AMBIENT, amb);
+	        glLightfv(scene3ds[iScene].lights[iLight], GL_SPECULAR, diff);
+
+            if(light->spot_light) {
+		        for(j = 0;j < 3;j++)
+			        tar[j] = light->target[j]* scene3ds[iScene].scale + scene3ds[iScene].translate[j];
+                tar[3] = 1.0;
+
+                /* bullshit
+                angle = scene3ds[iScene].rotate[0]*3.14/360;
+                tar[1] = tar[1]*cos(angle) - tar[1]*sin(angle);
+                tar[2] = tar[2]*sin(angle) + tar[2]*cos(angle);
+                angle = scene3ds[iScene].rotate[1]*3.14/360;
+                tar[0] = tar[0]*cos(angle) + tar[0]*sin(angle);
+                tar[2] = -tar[2]*sin(angle) + tar[2]*cos(angle);
+                angle = scene3ds[iScene].rotate[2]*3.14/360;
+                tar[0] = tar[0]*cos(angle) -tar[0]*sin(angle);
+                tar[1] = tar[1]*sin(angle) - tar[1]*cos(angle);
+                */
+
+                printf("light target %f, %f, %f \n", tar[0], tar[1], tar[2]);
+
+                glLightfv(scene3ds[iScene].lights[iLight], GL_SPOT_DIRECTION, pos);
+
+                glDisable(GL_LIGHTING);
+                glBegin(GL_POINT);
+                glColor3f(0.0f, 0.0f, 1.0f);
+                glPointSize(50.0);
+                glVertex3f(pos[0], pos[1], pos[2]);
+                glEnd();
+
+                glBegin(GL_LINES);
+                glColor3f(0.0f, 1.0f, 1.0f);
+                glVertex3f(tar[0], tar[1], tar[2]);
+                glVertex3f(light->target[0], light->target[1], light->target[2]);
+                glEnd();
+                glEnable(GL_LIGHTING);
+	        }
+        }
+    }
+}
+
 void def3DSMatiere(Lib3dsFile* scene3ds, int i) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, scene3ds->materials[i]->ambient);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, scene3ds->materials[i]->diffuse);
@@ -272,4 +375,11 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, propc.rgba);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, propc.rgba);
     glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
+}
+
+void setLight(GLuint light) {
+    if(glIsEnabled(light))
+        glDisable(light);
+    else
+        glEnable(light);
 }

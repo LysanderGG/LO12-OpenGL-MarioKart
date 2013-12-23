@@ -162,6 +162,7 @@ void dessine_scene() {
 
     calcule_normales(scene); // A optimiser peut etre
     def_sources(scene);
+    def3DSSources(g_scenes3DS);
 
     i = 0;
     while(i < getTotalNbObjects()) {

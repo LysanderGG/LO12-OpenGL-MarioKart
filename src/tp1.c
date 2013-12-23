@@ -124,6 +124,7 @@ int main(int argc, char**argv) {
         printf("3DS Scene\n");
         printf("Scene #%d\n", i);
         printf("  libs3dsfile: %p\n", g_scenes3DS[i].lib3dsfile);
+        printf("  lights   : %x %x\n", g_scenes3DS[i].lights[0], g_scenes3DS[i].lights[1]);
         printf("  Scale    : %4.2f\n", g_scenes3DS[i].scale);
         printf("  Translate: %4.2f %4.2f %4.2f\n", g_scenes3DS[i].translate[0], g_scenes3DS[i].translate[1], g_scenes3DS[i].translate[2]);
         printf("  Rotate   : %4.2f %4.2f %4.2f\n", g_scenes3DS[i].rotate[0], g_scenes3DS[i].rotate[1], g_scenes3DS[i].rotate[2]);
@@ -140,11 +141,11 @@ int main(int argc, char**argv) {
         printf("3DS Scene\n");
         printf("Scene #%d\n", i);
         printf("  libs3dsfile: %p\n", g_scenes3DS[i].lib3dsfile);
+        printf("  lights   : %x %x\n", g_scenes3DS[i].lights[0], g_scenes3DS[i].lights[1]);
         printf("  Scale    : %4.2f\n", g_scenes3DS[i].scale);
         printf("  Translate: %4.2f %4.2f %4.2f\n", g_scenes3DS[i].translate[0], g_scenes3DS[i].translate[1], g_scenes3DS[i].translate[2]);
         printf("  Rotate   : %4.2f %4.2f %4.2f\n", g_scenes3DS[i].rotate[0], g_scenes3DS[i].rotate[1], g_scenes3DS[i].rotate[2]);
     }
-
 
     if(verbose) {
         print_scene_data(scene);

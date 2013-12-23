@@ -5,7 +5,7 @@
 3	#nb de matieres #
 13	#nb de faces  #
 2	#nb objets#
-2	#nb de sources de lumiere #
+0	#nb de sources de lumiere #
 ##DEFINITON DES FICHIERS DE TEXTURE##
 img/bois.png
 img/caisse.png
@@ -182,13 +182,6 @@ img/img1.png
 #<source 0>#
 0.5	0.5	0.5		#couleur ambiante
 1.0	1.0	1.0		#couleur source
-0.0	0.0	4.0	1.0	#position initiale
+1.0	0.0	50.0	1.0	#position initiale
 1.0	40.0			#allure du faisceau
 0.0	0.0	-1.0		#direction du faisceau
-
-#<source 1>#
-0.2	0.2	0.2		#couleur ambiante
-1.0	1.0	1.0		#couleur source
-7.0	0.0	0.0	1.0	#position initiale
-1.0	70.0			#allure du faisceau
--1.0	0.0	0.0		#direction du faisceau
