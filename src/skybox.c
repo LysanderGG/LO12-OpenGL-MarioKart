@@ -49,10 +49,8 @@ int charger_skybox(int choix) {
         texture[3].filename = "img/light/YP.png";
         texture[4].filename = "img/light/ZN.png";
         texture[5].filename = "img/light/ZP.png";
-        printf("light\n");
     }
     else if(choix == NIGHT) {
-        printf("night\n");
         texture[0].filename = "img/dark/XN.png";
         texture[1].filename = "img/dark/XP.png";
         texture[2].filename = "img/dark/YN.png";
