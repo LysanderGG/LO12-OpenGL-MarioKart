@@ -63,7 +63,7 @@ void init()
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90,1.0,0.1,100) ;
+    gluPerspective(90,1.0,0.1,100);
 
     initView();
 

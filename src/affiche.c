@@ -46,6 +46,7 @@
 #include "skybox.h"
 
 extern SCENE* scene;
+extern GLuint g_nextLight;
 
 /*******************************************************************************/
 /*            Fonctions pour afficher le contenu de la structure scene            */
@@ -161,6 +162,7 @@ void dessine_scene() {
     dessine_repere();
 
     calcule_normales(scene); // A optimiser peut etre
+    g_nextLight = GL_LIGHT0;
     def_sources(scene);
     def3DSSources(g_scenes3DS);
 

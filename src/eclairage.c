@@ -106,46 +106,6 @@ void calcule_normale(SCENE *scene, int i) {
     normalise(&scene->tabface[i].n);
 }
 
-
-/**********************************************************************/
-GLenum lumiere_i(int i) {
-    GLenum source;
-    switch (i) {
-    case 0:
-        source = GL_LIGHT0;
-        break;
-    case 1:
-        source = GL_LIGHT1;
-        break;
-    case 2:
-        source = GL_LIGHT2;
-        break;
-    case 3:
-        source = GL_LIGHT3;
-        break;
-    case 4:
-        source = GL_LIGHT4;
-        break;
-    case 5:
-        source = GL_LIGHT5;
-        break;
-    case 6:
-        source = GL_LIGHT6;
-        break;
-    case 7:
-        source = GL_LIGHT7;
-        break;
-    }
-
-    if(i <= 7)
-        return(source);
-    else {
-        printf("Attention: nombre de sources lumineuses depasse\n");
-        return ((GLenum)GL_LIGHT7);
-    }
-}
-
-
 void rgb2rgbaf(RGB *rgb, GLfloat alpha, RGBAF *rgbaf) {
     rgbaf->r = rgb->r;
     rgbaf->g = rgb->g;
@@ -166,7 +126,7 @@ void def_sources(SCENE *scene) {
     MCOORDF propp;
     GLenum source;
     int i = 0;
-    g_nextLight = GL_LIGHT0;
+    
     for(i = 0; i < scene->nbsource; ++i) {
         source = g_nextLight;
         ++g_nextLight;
@@ -188,7 +148,7 @@ void def_sources(SCENE *scene) {
             mcoord2mcoordf(&scene->tabsource[i].direction, &propp);
             glLightfv(source,GL_SPOT_DIRECTION,propp.vect);
 
-            /*glDisable(GL_LIGHTING);
+            glDisable(GL_LIGHTING);
             glBegin(GL_POINT);
             glColor3f(1.0f, .0f, .0f);
             glPointSize(50.0);
@@ -206,7 +166,7 @@ void def_sources(SCENE *scene) {
                         scene->tabsource[i].direction.y,
                         scene->tabsource[i].direction.z);
             glEnd();
-            glEnable(GL_LIGHTING);*/
+            glEnable(GL_LIGHTING);
 
             glEnable(source);
         } else {
@@ -282,6 +242,8 @@ void def3DSSources(SCENE_3DS* scene3ds) {
     GLfloat amb[4];
     GLfloat pos[4];
     GLfloat tar[4];
+    GLfloat attenuation[1];
+    GLfloat fallOff[1];
     float angle;
     int j;
     int iScene;
@@ -291,7 +253,6 @@ void def3DSSources(SCENE_3DS* scene3ds) {
         for(iLight = 0; iLight < scene3ds[iScene].lib3dsfile->nlights; ++iLight) {
             light = scene3ds[iScene].lib3dsfile->lights[iLight];
             scene3ds[iScene].lights[iLight] = g_nextLight;
-            ++g_nextLight;
 
 	        for(j = 0; j < 3; ++j) {
 		        diff[j] = light->color[j];
@@ -311,16 +272,15 @@ void def3DSSources(SCENE_3DS* scene3ds) {
             pos[0] = pos[0]*cos(scene3ds[iScene].rotate[2]) -pos[0]*sin(scene3ds[iScene].rotate[2]);
             pos[1] = pos[1]*sin(scene3ds[iScene].rotate[2]) - pos[1]*cos(scene3ds[iScene].rotate[2]);*/
 
-            //printf("light position %f, %f, %f \n", pos[0], pos[1], pos[2]);
+            //printf("light %d position %f, %f, %f \n", iLight, pos[0], pos[1], pos[2]);
 
-            glLightfv(scene3ds[iScene].lights[iLight], GL_DIFFUSE, diff);
-	        glLightfv(scene3ds[iScene].lights[iLight], GL_POSITION, pos);
-	        glLightfv(scene3ds[iScene].lights[iLight], GL_AMBIENT, amb);
-	        glLightfv(scene3ds[iScene].lights[iLight], GL_SPECULAR, diff);
+            glLightfv(g_nextLight, GL_DIFFUSE, diff);
+	        glLightfv(g_nextLight, GL_POSITION, pos);
+	        glLightfv(g_nextLight, GL_AMBIENT, amb);
 
             if(light->spot_light) {
-		        for(j = 0;j < 3;j++)
-			        tar[j] = light->target[j]* scene3ds[iScene].scale + scene3ds[iScene].translate[j];
+		        for(j = 0; j < 3; ++j)
+			        tar[j] = light->target[j] * scene3ds[iScene].scale + scene3ds[iScene].translate[j];
                 tar[3] = 1.0;
 
                 /* bullshit
@@ -335,9 +295,29 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                 tar[1] = tar[1]*sin(angle) - tar[1]*cos(angle);
                 */
 
-                //printf("light target %f, %f, %f \n", tar[0], tar[1], tar[2]);
+                //printf("light %d target %f, %f, %f \n", iLight, tar[0], tar[1], tar[2]);
 
-                glLightfv(scene3ds[iScene].lights[iLight], GL_SPOT_DIRECTION, pos);
+                glLightfv(g_nextLight, GL_SPOT_DIRECTION, pos);
+                fallOff[0] = light->falloff;
+                glLightfv(g_nextLight, GL_SPOT_CUTOFF, fallOff);
+                attenuation[0] = 0.0;
+                if(light->attenuation > 50.0)
+                    attenuation[0] = 50.0;
+                else
+                    attenuation[0] =  light->attenuation;
+
+                glLightfv(g_nextLight, GL_SPOT_EXPONENT, attenuation);
+
+                /*printf("name %s, diffuse %f %f %f, ambient %f %f %f, fallOff %f, attenuation %f\n",
+                    light->name,
+                    diff[0],
+                    diff[1],
+                    diff[2],
+                    amb[0],
+                    amb[1],
+                    amb[2],
+                    fallOff,
+                    attenuation);*/
 
                 glDisable(GL_LIGHTING);
                 glBegin(GL_POINT);
@@ -353,6 +333,7 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                 glEnd();
                 glEnable(GL_LIGHTING);
 	        }
+            ++g_nextLight;
         }
     }
 }
@@ -378,6 +359,7 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
 }
 
 void switchLight(GLuint light) {
+    printf("switch light %d", light);
     if(glIsEnabled(light))
         glDisable(light);
     else

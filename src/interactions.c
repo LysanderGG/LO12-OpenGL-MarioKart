@@ -46,6 +46,9 @@ void callSpecialFunc(int key, int x, int y) {
         case GLUT_KEY_DOWN:
             nodHead(OBS_NODING_HEAD);
             break;
+        case GLUT_KEY_F7:
+            switchLight(GL_LIGHT0);
+            break;
         case GLUT_KEY_F8: /* switch lighting */
             g_switchLight ^= 1;
             break;
@@ -53,12 +56,12 @@ void callSpecialFunc(int key, int x, int y) {
             if(g_dayTime == DAY) {
                 g_dayTime = NIGHT;
                 charger_skybox(NIGHT);
-                turnOnLight(GL_LIGHT0);
+                turnOffLight(GL_LIGHT0);
             }
             else if(g_dayTime == NIGHT) {
                 g_dayTime = DAY;
                 charger_skybox(DAY);
-                turnOffLight(GL_LIGHT0);
+                turnOnLight(GL_LIGHT0);
             }
             break;
         case GLUT_KEY_F11: /* turn on or off kart's lights */

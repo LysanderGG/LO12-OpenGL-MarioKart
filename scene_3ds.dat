@@ -5,7 +5,7 @@ img/3d/kartLight.3ds
 # Translate
 10.0 10.0 7.0
 # Rotate
-0.0 0.0 45.0
+0.0 0.0 0.0
 
 
 img/3d/tuyau.3ds
@@ -15,5 +15,5 @@ img/3d/tuyau.3ds
 
 img/3d/sand.3ds
 2
-0.0 0.0 0.0
+0.0 0.0 -2.0
 0.0 0.0 0.0
