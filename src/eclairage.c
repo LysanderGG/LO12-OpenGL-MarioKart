@@ -16,6 +16,8 @@
                 Romain HERAULT A2005-A2006
 */
 
+#define _USE_MATH_DEFINES
+
 #include <math.h>
 #include <stdio.h>
 
@@ -249,7 +251,8 @@ void def3DSSources(SCENE_3DS* scene3ds) {
     int iScene;
     int iLight;
 
-    for(iScene = 0; iScene < NB_MAX_3DS_SCENES && scene3ds[iScene].lib3dsfile != NULL; ++iScene) {
+
+    for(iScene = 0; iScene < g_nbScenes3DS && scene3ds[iScene].lib3dsfile != NULL; ++iScene) {
         for(iLight = 0; iLight < scene3ds[iScene].lib3dsfile->nlights; ++iLight) {
             light = scene3ds[iScene].lib3dsfile->lights[iLight];
             scene3ds[iScene].lights[iLight] = g_nextLight;
@@ -279,10 +282,9 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 	        glLightfv(g_nextLight, GL_AMBIENT, amb);
 
             if(light->spot_light) {
-		        for(j = 0; j < 3; ++j) {
+		        /*for(j = 0; j < 3; ++j) {
 			        tar[j] = light->target[j] * scene3ds[iScene].scale + scene3ds[iScene].translate[j];
-                }
-                tar[3] = 1.0;
+                }*/
 
                 /* bullshit
                 angle = scene3ds[iScene].rotate[0]*3.14/360;
@@ -290,11 +292,13 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                 tar[2] = tar[2]*sin(angle) + tar[2]*cos(angle);
                 angle = scene3ds[iScene].rotate[1]*3.14/360;
                 tar[0] = tar[0]*cos(angle) + tar[0]*sin(angle);
-                tar[2] = -tar[2]*sin(angle) + tar[2]*cos(angle);
-                angle = scene3ds[iScene].rotate[2]*3.14/360;
-                tar[0] = tar[0]*cos(angle) -tar[0]*sin(angle);
-                tar[1] = tar[1]*sin(angle) - tar[1]*cos(angle);
-                */
+                tar[2] = -tar[2]*sin(angle) + tar[2]*cos(angle);*/
+
+                angle = scene3ds[iScene].rotate[2] * M_PI / 180.0f;
+                tar[0] = cos(angle);
+                tar[1] = sin(angle);
+                tar[2] = 0.0f;
+                tar[3] = 1.0f;
 
                 //printf("light %d target %f, %f, %f \n", iLight, tar[0], tar[1], tar[2]);
 
@@ -332,6 +336,7 @@ void def3DSSources(SCENE_3DS* scene3ds) {
             ++g_nextLight;
         }
     }
+
 }
 
 void def3DSMatiere(Lib3dsFile* scene3ds, int i) {
