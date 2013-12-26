@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "affiche.h"
 #include "animations.h"
 #include "eclairage.h"
 #include "interactions.h"
@@ -63,10 +64,12 @@ void callSpecialFunc(int key, int x, int y) {
                 charger_skybox(DAY);
                 turnOnLight(GL_LIGHT0);
             }
+            redefineLights();
             break;
         case GLUT_KEY_F11: /* turn on or off kart's lights */
             switchLight(g_scenes3DS[KART_ID].lights[0]);
             switchLight(g_scenes3DS[KART_ID].lights[1]);
+            redefineLights();
             break;
     }
 

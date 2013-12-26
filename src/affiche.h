@@ -9,6 +9,7 @@ void dessine_scene();
 void dessine_repere();
 void reshape(int _w, int _h);
 void idleFunc();
+void redefineLights();
 
 #endif
 

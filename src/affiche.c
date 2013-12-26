@@ -162,10 +162,7 @@ void dessine_scene() {
     dessine_repere();
 
     calcule_normales(scene); // A optimiser peut etre
-    g_nextLight = GL_LIGHT0;
-    def_sources(scene);
-    def3DSSources(g_scenes3DS);
-
+    
     i = 0;
     while(i < getTotalNbObjects()) {
         //printf("-------------------\n");
@@ -258,4 +255,10 @@ void reshape(int _w, int _h) {
 void idleFunc() {
     Sleep(10);
     glutPostRedisplay();
+}
+
+void redefineLights() {
+    g_nextLight = GL_LIGHT0;
+    def_sources(scene);
+    def3DSSources(g_scenes3DS);
 }

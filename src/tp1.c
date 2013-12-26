@@ -83,6 +83,8 @@ void init()
     
     loadTextures();
     charger_skybox(DAY);
+
+    redefineLights();
 }
 
 /* ========================================================================= */
