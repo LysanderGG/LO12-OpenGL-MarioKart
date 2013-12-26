@@ -6,6 +6,7 @@
 #include "eclairage.h"
 #include "animations.h"
 #include "interactions.h"
+#include "Utils.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
         #include <GLUT/glut.h>
@@ -73,20 +74,24 @@ void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
 
-    if(g_isCurrentObject) {
-        def3DSSelectedMatiere(scene3ds, Obj->faces[iFace].material);
-    } else {
-        def3DSMatiere(scene3ds, Obj->faces[iFace].material);    
+    if(Obj->faces[iFace].material != -1) {
+        if(g_isCurrentObject) {
+            def3DSSelectedMatiere(scene3ds, Obj->faces[iFace].material);
+        } else {
+            def3DSMatiere(scene3ds, Obj->faces[iFace].material);    
+        }
     }
-    
+
     glBegin(GL_POLYGON);    
     for(i = 0; i < 3; ++i) {
         x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
         y = Obj->vertices[ Obj->faces[iFace].index[i] ][1];
         z = Obj->vertices[ Obj->faces[iFace].index[i] ][2];
-        texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
-        texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
-        glTexCoord2d(texx, texy);
+        if(Obj->texcos != NULL) {
+            texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
+            texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
+            glTexCoord2d(texx, texy);
+        }
         glVertex3d(x,y,z);
     }
     glEnd();
@@ -104,7 +109,7 @@ void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
     glRotated(scene3ds.rotate[0], 1, 0, 0);
     glRotated(scene3ds.rotate[1], 0, 1, 0);
     glRotated(scene3ds.rotate[2], 0, 0, 1);
-
+    
     // Scale
     glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
 

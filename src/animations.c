@@ -9,6 +9,20 @@
 #include "observateur.h"
 #include "scene3ds.h"
 
+int g_currentFrame = 0;
+int g_haltAnimation = 0;
+
+void animationTimer(int value) {
+  glutPostRedisplay();
+
+  if (g_haltAnimation != 0) {
+    printf("current frame %d\n", g_currentFrame);
+    lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, g_currentFrame);
+    g_currentFrame = (g_currentFrame + 1) % 100;
+
+    glutTimerFunc(10, animationTimer, 0);
+  }
+}
 
 void translate(OBJET* _obj, double _dx, double _dy, double _dz) {
     _obj->transfo[12] += _dx;

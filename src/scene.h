@@ -235,6 +235,7 @@ SCENE;
 //*********************//
 
 #define KART_ID                 0
+#define ANIMATED_KART_ID        1
 #define NB_MAX_3DS_SCENES       100
 #define NB_MAX_3DS_MODELS       10
 #define NB_MIN_RANDOM_OBJECTS   5

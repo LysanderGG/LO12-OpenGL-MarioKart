@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "skybox.h"
 
+extern int g_haltAnimation;
 int g_currentObj = -1;
 int g_current3DSScene = 0;
 int g_isCurrentObject = 0;
@@ -194,6 +195,11 @@ void handleKeyboardEvents() {
             case 'd':
             case 'D':
                 rotateKart(-ROTATING);
+                break;
+            case 'm':
+            case 'M':
+                g_haltAnimation ^= 1;
+                glutTimerFunc(10, animationTimer, 0);
                 break;
         }
     }

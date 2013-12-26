@@ -40,6 +40,7 @@
 #endif
 
 #include "affiche.h"
+#include "animations.h"
 #include "eclairage.h"
 #include "interactions.h"
 #include "scene3ds.h"
@@ -47,6 +48,7 @@
 
 extern SCENE* scene;
 extern GLuint g_nextLight;
+extern int g_haltAnimation;
 
 /*******************************************************************************/
 /*            Fonctions pour afficher le contenu de la structure scene            */
@@ -194,7 +196,7 @@ void dessine_scene() {
             }
 
             // Si on a dessine tous les objets de la scene 3DS, on passe a la prochaine scene
-            if(currentSceneObject == g_scenes3DS[g_current3DSScene].lib3dsfile->nmeshes ) {
+            if(currentSceneObject == g_scenes3DS[g_current3DSScene].lib3dsfile->nmeshes) {
                 currentSceneObject = 0;
                 ++g_current3DSScene;
                 continue;

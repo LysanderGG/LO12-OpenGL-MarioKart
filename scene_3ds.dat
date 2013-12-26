@@ -8,6 +8,16 @@ img/3d/kartLight.3ds
 0.0 0.0 0.0
 
 
+# Kart anime
+img/3d/animation.3ds
+# Scale
+1.0
+# Translate
+0.0 0.0 0.0
+# Rotate
+0.0 0.0 0.0
+
+
 img/3d/tuyau.3ds
 0.1
 0.0 0.0 0.0

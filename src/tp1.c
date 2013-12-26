@@ -171,6 +171,7 @@ int main(int argc, char**argv) {
     glutMotionFunc(callMotionFunc);
 
     init();
+    glutTimerFunc(10, animationTimer, 0);
     glutMainLoop();
     return 0;
 }
