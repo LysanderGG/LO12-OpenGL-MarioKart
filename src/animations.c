@@ -42,7 +42,6 @@ void moveKartForward(double _d) {
     g_scenes3DS[KART_ID].translate[2] += dz;
 
     recomputeView();
-    redefineLights();
 }
 
 /*
@@ -53,5 +52,4 @@ void rotateKart(double _a) {
     g_scenes3DS[KART_ID].rotate[2] = fmod(g_scenes3DS[KART_ID].rotate[2] + _a + 360, 360);
 
     recomputeView();
-    redefineLights();
 }

@@ -355,7 +355,7 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
 }
 
 void switchLight(GLuint light) {
-    printf("switch light %d", light);
+    printf("switch light %d\n", light);
     if(glIsEnabled(light)) {
         glDisable(light);
     } else {

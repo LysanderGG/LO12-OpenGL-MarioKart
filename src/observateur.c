@@ -5,6 +5,7 @@
 
 #include "observateur.h"
 
+#include "affiche.h"
 #include "Utils.h"
 #include "scene3ds.h"
 
@@ -88,6 +89,8 @@ void recomputeView() {
                  ,                       - g_scenes3DS[KART_ID].rotate[2] + g_kartLacet
             );
     }
+
+    redefineLights();
 }
 
 void rotateZ(double _az) {
