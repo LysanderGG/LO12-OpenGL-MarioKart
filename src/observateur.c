@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "observateur.h"
+
 #include "Utils.h"
 #include "scene3ds.h"
 

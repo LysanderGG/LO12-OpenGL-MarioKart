@@ -279,8 +279,9 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 	        glLightfv(g_nextLight, GL_AMBIENT, amb);
 
             if(light->spot_light) {
-		        for(j = 0; j < 3; ++j)
+		        for(j = 0; j < 3; ++j) {
 			        tar[j] = light->target[j] * scene3ds[iScene].scale + scene3ds[iScene].translate[j];
+                }
                 tar[3] = 1.0;
 
                 /* bullshit
@@ -301,10 +302,11 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                 fallOff[0] = light->falloff;
                 glLightfv(g_nextLight, GL_SPOT_CUTOFF, fallOff);
                 attenuation[0] = 0.0;
-                if(light->attenuation > 50.0)
+                if(light->attenuation > 50.0) {
                     attenuation[0] = 50.0;
-                else
+                } else {
                     attenuation[0] =  light->attenuation;
+                }
 
                 glLightfv(g_nextLight, GL_SPOT_EXPONENT, attenuation);
 
@@ -354,10 +356,11 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
 
 void switchLight(GLuint light) {
     printf("switch light %d", light);
-    if(glIsEnabled(light))
+    if(glIsEnabled(light)) {
         glDisable(light);
-    else
+    } else {
         glEnable(light);
+    }
 }
 
 void turnOnLight(GLuint light){
