@@ -297,7 +297,7 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 
                 //printf("light %d target %f, %f, %f \n", iLight, tar[0], tar[1], tar[2]);
 
-                glLightfv(g_nextLight, GL_SPOT_DIRECTION, pos);
+                glLightfv(g_nextLight, GL_SPOT_DIRECTION, tar);
                 fallOff[0] = light->falloff;
                 glLightfv(g_nextLight, GL_SPOT_CUTOFF, fallOff);
                 attenuation[0] = 0.0;
@@ -320,16 +320,10 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                     attenuation);*/
 
                 glDisable(GL_LIGHTING);
-                glBegin(GL_POINT);
-                glColor3f(0.0f, 0.0f, 1.0f);
-                glPointSize(50.0);
-                glVertex3f(pos[0], pos[1], pos[2]);
-                glEnd();
-
                 glBegin(GL_LINES);
                 glColor3f(0.0f, 1.0f, 1.0f);
+                glVertex3f(pos[0], pos[1], pos[2]);
                 glVertex3f(tar[0], tar[1], tar[2]);
-                glVertex3f(light->target[0], light->target[1], light->target[2]);
                 glEnd();
                 glEnable(GL_LIGHTING);
 	        }
