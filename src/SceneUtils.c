@@ -521,7 +521,6 @@ int load_3ds_models_and_randomize(SCENE_3DS* models, char* filename, int* out_nb
     FILE *file;                        /* identificateur du fichier */
     int   i;
     char  buffer[100];
-    char* s;
     char  filename3ds[100];
     float scale         = 0.0f;
     int   modele3DSIdx  = 0;
@@ -594,7 +593,6 @@ int load_3ds_models_and_randomize(SCENE_3DS* models, char* filename, int* out_nb
         modele3DSIdx = rand() % nbModeles3DS;
         // Copy the information of the model.
         models[objectIndex].lib3dsfile = tmp3DSLibFiles[modele3DSIdx];
-        printf("\n->%p\n", g_scenes3DS[objectIndex].lib3dsfile);
         models[objectIndex].scale      = tmp3DSScale[modele3DSIdx];
         // Random translation
         models[objectIndex].translate[0]   = rand() % (SCENE_X_MAX + 1 - SCENE_X_MIN) + SCENE_X_MIN;

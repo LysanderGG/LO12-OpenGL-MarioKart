@@ -49,10 +49,11 @@ void callSpecialFunc(int key, int x, int y) {
             nodHead(OBS_NODING_HEAD);
             break;
         case GLUT_KEY_F7:
-            if(scene->tabsource[0].allume == 0)
+            if(scene->tabsource[0].allume == 0) {
                 scene->tabsource[0].allume = 1;
-            else
+            } else {
                 scene->tabsource[0].allume = 0;
+            }
             break;
         case GLUT_KEY_F8: /* switch lighting */
             g_switchLight ^= 1;
