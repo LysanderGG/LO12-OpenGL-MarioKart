@@ -549,8 +549,8 @@ typedef struct Lib3dsFile {
     int                 nlights;                      
     Lib3dsLight**       lights;
     int                 meshes_size;
-    int                 nmeshes;                      
-    Lib3dsMesh**        meshes;                         
+    int                 nmeshes;
+    Lib3dsMesh**        meshes;
     Lib3dsNode*         nodes;
 } Lib3dsFile; 
 

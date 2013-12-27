@@ -264,17 +264,6 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 	        }
 	        diff[3] = amb[3] = pos[3] = 1.0;
 
-           /*bullshit
-            angle = scene3ds[iScene].rotate[0]*3.14/360;
-            pos[1] = pos[1]*cos(scene3ds[iScene].rotate[0]) - pos[1]*sin(scene3ds[iScene].rotate[0]);
-            pos[2] = pos[2]*sin(scene3ds[iScene].rotate[0]) + pos[2]*cos(scene3ds[iScene].rotate[0]);
-            angle = scene3ds[iScene].rotate[1]*3.14/360;
-            pos[0] = pos[0]*cos(scene3ds[iScene].rotate[1]) + pos[0]*sin(scene3ds[iScene].rotate[1]);
-            pos[2] = -pos[2]*sin(scene3ds[iScene].rotate[1]) + pos[2]*cos(scene3ds[iScene].rotate[1]);
-            angle = scene3ds[iScene].rotate[2]*3.14/360;
-            pos[0] = pos[0]*cos(scene3ds[iScene].rotate[2]) -pos[0]*sin(scene3ds[iScene].rotate[2]);
-            pos[1] = pos[1]*sin(scene3ds[iScene].rotate[2]) - pos[1]*cos(scene3ds[iScene].rotate[2]);*/
-
             //printf("light %d position %f, %f, %f \n", iLight, pos[0], pos[1], pos[2]);
 
             glLightfv(g_nextLight, GL_DIFFUSE, diff);
@@ -282,18 +271,6 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 	        glLightfv(g_nextLight, GL_AMBIENT, amb);
 
             if(light->spot_light) {
-		        /*for(j = 0; j < 3; ++j) {
-			        tar[j] = light->target[j] * scene3ds[iScene].scale + scene3ds[iScene].translate[j];
-                }*/
-
-                /* bullshit
-                angle = scene3ds[iScene].rotate[0]*3.14/360;
-                tar[1] = tar[1]*cos(angle) - tar[1]*sin(angle);
-                tar[2] = tar[2]*sin(angle) + tar[2]*cos(angle);
-                angle = scene3ds[iScene].rotate[1]*3.14/360;
-                tar[0] = tar[0]*cos(angle) + tar[0]*sin(angle);
-                tar[2] = -tar[2]*sin(angle) + tar[2]*cos(angle);*/
-
                 angle = scene3ds[iScene].rotate[2] * M_PI / 180.0f;
                 tar[0] = cos(angle);
                 tar[1] = sin(angle);

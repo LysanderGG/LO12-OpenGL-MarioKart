@@ -1,5 +1,6 @@
 #ifndef OBJ3DS_H
 #define OBJ3DS_H
+
 #include <3DS/lib3ds.h>
 #include "scene.h"
 

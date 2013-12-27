@@ -6,7 +6,6 @@
 #include "eclairage.h"
 #include "animations.h"
 #include "interactions.h"
-#include "Utils.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
         #include <GLUT/glut.h>
@@ -100,8 +99,9 @@ void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
 //***************************************************************************************
 void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
     int i;
-    glPushMatrix();
 
+    glPushMatrix();
+    
     // Translate
     glTranslated(scene3ds.translate[0], scene3ds.translate[1], scene3ds.translate[2]);
     
@@ -109,7 +109,7 @@ void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
     glRotated(scene3ds.rotate[0], 1, 0, 0);
     glRotated(scene3ds.rotate[1], 0, 1, 0);
     glRotated(scene3ds.rotate[2], 0, 0, 1);
-    
+
     // Scale
     glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
 
