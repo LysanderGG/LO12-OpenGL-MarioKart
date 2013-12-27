@@ -25,6 +25,9 @@ extern int g_mousePreviousX;
 extern int g_mousePreviousY;
 extern int g_switchLight;
 
+// debug variables
+extern int g_debugLights;
+
 void callKeyboardUpFunc(unsigned char key, int x, int y);
 void callKeyboardDownFunc(unsigned char key, int x, int y);
 void handleKeyboardEvents();

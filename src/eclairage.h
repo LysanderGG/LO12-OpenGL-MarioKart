@@ -22,4 +22,7 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i);
 void switchLight(GLuint light);
 void turnOnLight(GLuint light);
 void turnOffLight(GLuint light);
+
+void draw3DSLights(SCENE_3DS* scene3ds);
+
 #endif

@@ -197,6 +197,7 @@ void dessine_scene() {
 
             // Si on a dessine tous les objets de la scene 3DS, on passe a la prochaine scene
             if(currentSceneObject == g_scenes3DS[g_current3DSScene].lib3dsfile->nmeshes) {
+                // Passe a la scene suivante
                 currentSceneObject = 0;
                 ++g_current3DSScene;
                 continue;
@@ -209,6 +210,11 @@ void dessine_scene() {
             glPopMatrix();
         }
         ++i;
+    }
+
+    // Dessine les sources lumineuses
+    if(g_debugLights) {
+        draw3DSLights(g_scenes3DS);
     }
     
 

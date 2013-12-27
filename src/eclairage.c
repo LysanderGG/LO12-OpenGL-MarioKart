@@ -1,21 +1,3 @@
-/*
- 
-        Universite Technologique de Compiegne
-        
-        UV: LO12
-        
-        FICHIER: eclairage.c
- 
-        COMMENTAIRE:
-                Routines d'eclairage
- 
-        AUTEURS:
-                Veronique BERGE-CHERFAOUI
-                DG
-                Olivier BEZET  A2002-A2005
-                Romain HERAULT A2005-A2006
-*/
-
 #define _USE_MATH_DEFINES
 
 #include <math.h>
@@ -155,18 +137,18 @@ void def_sources(SCENE *scene) {
             glColor3f(1.0f, .0f, .0f);
             glPointSize(50.0);
             glVertex3f(scene->tabsource[i].position.x,
-                        scene->tabsource[i].position.y,
-                        scene->tabsource[i].position.z);
+                       scene->tabsource[i].position.y,
+                       scene->tabsource[i].position.z);
             glEnd();
 
             glBegin(GL_LINES);
             glVertex3f(scene->tabsource[i].position.x,
-                        scene->tabsource[i].position.y,
-                        scene->tabsource[i].position.z);
+                       scene->tabsource[i].position.y,
+                       scene->tabsource[i].position.z);
 
             glVertex3f(scene->tabsource[i].direction.x,
-                        scene->tabsource[i].direction.y,
-                        scene->tabsource[i].direction.z);
+                       scene->tabsource[i].direction.y,
+                       scene->tabsource[i].direction.z);
             glEnd();
             glEnable(GL_LIGHTING);
 
@@ -351,4 +333,6 @@ void turnOnLight(GLuint light){
 
 void turnOffLight(GLuint light){
     glDisable(light);
+}
+void draw3DSLights(SCENE_3DS* scene3ds) {
 }

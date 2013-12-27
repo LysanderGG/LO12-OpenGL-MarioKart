@@ -22,6 +22,9 @@ unsigned char g_eventList[EVENT_LIST_MAX_SIZE];
 unsigned int  g_eventListSize = 0;
 int           g_eventDirection = 1;
 
+// debug variables
+int g_debugLights = 1;
+
 void callSpecialFunc(int key, int x, int y) {
     int sens; /* sens positif ou negatif */
 
