@@ -144,8 +144,8 @@ void def_sources(SCENE *scene) {
             mcoord2mcoordf(&scene->tabsource[i].position, &propp);
             glLightfv(source,GL_POSITION,propp.vect);
 
-            glLightf(source,GL_SPOT_CUTOFF, scene->tabsource[i].allure_faisceau.theta);
             glLightf(source,GL_SPOT_EXPONENT, scene->tabsource[i].allure_faisceau.k);
+            glLightf(source,GL_SPOT_CUTOFF, scene->tabsource[i].allure_faisceau.theta);
 
             mcoord2mcoordf(&scene->tabsource[i].direction, &propp);
             glLightfv(source,GL_SPOT_DIRECTION,propp.vect);
@@ -289,7 +289,7 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                     attenuation[0] =  light->attenuation;
                 }
 
-                glLightfv(g_nextLight, GL_SPOT_EXPONENT, attenuation);
+                glLightfv(g_nextLight, GL_LINEAR_ATTENUATION, attenuation);
 
                 /*printf("name %s, diffuse %f %f %f, ambient %f %f %f, fallOff %f, attenuation %f\n",
                     light->name,

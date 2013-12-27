@@ -49,7 +49,10 @@ void callSpecialFunc(int key, int x, int y) {
             nodHead(OBS_NODING_HEAD);
             break;
         case GLUT_KEY_F7:
-            switchLight(GL_LIGHT0);
+            if(scene->tabsource[0].allume == 0)
+                scene->tabsource[0].allume = 1;
+            else
+                scene->tabsource[0].allume = 0;
             break;
         case GLUT_KEY_F8: /* switch lighting */
             g_switchLight ^= 1;
@@ -58,14 +61,14 @@ void callSpecialFunc(int key, int x, int y) {
             if(g_dayTime == DAY) {
                 g_dayTime = NIGHT;
                 charger_skybox(NIGHT);
-                turnOffLight(GL_LIGHT0);
+                scene->tabsource[0].allume = 0;
                 turnOnLight(g_scenes3DS[ANIMATED_KART_ID].lights[0]);
                 turnOnLight(g_scenes3DS[ANIMATED_KART_ID].lights[1]);
             }
             else if(g_dayTime == NIGHT) {
                 g_dayTime = DAY;
                 charger_skybox(DAY);
-                turnOnLight(GL_LIGHT0);
+                scene->tabsource[0].allume = 1;
                 turnOffLight(g_scenes3DS[ANIMATED_KART_ID].lights[0]);
                 turnOffLight(g_scenes3DS[ANIMATED_KART_ID].lights[1]);
             }

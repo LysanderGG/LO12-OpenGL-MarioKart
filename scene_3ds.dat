@@ -3,7 +3,7 @@ img/3d/kartLight.3ds
 # Scale
 0.2
 # Translate
-10.0 10.0 7.0
+0.0 -50.0 7.0
 # Rotate
 0.0 0.0 0.0
 
@@ -22,6 +22,7 @@ img/3d/tuyau.3ds
 0.1
 0.0 0.0 0.0
 0.0 0.0 0.0
+
 
 img/3d/sand.3ds
 2
