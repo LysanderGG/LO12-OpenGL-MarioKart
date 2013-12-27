@@ -59,11 +59,15 @@ void callSpecialFunc(int key, int x, int y) {
                 g_dayTime = NIGHT;
                 charger_skybox(NIGHT);
                 turnOffLight(GL_LIGHT0);
+                turnOnLight(g_scenes3DS[ANIMATED_KART_ID].lights[0]);
+                turnOnLight(g_scenes3DS[ANIMATED_KART_ID].lights[1]);
             }
             else if(g_dayTime == NIGHT) {
                 g_dayTime = DAY;
                 charger_skybox(DAY);
                 turnOnLight(GL_LIGHT0);
+                turnOffLight(g_scenes3DS[ANIMATED_KART_ID].lights[0]);
+                turnOffLight(g_scenes3DS[ANIMATED_KART_ID].lights[1]);
             }
             redefineLights();
             break;
