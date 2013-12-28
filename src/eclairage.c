@@ -27,48 +27,6 @@ void calcule_normale(SCENE *scene, int i);
 /*                         Mise en place de l'eclairage                        */
 /*******************************************************************************/
 
-/* -----------------------------------------------
-Cette fonction realise la norme euclidienne d'un
-vecteur v.
-On ne prend pas en compte la quatrieme composante.
------------------------------------------------ */
-
-GLdouble norme(MCOORD v) {
-    return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-}
-
-/* -----------------------------------------------
-Cette fonction realise le produit vectoriel de deux
-vecteurs
-  w = u ^ v
------------------------------------------------ */
-
-void prod_vectoriel(MCOORD u, MCOORD v, MCOORD *w) {
-    w->x = u.y * v.z - u.z * v.y;
-    w->y = u.x * v.z - u.z * v.x;
-    w->z = u.x * v.y - u.y * v.x;
-}
-
-void calcule_vecteur(MCOORD p1, MCOORD p2, MCOORD *v) {
-    v->x = p2.x - p1.x;
-    v->y = p2.y - p1.y;
-    v->z = p2.z - p1.z;
-}
-
-void normalise(MCOORD *v) {
-    GLdouble norm = norme(*v);
-    if(norm > 0.0000001) {
-        v->x /= norm;
-        v->y /= norm;
-        v->z /= norm;
-    } else {
-        v->x = 0.0;
-        v->y = 0.0;
-        v->z = 0.0;
-    }
-}
-
-/*****************************************************************************/
 void calcule_normales(SCENE *scene) {
     int i = 0;
     for(i = 0; i < scene->nbface; ++i) {

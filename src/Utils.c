@@ -1,5 +1,10 @@
 #include "Utils.h"
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+#include <stdio.h>
+
 void mat3dsToOpenGL(Lib3dsMatrix mat3ds, float* matGL) {
     matGL[0] = mat3ds[0][0];
     matGL[1] = mat3ds[1][0];
@@ -17,4 +22,101 @@ void mat3dsToOpenGL(Lib3dsMatrix mat3ds, float* matGL) {
     matGL[13] = mat3ds[1][3];
     matGL[14] = mat3ds[2][3];
     matGL[15] = mat3ds[3][3];
+}
+
+
+/* -----------------------------------------------
+Cette fonction realise la norme euclidienne d'un
+vecteur v.
+On ne prend pas en compte la quatrieme composante.
+----------------------------------------------- */
+
+GLdouble norme(MCOORD v) {
+    return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+/* -----------------------------------------------
+Cette fonction realise le produit vectoriel de deux
+vecteurs
+  w = u ^ v
+----------------------------------------------- */
+
+void prod_vectoriel(MCOORD u, MCOORD v, MCOORD *w) {
+    w->x = u.y * v.z - u.z * v.y;
+    w->y = u.x * v.z - u.z * v.x;
+    w->z = u.x * v.y - u.y * v.x;
+}
+
+void calcule_vecteur(MCOORD p1, MCOORD p2, MCOORD *v) {
+    v->x = p2.x - p1.x;
+    v->y = p2.y - p1.y;
+    v->z = p2.z - p1.z;
+}
+
+void normalise(MCOORD *v) {
+    GLdouble norm = norme(*v);
+    if(norm > 0.0000001) {
+        v->x /= norm;
+        v->y /= norm;
+        v->z /= norm;
+    } else {
+        v->x = 0.0;
+        v->y = 0.0;
+        v->z = 0.0;
+    }
+}
+
+// Matrix 4x4 format
+//
+// m0  m4  m8  m12
+// m1  m5  m9  m13
+// m2  m6  m10 m14 
+// m3  m7  m11 m15
+void getMatrix4x4Row(float* matrix4x4, float* out_row, int lineIdx) {
+    if(lineIdx < 0 || lineIdx > 3) {
+        return;
+    }
+
+    out_row[0] = matrix4x4[0  + lineIdx];
+    out_row[1] = matrix4x4[4  + lineIdx];
+    out_row[2] = matrix4x4[8  + lineIdx];
+    out_row[3] = matrix4x4[12 + lineIdx];
+
+    //printf("Row[%d] = { %4.2f, %4.2f, %4.2f, %4.2f }\n", lineIdx, out_row[0], out_row[1], out_row[2], out_row[3]);
+}
+
+// Matrix 4x4 format
+//
+// m0  m4  m8  m12
+// m1  m5  m9  m13
+// m2  m6  m10 m14 
+// m3  m7  m11 m15
+void matrix4x4Product(float* a, float* b, float* res) {
+    int i, j;
+
+    for(i = 0; i < 16; ++i) {
+        res[i] = a[0  + i%4] * b[0 + (int)floor(i/4.0) * 4] 
+               + a[4  + i%4] * b[1 + (int)floor(i/4.0) * 4]
+               + a[8  + i%4] * b[2 + (int)floor(i/4.0) * 4]
+               + a[12 + i%4] * b[3 + (int)floor(i/4.0) * 4];
+    }
+
+    /*
+    printf("A = {");
+    for(i = 0; i < 4; ++i) {
+        printf("{%4.2f,%4.2f,%4.2f,%4.2f},", a[0 + i], a[4 + i], a[8 + i], a[12 + i]);
+    }
+    printf("}\n");
+
+    printf("B =");
+    for(i = 0; i < 4; ++i) {
+        printf("{%4.2f,%4.2f,%4.2f,%4.2f},", b[0 + i], b[4 + i], b[8 + i], b[12 + i]);
+    }
+    printf("}\n");
+
+    printf("RES =");
+    for(i = 0; i < 4; ++i) {
+        printf("\t%4.2f %4.2f %4.2f %4.2f\n", res[0 + i], res[4 + i], res[8 + i], res[12 + i]);
+    }
+    */
 }
