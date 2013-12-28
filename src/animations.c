@@ -14,50 +14,56 @@ int g_currentFrame = 0;
 int g_haltAnimation = 0;
 
 void animationTimer(int value) {
-    GLfloat* matGL;
-    double angle;
+    FILE *f;
 
     if (g_haltAnimation != 0) {
-        printf("current frame pgm: %d, cru fr 3ds: %d\n", g_currentFrame, g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->current_frame);
-
-        //est cense charger la nouvelle matrice de transfo du pas suivant
         lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, g_currentFrame);
         g_currentFrame = (g_currentFrame + 1) % g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->frames;
 
-        matGL = (GLfloat*)malloc(16*sizeof(GLfloat));
-        mat3dsToOpenGL(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix, matGL);
-        g_scenes3DS[ANIMATED_KART_ID].translate[0] += matGL[12];
-        g_scenes3DS[ANIMATED_KART_ID].translate[1] += matGL[13];
-        g_scenes3DS[ANIMATED_KART_ID].translate[2] += matGL[14];
-
-        /*printf("matrice GL 0:%f, 1:%f, 2:%f, 3:%f\n\
-                4:%f, 5:%f, 6:%f, 7:%f\n\
-                8:%f, 9:%f, 10:%f, 11:%f\n\
-                12:%f, 13:%f, 14:%f, 15:%f\n\n",
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[0][0],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[1][0],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[2][0],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[3][0],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[0][1],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[1][1],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[2][1],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[3][1],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[0][2],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[1][2],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[2][2],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[3][2],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[0][3],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[1][3],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[2][3],
-                g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->meshes[0]->matrix[3][3]
-            );*/
-
-        angle = acos(matGL[0]);
-        moveKart(matGL[12], matGL[13], matGL[14]);
-        rotateKart(angle);
+        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->matrix[3][0];
+        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[1] = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->matrix[3][1];
+        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[2] = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->matrix[3][2];
+        /*if(g_currentFrame == 10) {
+            f = fopen("animation10.txt", "w");
+            if (f == NULL) {
+                printf("Error opening file!\n");
+                return;
+            }
+            fprintf(f, "frame %d\n", g_currentFrame);
+            writeNodeMatrix(f, g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes);
+            fclose(f);
+        }*/
 
         glutTimerFunc(10, animationTimer, 0);
     }
+}
+
+/**
+* write into the file f the transformation matrix
+* of the node root
+*/
+void writeNodeMatrix(FILE* f, Lib3dsNode* root) {
+    fprintf(f, "node %s \n", root->name);
+    fprintf(f, "0:%f, 1:%f, 2:%f, 3:%f\n4:%f, 5:%f, 6:%f, 7:%f\n8:%f, 9:%f, 10:%f, 11:%f\n12:%f, 13:%f, 14:%f, 15:%f\n\n",
+            root->matrix[0][0],
+            root->matrix[1][0],
+            root->matrix[2][0],
+            root->matrix[3][0],
+            root->matrix[0][1],
+            root->matrix[1][1],
+            root->matrix[2][1],
+            root->matrix[3][1],
+            root->matrix[0][2],
+            root->matrix[1][2],
+            root->matrix[2][2],
+            root->matrix[3][2],
+            root->matrix[0][3],
+            root->matrix[1][3],
+            root->matrix[2][3],
+            root->matrix[3][3]
+        );
+    if(root->next != 0)
+        writeNodeMatrix(f, root->next);
 }
 
 void translate(OBJET* _obj, double _dx, double _dy, double _dz) {
@@ -99,7 +105,6 @@ void moveKart(double _dx, double _dy, double _dz) {
     g_scenes3DS[ANIMATED_KART_ID].translate[0] += _dx;
     g_scenes3DS[ANIMATED_KART_ID].translate[1] += _dy;
     g_scenes3DS[ANIMATED_KART_ID].translate[2] += _dz;
-
     recomputeView();
 }
 

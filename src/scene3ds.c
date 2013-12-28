@@ -103,7 +103,9 @@ void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
     glPushMatrix();
     
     // Translate
-    glTranslated(scene3ds.translate[0], scene3ds.translate[1], scene3ds.translate[2]);
+    glTranslated(scene3ds.translate[0] + scene3ds.translateAnimation[0]*scene3ds.scale,
+                scene3ds.translate[1] + scene3ds.translateAnimation[1]*scene3ds.scale,
+                scene3ds.translate[2] + scene3ds.translateAnimation[2]*scene3ds.scale);
     
     // Rotate
     glRotated(scene3ds.rotate[0], 1, 0, 0);

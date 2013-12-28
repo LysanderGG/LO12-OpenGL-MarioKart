@@ -5,6 +5,7 @@
 #include "scene.h"
 
 void animationTimer(int value);
+void writeNodeMatrix(FILE* f, Lib3dsNode* root);
 
 void translate(OBJET* _obj, double _dx, double _dy, double _dz);
 void rotate(OBJET* _obj, double _ax, double _ay, double _az);
