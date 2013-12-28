@@ -14,15 +14,23 @@ int g_currentFrame = 0;
 int g_haltAnimation = 0;
 
 void animationTimer(int value) {
-    FILE *f;
+    Lib3dsNode* node;
+    //FILE *f;
 
     if (g_haltAnimation != 0) {
+        //printf("animation frame %d\n", g_currentFrame);
         lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, g_currentFrame);
         g_currentFrame = (g_currentFrame + 1) % g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->frames;
 
-        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->matrix[3][0];
-        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[1] = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->matrix[3][1];
-        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[2] = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->matrix[3][2];
+        if(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->name != "$$$DUMMY")
+            node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->next;
+        else
+            node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes;
+
+        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = node->matrix[3][0];
+        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[1] = node->matrix[3][1];
+        g_scenes3DS[ANIMATED_KART_ID].translateAnimation[2] = node->matrix[3][2];
+
         /*if(g_currentFrame == 10) {
             f = fopen("animation10.txt", "w");
             if (f == NULL) {
