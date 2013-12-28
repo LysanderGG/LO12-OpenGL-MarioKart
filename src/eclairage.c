@@ -339,9 +339,6 @@ void turnOffLight(GLuint light){
     glDisable(light);
 }
 
-//#define LEN 9.0f
-//#define PHI 15.0f * M_PI / 180.0f
-
 void draw3DSLights(SCENE_3DS* scene3ds) {
     Lib3dsLight* light;
     GLfloat pos[4];
@@ -350,7 +347,6 @@ void draw3DSLights(SCENE_3DS* scene3ds) {
     int j;
     int iScene;
     int iLight;
-    GLfloat m[16];
     float newX, newY;
     float v[3];
 
