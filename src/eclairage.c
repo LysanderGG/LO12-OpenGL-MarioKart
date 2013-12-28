@@ -232,6 +232,8 @@ void def3DSSources(SCENE_3DS* scene3ds) {
     int j;
     int iScene;
     int iLight;
+    float v[3];
+    float newX, newY;
 
 
     for(iScene = 0; iScene < g_nbScenes3DS && scene3ds[iScene].lib3dsfile != NULL; ++iScene) {
@@ -242,18 +244,28 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 	        for(j = 0; j < 3; ++j) {
 		        diff[j] = light->color[j];
 		        amb[j] = light->color[j] / 4.5;
-                pos[j] = light->position[j] * scene3ds[iScene].scale + scene3ds[iScene].translate[j];
+                // Vector from the kart center to the light source point.
+                v[j] = light->position[j] * scene3ds[iScene].scale;
 	        }
-	        diff[3] = amb[3] = pos[3] = 1.0;
+	        diff[3] = amb[3] = 1.0;
 
-            //printf("light %d position %f, %f, %f \n", iLight, pos[0], pos[1], pos[2]);
+            angle = scene3ds[iScene].rotate[2] * M_PI / 180.0f;
+
+             // Vector coordinates afer rotation
+            newX = v[0] * cos(angle) - v[1] * sin(angle);
+            newY = v[0] * sin(angle) + v[1] * cos(angle);
+
+            // Light source point position
+            pos[0] = newX + scene3ds[iScene].translate[0];
+            pos[1] = newY + scene3ds[iScene].translate[1];
+            pos[2] = v[2] + scene3ds[iScene].translate[2];
+            pos[3] = 1.0;
 
             glLightfv(g_nextLight, GL_DIFFUSE, diff);
 	        glLightfv(g_nextLight, GL_POSITION, pos);
 	        glLightfv(g_nextLight, GL_AMBIENT, amb);
 
             if(light->spot_light) {
-                angle = scene3ds[iScene].rotate[2] * M_PI / 180.0f;
                 tar[0] = cos(angle);
                 tar[1] = sin(angle);
                 tar[2] = 0.0f;
@@ -283,14 +295,6 @@ void def3DSSources(SCENE_3DS* scene3ds) {
                     amb[2],
                     fallOff,
                     attenuation);*/
-
-                glDisable(GL_LIGHTING);
-                glBegin(GL_LINES);
-                glColor3f(0.0f, 1.0f, 1.0f);
-                glVertex3f(pos[0], pos[1], pos[2]);
-                glVertex3f(tar[0], tar[1], tar[2]);
-                glEnd();
-                glEnable(GL_LIGHTING);
 	        }
             ++g_nextLight;
         }
@@ -334,5 +338,56 @@ void turnOnLight(GLuint light){
 void turnOffLight(GLuint light){
     glDisable(light);
 }
+
+//#define LEN 9.0f
+//#define PHI 15.0f * M_PI / 180.0f
+
 void draw3DSLights(SCENE_3DS* scene3ds) {
+    Lib3dsLight* light;
+    GLfloat pos[4];
+    GLfloat tar[4];
+    float angle;
+    int j;
+    int iScene;
+    int iLight;
+    GLfloat m[16];
+    float newX, newY;
+    float v[3];
+
+    for(iScene = 0; iScene < g_nbScenes3DS && scene3ds[iScene].lib3dsfile != NULL; ++iScene) {
+        for(iLight = 0; iLight < scene3ds[iScene].lib3dsfile->nlights; ++iLight) {
+            light = scene3ds[iScene].lib3dsfile->lights[iLight];
+
+            // Vector from the kart center to the light source point.
+            for(j = 0; j < 3; ++j) {
+                v[j] = light->position[j] * scene3ds[iScene].scale;
+	        }
+
+            if(light->spot_light) {
+                angle = scene3ds[iScene].rotate[2] * M_PI / 180.0f;
+                tar[0] = cos(angle);
+                tar[1] = sin(angle);
+                tar[2] = 0.0f;
+                tar[3] = 1.0f;
+
+                // Vector coordinates afer rotation
+                newX = v[0] * cos(angle) - v[1] * sin(angle);
+                newY = v[0] * sin(angle) + v[1] * cos(angle);
+
+                // Light source point position
+                pos[0] = newX + scene3ds[iScene].translate[0];
+                pos[1] = newY + scene3ds[iScene].translate[1];
+                pos[2] = v[2] + scene3ds[iScene].translate[2];
+                pos[3] = 1.0;
+
+                glDisable(GL_LIGHTING);
+                glBegin(GL_LINES);
+                glColor3f(0.0f, 1.0f, 1.0f);
+                glVertex3f(pos[0], pos[1], pos[2]);
+                glVertex3f(pos[0] + tar[0] * 5, pos[1] + tar[1] * 5, pos[2] + tar[2] * 5);
+                glEnd();
+                glEnable(GL_LIGHTING);
+	        }
+        }
+    }
 }
