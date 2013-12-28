@@ -146,22 +146,12 @@ void dessine_scene() {
     int i;  /* indice d'objet */
     int currentSceneObject = 0;
 
-    // First handles user inputs
-    handleKeyboardEvents();
-
     //printf("==============================\n");
     //printf("========= dessine_scene ======\n");
     //printf("==============================\n");
 
     // Reinitialisation des variables globales utilisee dans dessine_scene
     g_current3DSScene = 0;
-
-
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // efface l'ecran
-    
-    dessine_box();
-    dessine_repere();
 
     calcule_normales(scene); // A optimiser peut etre
     
@@ -210,13 +200,7 @@ void dessine_scene() {
             glPopMatrix();
         }
         ++i;
-    }
-
-    // Dessine les sources lumineuses
-    if(g_debugLights) {
-        draw3DSLights(g_scenes3DS);
-    }
-    
+    }   
 
     glutSwapBuffers();
 }
@@ -269,4 +253,50 @@ void redefineLights() {
     g_nextLight = GL_LIGHT0;
     def_sources(scene);
     def3DSSources(g_scenes3DS);
+}
+
+void draw2DText(char* str) {
+    unsigned int i;
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glRasterPos2f(-1.0f, 0.9f);
+    for(i = 0; i < strlen(str); ++i) {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i]);
+    }
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+}
+
+void draw() {
+    // First handles user inputs
+    handleKeyboardEvents();
+
+    // Clean screan
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    dessine_box();
+
+    if(g_debugRepere) {
+        dessine_repere();
+    }
+
+    // Dessine les sources lumineuses (vecteurs dans la direction de la source).
+    if(g_debugLights) {
+        draw3DSLights(g_scenes3DS);
+    }
+
+    dessine_scene();
+
 }

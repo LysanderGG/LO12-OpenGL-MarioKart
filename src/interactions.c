@@ -24,6 +24,7 @@ int           g_eventDirection = 1;
 
 // debug variables
 int g_debugLights = 1;
+int g_debugRepere = 1;
 
 void callSpecialFunc(int key, int x, int y) {
     int sens; /* sens positif ou negatif */

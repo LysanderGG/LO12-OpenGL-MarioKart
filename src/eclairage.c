@@ -331,11 +331,11 @@ void switchLight(GLuint light) {
     }
 }
 
-void turnOnLight(GLuint light){
+void turnOnLight(GLuint light) {
     glEnable(light);
 }
 
-void turnOffLight(GLuint light){
+void turnOffLight(GLuint light) {
     glDisable(light);
 }
 

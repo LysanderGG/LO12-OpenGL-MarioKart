@@ -27,6 +27,7 @@ extern int g_switchLight;
 
 // debug variables
 extern int g_debugLights;
+extern int g_debugRepere;
 
 void callKeyboardUpFunc(unsigned char key, int x, int y);
 void callKeyboardDownFunc(unsigned char key, int x, int y);

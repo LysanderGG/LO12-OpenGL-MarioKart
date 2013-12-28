@@ -19,6 +19,7 @@
 //******************//
 //Fichiers inclus : //
 //******************//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -57,8 +58,7 @@
 /*******************************************************************************/
 /*                      Initialisations pour GL et Glut                        */
 /*******************************************************************************/
-void init()
-{
+int init() {
     glEnable(GL_DEPTH_TEST | GL_LIGHTING);
 
     glMatrixMode(GL_PROJECTION);
@@ -85,6 +85,8 @@ void init()
     charger_skybox(DAY);
 
     redefineLights();
+
+    return 0;
 }
 
 /* ========================================================================= */
@@ -161,7 +163,7 @@ int main(int argc, char**argv) {
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);     /* mode rgb */
         
     glutCreateWindow("Mario Kart LO12");
-    glutDisplayFunc(dessine_scene);
+    glutDisplayFunc(draw);
     glutReshapeFunc(reshape);
     glutIdleFunc(idleFunc);
     glutSpecialFunc(callSpecialFunc);
@@ -170,7 +172,10 @@ int main(int argc, char**argv) {
     glutMouseFunc(callMouseFunc);
     glutMotionFunc(callMotionFunc);
 
-    init();
+    if(init() == -1) {
+        return -1;
+    }
+
     glutTimerFunc(10, animationTimer, 0);
     glutMainLoop();
     return 0;
