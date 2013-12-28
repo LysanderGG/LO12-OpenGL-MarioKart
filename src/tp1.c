@@ -1,20 +1,6 @@
-/*
- 
-    Universite Technologique de Compiegne
-        
-    UV: LO12
-        
-    FICHIER: tp1.c
- 
-    COMMENTAIRE:
-            Fichier principal
-            Interface OpenGL (GLUT, GLU, GL)
- 
-    AUTEURS:
-            Veronique BERGE-CHERFAOUI
-            Olivier BEZET  A2002-A2005
-            Romain HERAULT A2005-A2006
-*/
+#ifdef WIN32
+    #pragma warning( disable : 4996 )
+#endif
 
 //******************//
 //Fichiers inclus : //
@@ -24,6 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "shadow.h"
+
+#include "GLee/GLee.h" //GL header file, including extensions
 #if defined(__APPLE__) && defined(__MACH__)
     #include <GLUT/glut.h>
     #include <OpenGL/gl.h>
@@ -59,6 +48,10 @@
 /*                      Initialisations pour GL et Glut                        */
 /*******************************************************************************/
 int init() {
+    if(initShadow() == -1) {
+        return -1;
+    }
+
     glEnable(GL_DEPTH_TEST | GL_LIGHTING);
 
     glMatrixMode(GL_PROJECTION);
@@ -85,6 +78,8 @@ int init() {
     charger_skybox(DAY);
 
     redefineLights();
+
+    
 
     return 0;
 }
@@ -156,13 +151,14 @@ int main(int argc, char**argv) {
     }
 
     glutInit(&argc, argv);
-    glutInitWindowSize(800, 600);   /* taille de la fenetre ecran */
-
-    /* glutInitDisplayMode(GLUT_INDEX | GLUT_SINGLE);   mode index*/
-        
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);     /* mode rgb */
-        
+    glutInitWindowSize(800, 600);   /* taille de la fenetre ecran */
     glutCreateWindow("Mario Kart LO12");
+
+    if(init() == -1) {
+        return -1;
+    }
+
     glutDisplayFunc(draw);
     glutReshapeFunc(reshape);
     glutIdleFunc(idleFunc);
@@ -171,10 +167,6 @@ int main(int argc, char**argv) {
     glutKeyboardUpFunc(callKeyboardUpFunc);
     glutMouseFunc(callMouseFunc);
     glutMotionFunc(callMotionFunc);
-
-    if(init() == -1) {
-        return -1;
-    }
 
     glutTimerFunc(10, animationTimer, 0);
     glutMainLoop();

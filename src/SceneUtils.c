@@ -16,6 +16,10 @@
             Romain HERAULT A2005-A2006
 */
 
+#ifdef WIN32
+    #pragma warning( disable : 4996 )
+#endif
+
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>

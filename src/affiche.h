@@ -11,6 +11,7 @@ void draw();
 void reshape(int _w, int _h);
 void idleFunc();
 void redefineLights();
+void drawSceneWithShadow(void);
 
 #endif
 

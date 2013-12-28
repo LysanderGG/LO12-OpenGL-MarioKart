@@ -98,12 +98,14 @@
     <ClCompile Include="animations.c" />
     <ClCompile Include="DatUtils.c" />
     <ClCompile Include="eclairage.c" />
+    <ClCompile Include="include\GLee\GLee.c" />
     <ClCompile Include="interactions.c" />
     <ClCompile Include="observateur.c" />
     <ClCompile Include="pngloader.c" />
     <ClCompile Include="scene.c" />
     <ClCompile Include="scene3ds.c" />
     <ClCompile Include="SceneUtils.c" />
+    <ClCompile Include="shadow.c" />
     <ClCompile Include="skybox.c" />
     <ClCompile Include="texture.c" />
     <ClCompile Include="tp1.c" />
@@ -120,6 +122,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene3ds.h" />
     <ClInclude Include="SceneUtils.h" />
+    <ClInclude Include="shadow.h" />
     <ClInclude Include="skybox.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Utils.h" />
