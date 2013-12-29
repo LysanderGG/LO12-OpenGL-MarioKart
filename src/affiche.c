@@ -240,6 +240,7 @@ void idleFunc() {
 }
 
 void redefineLights() {
+    // TODO - list of lights
     g_nextLight = GL_LIGHT0;
     def_sources(scene);
     def3DSSources(g_scenes3DS);
@@ -278,6 +279,8 @@ void draw() {
     
     dessine_box();
 
+    drawSceneWithShadow();
+
     if(g_debugRepere) {
         dessine_repere();
     }
@@ -287,8 +290,6 @@ void draw() {
         draw3DSLights(g_scenes3DS);
     }
 
-    //drawSceneWithShadow();
-    dessine_scene();
     glFinish();
     glutSwapBuffers();
     glutPostRedisplay();
@@ -325,8 +326,8 @@ void drawSceneWithShadow(void) {
     glColorMask(0, 0, 0, 0);
 
     //Draw the scene
-    //dessine_scene();
-    DrawScene_sample(0);
+    dessine_scene();
+    //DrawScene_sample(2.5);
 
     //Read the depth buffer into the shadow map texture
     glBindTexture(GL_TEXTURE_2D, g_shadowMapTexture);
@@ -367,8 +368,8 @@ void drawSceneWithShadow(void) {
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
 
-    //dessine_scene();
-    DrawScene_sample(0);
+    dessine_scene();
+    //DrawScene_sample(2.5);
     
     // -------------------------------------------------
     //3rd pass
@@ -427,9 +428,9 @@ void drawSceneWithShadow(void) {
     //Set alpha test to discard false comparisons
     glAlphaFunc(GL_GEQUAL, 0.99f);
     glEnable(GL_ALPHA_TEST);
-
-    //dessine_scene();
-    DrawScene_sample(0);
+    
+    dessine_scene();
+    //DrawScene_sample(2.5);
     
     //Disable textures and texgen
     glDisable(GL_TEXTURE_2D);

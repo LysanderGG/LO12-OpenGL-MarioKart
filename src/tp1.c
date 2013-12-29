@@ -76,7 +76,6 @@ int init() {
 
     redefineLights();
 
-    
 
     return 0;
 }

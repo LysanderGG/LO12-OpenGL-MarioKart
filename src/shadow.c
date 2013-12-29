@@ -76,7 +76,7 @@ int initShadow() {
 
     //Use the color as the ambient and diffuse material
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_COLOR_MATERIAL);
+    //glEnable(GL_COLOR_MATERIAL); // no need
 
     //White specular material color, shininess 16
     glMaterialfv(GL_FRONT, GL_SPECULAR, white);
