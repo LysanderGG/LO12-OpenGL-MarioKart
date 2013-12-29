@@ -8,6 +8,7 @@
 #include "affiche.h"
 #include "Utils.h"
 #include "scene3ds.h"
+#include "shadow.h"
 
 
 int g_obsMode = DEFAULT_OBS_MODE;
@@ -60,6 +61,8 @@ void polarView(double distance, double azimut, double elevation, double twist) {
     glRotated(-90 - elevation,  1.0, 0.0, 0.0);
     glRotated((90 - azimut),    0.0, 0.0, 1.0);
     glRotated(twist,            1.0, 0.0, 0.0);
+
+    saveCameraMatrix();
 }
 
 void pilotView(double planeX, double planeY, double planeZ, double roulis, double tangage, double lacet) {
@@ -70,6 +73,8 @@ void pilotView(double planeX, double planeY, double planeZ, double roulis, doubl
     glRotated(lacet,    1.0, 0.0, 0.0);
     glRotated(tangage,  0.0, 1.0, 0.0);
     glTranslated(-planeX, -planeY, -planeZ);
+
+    saveCameraMatrix();
 }
 
 void recomputeView() {
