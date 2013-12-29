@@ -120,29 +120,47 @@ void callSpecialFunc(int key, int x, int y) {
 }
 
 void callKeyboardUpFunc(unsigned char key, int x, int y) {
-    //Remove the key from the event list.
-    unsigned int i;
-    int found = 0;
-
-    for(i = 0; i < g_eventListSize; ++i) {
-        if(g_eventList[i] == key) {
-            found = 1;
-            --g_eventListSize;
-            break;
-        }
-    }
-
-    if(found) {
-        while(i < EVENT_LIST_MAX_SIZE) {
-            g_eventList[i] = g_eventList[i++];
-        }
-    }
+    removeFromEventList(key);
 }
 
 void callKeyboardDownFunc(unsigned char key, int x, int y) {
-    // Check if the value is already in the event list
+    switch (key) {
+        case ' ':
+            g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + g_eventDirection) % (getTotalNbObjects() + 1));
+            if(g_currentObj == getTotalNbObjects()) {
+                g_currentObj = -1;
+            }
+            break;
+        case 'h':
+        case 'H':
+            print_help();
+            break;
+        case 'm':
+        case 'M':
+            g_haltAnimation ^= 1;
+            glutTimerFunc(10, animationTimer, 0);
+            break;
+        case 'o':
+        case 'O':
+            changeMode();
+            break;
+        case 'z':
+        case 'Z':
+        case 's':
+        case 'S':
+        case 'q':
+        case 'Q':
+        case 'd':
+        case 'D':
+            addToEventList(key);
+            break;
+    }
+}
+
+void addToEventList(unsigned char key) {
     unsigned int i;
 
+    // Check if the value is already in the event list
     // Handles shift pressing.
     if(glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
         g_eventDirection = -1;
@@ -165,6 +183,26 @@ void callKeyboardDownFunc(unsigned char key, int x, int y) {
     }
 }
 
+void removeFromEventList(unsigned char key) {
+    //Remove the key from the event list.
+    unsigned int i;
+    int found = 0;
+
+    for(i = 0; i < g_eventListSize; ++i) {
+        if(g_eventList[i] == key) {
+            found = 1;
+            --g_eventListSize;
+            break;
+        }
+    }
+
+    if(found) {
+        while(i < EVENT_LIST_MAX_SIZE) {
+            g_eventList[i] = g_eventList[i++];
+        }
+    }
+}
+
 void handleKeyboardEvents() {
     unsigned int i;
     unsigned char key;
@@ -178,20 +216,6 @@ void handleKeyboardEvents() {
         //printf("%d ", key);
 
         switch (key) {
-            case ' ':
-                g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + g_eventDirection) % (getTotalNbObjects() + 1));
-                if(g_currentObj == getTotalNbObjects()) {
-                    g_currentObj = -1;
-                }
-                break;
-            case 'o':
-            case 'O':
-                changeMode();
-                break;
-            case 'h':
-            case 'H':
-                print_help();
-                break;
             case 'z':
             case 'Z':
                 moveKartForward(TRANSLATING);
