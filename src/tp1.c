@@ -48,23 +48,20 @@
 /*                      Initialisations pour GL et Glut                        */
 /*******************************************************************************/
 int init() {
+    // Must be first
+    initView();
+
     if(initShadow() == -1) {
         return -1;
     }
 
     glEnable(GL_DEPTH_TEST | GL_LIGHTING);
 
+    /*
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(90,1.0,0.1,100);
-
-    initView();
-
-    /* initialise la table des couleurs : mode index
-        glutSetColor(1,0.0, 0.0, 0.0);
-        glutSetColor(2,1.0, 0.3, 0.3);
-        choix de la couleur de fond 
-        glClearIndex(1.0);*/
+    */
 
     /* mode RGB : choix de la couleur de fond */
     glClearColor(0,0,0,1);
@@ -151,7 +148,7 @@ int main(int argc, char**argv) {
     }
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);     /* mode rgb */
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);     /* mode rgb */
     glutInitWindowSize(800, 600);   /* taille de la fenetre ecran */
     glutCreateWindow("Mario Kart LO12");
 
