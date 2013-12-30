@@ -88,6 +88,7 @@ int initShadow() {
     glLoadIdentity();
     gluPerspective(DEFAULT_PERSPECTIVE_FOVY, (float)g_windowWidth/g_windowHeight, DEFAULT_PERSPECTIVE_NEAR, DEFAULT_PERSPECTIVE_FAR);
     glGetFloatv(GL_MODELVIEW_MATRIX, g_cameraProjectionMatrix);
+    glPopMatrix();
 
     recomputeLightMatrices();
 
@@ -96,7 +97,6 @@ int initShadow() {
 
 void saveCameraMatrix() {
     glGetFloatv(GL_MODELVIEW_MATRIX, g_cameraViewMatrix);
-    glPopMatrix();
 }
 
 void recomputeLightMatrices() {

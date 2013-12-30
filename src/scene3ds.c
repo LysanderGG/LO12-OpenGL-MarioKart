@@ -75,6 +75,8 @@ void dessineFace(SCENE_3DS* scene3ds, Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
 
+    glPushMatrix();
+    
     if(Obj->faces[iFace].material != -1) {
         if(g_isCurrentObject) {
             def3DSSelectedMatiere(scene3ds->lib3dsfile, Obj->faces[iFace].material);
@@ -99,6 +101,8 @@ void dessineFace(SCENE_3DS* scene3ds, Lib3dsMesh * Obj, int iFace) {
         glVertex3d(x,y,z);
     }
     glEnd();
+
+    glPopMatrix();
 }
 
 //***************************************************************************************
@@ -163,8 +167,11 @@ int charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
 //**************************************************************************
 void dessine_scene3ds(SCENE_3DS* scene3ds) {
     int i;
+
+    glPushMatrix();
     glScaled(scene3ds->scale, scene3ds->scale, scene3ds->scale);
     for (i = 0; i < scene3ds->lib3dsfile->nmeshes; ++i) {
         dessine_3dsobj(scene3ds, scene3ds->lib3dsfile->meshes[i]);
     }
+    glPopMatrix();
 }

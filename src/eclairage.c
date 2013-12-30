@@ -124,6 +124,10 @@ void def_sources(SCENE *scene) {
 void def_modele(SCENE *scene) {
     RGBAF propc;
 
+    if(!scene) {
+        return;
+    }
+
     propc.r = 0.2;
     propc.g = 0.2;
     propc.b = 0.2;
