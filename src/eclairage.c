@@ -16,6 +16,7 @@
 
 #include "eclairage.h"
 #include "scene.h"
+#include "Utils.h"
 
 extern SCENE* scene;
 GLuint g_nextLight = GL_LIGHT0;

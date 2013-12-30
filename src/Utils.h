@@ -10,6 +10,9 @@ typedef float Lib3dsMatrix[4][4];
 
 
 void calcule_normales(SCENE *scene);
+void calcule_vecteur(MCOORD p1, MCOORD p2, MCOORD *v);
+void prod_vectoriel(MCOORD u, MCOORD v, MCOORD *w);
+void normalise(MCOORD *v);
 void mat3dsToOpenGL(Lib3dsMatrix mat3ds, float* matGL);
 void getMatrix4x4Row(float* matrix4x4, float* out_row, int lineIdx);
 void matrix4x4Product(float* a, float* b, float* res);
