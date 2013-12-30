@@ -3,7 +3,9 @@
 
 #include "scene.h"
 
-int loadTextures();
+#define PATH_TEXTURES "img/"
 
+int loadTextures();
+int load3dsTextures();
 
 #endif

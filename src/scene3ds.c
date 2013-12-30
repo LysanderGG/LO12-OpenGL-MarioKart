@@ -82,7 +82,10 @@ void dessineFace(SCENE_3DS* scene3ds, Lib3dsMesh * Obj, int iFace) {
             def3DSMatiere(scene3ds, Obj->faces[iFace].material);    
         }
     }
-
+    
+    if(Obj->texcos != NULL) {
+        glBindTexture(GL_TEXTURE_2D, scene3ds->texture[0]);
+    }
     glBegin(GL_POLYGON);    
     for(i = 0; i < 3; ++i) {
         x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
