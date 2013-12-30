@@ -4,6 +4,7 @@
 #include <3DS/lib3ds.h>
 #include "scene.h"
 
+void animationInit(int frame);
 void animationTimer(int value);
 void writeNodeMatrix(FILE* f, Lib3dsNode* root);
 

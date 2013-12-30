@@ -70,12 +70,12 @@ int init() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     def_modele(scene);
-    
+    animationInit(1);
+
     loadTextures();
     charger_skybox(DAY);
 
     redefineLights();
-
 
     return 0;
 }
@@ -164,7 +164,7 @@ int main(int argc, char**argv) {
     glutMouseFunc(callMouseFunc);
     glutMotionFunc(callMotionFunc);
 
-    glutTimerFunc(10, animationTimer, 0);
+    //glutTimerFunc(10, animationTimer, 0);
     glutMainLoop();
     return 0;
 }

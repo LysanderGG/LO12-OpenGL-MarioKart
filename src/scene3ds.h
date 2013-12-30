@@ -10,7 +10,10 @@ typedef struct {
     GLuint      texture[1];
     float       translate[3];
     float       translateAnimation[3];
+    float       translateAnimationInit[3];
     float       rotate[3];
+    float       rotateAnimation[3];
+    float       rotateAnimationInit[3];
     float       scale;
 } SCENE_3DS;
 
