@@ -225,7 +225,7 @@ void reshape(int _w, int _h) {
 
     glPushMatrix();
     glLoadIdentity();
-    gluPerspective(45.0, (GLdouble)_w / _h, 1.0, 100.0);
+    gluPerspective(DEFAULT_PERSPECTIVE_FOVY, (GLdouble)_w / _h, DEFAULT_PERSPECTIVE_NEAR, DEFAULT_PERSPECTIVE_FAR);
     glGetFloatv(GL_MODELVIEW_MATRIX, g_cameraProjectionMatrix);
     glPopMatrix();
 }

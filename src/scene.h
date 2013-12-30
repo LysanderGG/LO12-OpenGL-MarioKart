@@ -194,6 +194,10 @@ typedef struct {
 #define SCENE_Y_MIN             -100
 #define SCENE_Y_MAX             +100
 
+#define DEFAULT_PERSPECTIVE_FOVY    45.0
+#define DEFAULT_PERSPECTIVE_NEAR    1.0
+#define DEFAULT_PERSPECTIVE_FAR     1000.0
+
 //*********************//
 //Variables Globales : //
 //*********************//
