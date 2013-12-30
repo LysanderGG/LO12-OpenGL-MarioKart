@@ -70,13 +70,13 @@ static void fileio_log_func(void *self, Lib3dsLogLevel level, int indent, const 
 }
 
 //*************************************************************************************
-void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
+void dessineFace(SCENE_3DS* scene3ds, Lib3dsMesh * Obj, int iFace) {
     int i;
     double x, y, z, texx, texy;
 
     if(Obj->faces[iFace].material != -1) {
         if(g_isCurrentObject) {
-            def3DSSelectedMatiere(scene3ds, Obj->faces[iFace].material);
+            def3DSSelectedMatiere(scene3ds->lib3dsfile, Obj->faces[iFace].material);
         } else {
             def3DSMatiere(scene3ds, Obj->faces[iFace].material);    
         }
@@ -98,27 +98,27 @@ void dessineFace(Lib3dsFile* scene3ds, Lib3dsMesh * Obj, int iFace) {
 }
 
 //***************************************************************************************
-void dessine_3dsobj(SCENE_3DS scene3ds, Lib3dsMesh * Obj) {
+void dessine_3dsobj(SCENE_3DS* scene3ds, Lib3dsMesh * Obj) {
     int i;
 
     glPushMatrix();
     
     // Translate
-    glTranslated(scene3ds.translate[0] + (-scene3ds.translateAnimationInit[0] + scene3ds.translateAnimation[0]) * scene3ds.scale,
-                 scene3ds.translate[1] + (-scene3ds.translateAnimationInit[1] + scene3ds.translateAnimation[1]) * scene3ds.scale,
-                 scene3ds.translate[2] + (-scene3ds.translateAnimationInit[2] + scene3ds.translateAnimation[2]) * scene3ds.scale);
+    glTranslated(scene3ds->translate[0] + (-scene3ds->translateAnimationInit[0] + scene3ds->translateAnimation[0]) * scene3ds->scale,
+                 scene3ds->translate[1] + (-scene3ds->translateAnimationInit[1] + scene3ds->translateAnimation[1]) * scene3ds->scale,
+                 scene3ds->translate[2] + (-scene3ds->translateAnimationInit[2] + scene3ds->translateAnimation[2]) * scene3ds->scale);
     
     // Rotate
-    glRotated(scene3ds.rotate[0], 1, 0, 0);
-    glRotated(scene3ds.rotate[1], 0, 1, 0);
-    glRotated(scene3ds.rotate[2]+ (-scene3ds.rotateAnimationInit[2] + scene3ds.rotateAnimation[2]), 0, 0, 1);
+    glRotated(scene3ds->rotate[0], 1, 0, 0);
+    glRotated(scene3ds->rotate[1], 0, 1, 0);
+    glRotated(scene3ds->rotate[2]+ (-scene3ds->rotateAnimationInit[2] + scene3ds->rotateAnimation[2]), 0, 0, 1);
 
     // Scale
-    glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
+    glScaled(scene3ds->scale, scene3ds->scale, scene3ds->scale);
 
     // Object faces
     for(i = 0; i < Obj->nfaces; ++i) {
-        dessineFace(scene3ds.lib3dsfile, Obj, i);
+        dessineFace(scene3ds, Obj, i);
     }
     glPopMatrix();
 }
@@ -157,10 +157,10 @@ int charge_scene3ds(char * fichier3ds, Lib3dsFile** out_scene3ds) {
 }
 
 //**************************************************************************
-void dessine_scene3ds(SCENE_3DS scene3ds) {
+void dessine_scene3ds(SCENE_3DS* scene3ds) {
     int i;
-    glScaled(scene3ds.scale, scene3ds.scale, scene3ds.scale);
-    for (i = 0; i < scene3ds.lib3dsfile->nmeshes; ++i) {
-        dessine_3dsobj(scene3ds, scene3ds.lib3dsfile->meshes[i]);
+    glScaled(scene3ds->scale, scene3ds->scale, scene3ds->scale);
+    for (i = 0; i < scene3ds->lib3dsfile->nmeshes; ++i) {
+        dessine_3dsobj(scene3ds, scene3ds->lib3dsfile->meshes[i]);
     }
 }

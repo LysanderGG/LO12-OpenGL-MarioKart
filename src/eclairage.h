@@ -15,7 +15,7 @@ void def_matiere(SCENE *scene, int i);
 void def_selectedMatiere(SCENE *scene, int i);
 
 void def3DSSources(SCENE_3DS* scene3ds);
-void def3DSMatiere(Lib3dsFile* scene3ds, int i);
+void def3DSMatiere(SCENE_3DS* scene3ds, int i);
 void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i);
 
 void switchLight(GLuint light);

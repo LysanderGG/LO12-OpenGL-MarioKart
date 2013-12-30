@@ -262,11 +262,27 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 
 }
 
-void def3DSMatiere(Lib3dsFile* scene3ds, int i) {
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, scene3ds->materials[i]->ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, scene3ds->materials[i]->diffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, scene3ds->materials[i]->specular);
-    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, scene3ds->materials[i]->shininess);
+void def3DSMatiere(SCENE_3DS* scene3ds, int i) {
+    Lib3dsMaterial* mat;
+    Lib3dsTextureMap map;
+    mat = scene3ds->lib3dsfile->materials[i];
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat->ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat->diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat->specular);
+    glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, mat->shininess);
+
+    /*if(mat->texture1_map.name != "") {
+        printf("load texture map %s\n", mat->texture1_map.name);
+        glGenTextures(1, 2);
+        glBindTexture(GL_TEXTURE_2D, texture[i].glnum);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexImage2D(GL_TEXTURE_2D, 0, texture[i].internalFormat,
+                      texture[i].width, texture[i].height, 0, texture[i].format,
+                      GL_UNSIGNED_BYTE, texture[i].texels);
+    }*/
 }
 
 void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
