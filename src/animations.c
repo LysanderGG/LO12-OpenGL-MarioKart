@@ -18,10 +18,15 @@ void animationInit(int frame) {
 
     lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, frame);
 
-    if(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->name != "$$$DUMMY")
+    if(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->name != "$$$DUMMY") {
         node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes->next;
-    else
+    } else {
         node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes;
+    }
+
+    if(!node) {
+        return;
+    }
 
     g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[0] = node->matrix[3][0];
     g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[1] = node->matrix[3][1];
