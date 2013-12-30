@@ -57,12 +57,6 @@ int init() {
 
     glEnable(GL_DEPTH_TEST | GL_LIGHTING);
 
-    /*
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(90,1.0,0.1,100);
-    */
-
     /* mode RGB : choix de la couleur de fond */
     glClearColor(0,0,0,1);
 
