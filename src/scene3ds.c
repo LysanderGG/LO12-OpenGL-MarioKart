@@ -6,6 +6,7 @@
 #include "eclairage.h"
 #include "animations.h"
 #include "interactions.h"
+#include "shadow.h"
 
 #include "GLee/GLee.h" //GL header file, including extensions
 #if defined(__APPLE__) && defined(__MACH__)

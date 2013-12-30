@@ -157,5 +157,5 @@ void dessine_box() {
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
     glEnable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
 }
-

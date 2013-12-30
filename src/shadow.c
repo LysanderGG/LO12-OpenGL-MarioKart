@@ -33,7 +33,7 @@ float g_cameraProjectionMatrix[16], g_cameraViewMatrix[16];
 
 // TODO REMOVE THIS !
 //Camera & light positions
-float lightPosition[3]  = {2.0f, 3.0f, 2.0f};
+float lightPosition[3]  = {6.0f, 4.0f, 4.0f};
 
 
 //Called for initiation
@@ -75,12 +75,12 @@ int initShadow() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
     //Use the color as the ambient and diffuse material
-    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+    //glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
     //glEnable(GL_COLOR_MATERIAL); // no need
 
     //White specular material color, shininess 16
-    glMaterialfv(GL_FRONT, GL_SPECULAR, white);
-    glMaterialf(GL_FRONT, GL_SHININESS, 16.0f);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+    //glMaterialf(GL_FRONT, GL_SHININESS, 16.0f);
 
     //Calculate & save matrices
     glPushMatrix();
@@ -96,7 +96,6 @@ int initShadow() {
 
 void saveCameraMatrix() {
     glGetFloatv(GL_MODELVIEW_MATRIX, g_cameraViewMatrix);
-
     glPopMatrix();
 }
 
