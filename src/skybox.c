@@ -85,6 +85,7 @@ void dessine_box() {
     float t = 1.0f;
     // Configuration des états OpenGL
     glDisable(GL_DEPTH_TEST); //Désactivation de l'ecriture dans le z-buffer
+    glDepthMask(GL_FALSE);
     glDisable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
     glColor3d(1.0, 1.0, 1.0);
@@ -150,10 +151,11 @@ void dessine_box() {
     glEnd();                    
 
     // Réinitialisation des états OpenGL
-	glPopMatrix();
+    glPopMatrix();
 
     // Réactivation de l'écriture dans le z-buffer
-	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
     glEnable(GL_LIGHTING);
 }
 
