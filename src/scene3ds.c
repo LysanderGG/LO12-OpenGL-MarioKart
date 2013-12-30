@@ -87,20 +87,20 @@ void dessineFace(SCENE_3DS* scene3ds, Lib3dsMesh * Obj, int iFace) {
     
     if(Obj->texcos != NULL) {
         glBindTexture(GL_TEXTURE_2D, scene3ds->texture[0]);
-    }
-    glBegin(GL_POLYGON);    
-    for(i = 0; i < 3; ++i) {
-        x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
-        y = Obj->vertices[ Obj->faces[iFace].index[i] ][1];
-        z = Obj->vertices[ Obj->faces[iFace].index[i] ][2];
-        if(Obj->texcos != NULL) {
-            texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
-            texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
-            glTexCoord2d(texx, texy);
+        glBegin(GL_POLYGON);    
+        for(i = 0; i < 3; ++i) {
+            x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
+            y = Obj->vertices[ Obj->faces[iFace].index[i] ][1];
+            z = Obj->vertices[ Obj->faces[iFace].index[i] ][2];
+            if(Obj->texcos != NULL) {
+                texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
+                texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
+                glTexCoord2d(texx, texy);
+            }
+            glVertex3d(x,y,z);
         }
-        glVertex3d(x,y,z);
+        glEnd();
     }
-    glEnd();
 
     glPopMatrix();
 }
@@ -110,7 +110,7 @@ void dessine_3dsobj(SCENE_3DS* scene3ds, Lib3dsMesh * Obj) {
     int i;
 
     glPushMatrix();
-    
+
     // Translate
     glTranslated(scene3ds->translate[0] + (-scene3ds->translateAnimationInit[0] + scene3ds->translateAnimation[0]) * scene3ds->scale,
                  scene3ds->translate[1] + (-scene3ds->translateAnimationInit[1] + scene3ds->translateAnimation[1]) * scene3ds->scale,
