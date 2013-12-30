@@ -16,6 +16,7 @@
 
 #include "eclairage.h"
 #include "scene.h"
+#include "shadow.h"
 #include "Utils.h"
 
 extern SCENE* scene;

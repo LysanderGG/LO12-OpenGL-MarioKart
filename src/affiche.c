@@ -238,9 +238,11 @@ void idleFunc() {
 
 void redefineLights() {
     // TODO - list of lights
+    /*
     g_nextLight = GL_LIGHT0;
     def_sources(scene);
     def3DSSources(g_scenes3DS);
+    */
 }
 
 void draw2DText(char* str) {
@@ -298,11 +300,15 @@ void drawSceneWithShadow(void) {
     float row[4];
     float white2[3];
     float lightPosition4D[4];
+    int b_dessine_scene  = 1;
+    int b_dessine_sample = 0;
 
     static float biasMatrix[16] = { 0.5f, 0.0f, 0.0f, 0.0f,
                                     0.0f, 0.5f, 0.0f, 0.0f,
                                     0.0f, 0.0f, 0.5f, 0.0f,
                                     0.5f, 0.5f, 0.5f, 1.0f }; //bias from [-1, 1] to [0, 1]
+
+    glEnable(GL_TEXTURE_2D);
 
     // -------------------------------------------------
     // First pass - from light's point of view
@@ -323,8 +329,12 @@ void drawSceneWithShadow(void) {
     glColorMask(0, 0, 0, 0);
 
     //Draw the scene
-    dessine_scene();
-    //DrawScene_sample(2.5);
+    if(b_dessine_sample) {
+        DrawScene_sample(2.5);
+    }
+    if(b_dessine_scene) {
+        dessine_scene();
+    }
 
     //Read the depth buffer into the shadow map texture
     glBindTexture(GL_TEXTURE_2D, g_shadowMapTexture);
@@ -365,15 +375,19 @@ void drawSceneWithShadow(void) {
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
 
-    dessine_scene();
-    //DrawScene_sample(2.5);
+    if(b_dessine_sample) {
+        DrawScene_sample(2.5);
+    }
+    if(b_dessine_scene) {
+        dessine_scene();
+    }
     
     // -------------------------------------------------
     //3rd pass
     //Draw with bright light
     
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, white);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, white);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, white2);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, white2);
 
     //Calculate texture matrix for projection
     //This matrix takes us from eye space to the light's clip space
@@ -411,7 +425,6 @@ void drawSceneWithShadow(void) {
 
     //Bind & enable shadow map texture
     glBindTexture(GL_TEXTURE_2D, g_shadowMapTexture);
-    glEnable(GL_TEXTURE_2D);
     
     //Enable shadow comparison
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_COMPARE_R_TO_TEXTURE);
@@ -426,8 +439,12 @@ void drawSceneWithShadow(void) {
     glAlphaFunc(GL_GEQUAL, 0.99f);
     glEnable(GL_ALPHA_TEST);
     
-    dessine_scene();
-    //DrawScene_sample(2.5);
+    if(b_dessine_sample) {
+        DrawScene_sample(2.5);
+    }
+    if(b_dessine_scene) {
+        dessine_scene();
+    }
     
     //Disable textures and texgen
     glDisable(GL_TEXTURE_2D);
