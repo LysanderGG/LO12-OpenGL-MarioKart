@@ -95,7 +95,7 @@ void dessine_box() {
     glTranslated(cx, cy, cz);
 
     // Rendu de la geometrie
-	//gauche
+    //gauche
     glBindTexture(GL_TEXTURE_2D, textureBox[0]);
     glBegin(GL_QUADS);            // X Negatif        
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);
@@ -104,7 +104,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(-t, -t, t);
     glEnd();
 
-	//droite
+    //droite
     glBindTexture(GL_TEXTURE_2D, textureBox[1]);
     glBegin(GL_QUADS);            // X Positif
         glTexCoord2f(0.0, 0.0); glVertex3f(t, t, -t);
@@ -113,7 +113,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(t, t, t);
     glEnd();
 
-	//fond
+    //fond
     glBindTexture(GL_TEXTURE_2D, textureBox[2]);
     glBegin(GL_QUADS);            // Y Negatif
         glTexCoord2f(0.0, 0.0); glVertex3f(t, -t, -t);
@@ -122,7 +122,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(t, -t, t);
     glEnd();
 
-	//avant
+    //avant
     glBindTexture(GL_TEXTURE_2D, textureBox[3]);
     glBegin(GL_QUADS);            // Y Positif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, t, -t);     
@@ -131,7 +131,7 @@ void dessine_box() {
         glTexCoord2f(0.0, 1.0); glVertex3f(-t, t, t);     
     glEnd();
 
-	//sol
+    //sol
     glBindTexture(GL_TEXTURE_2D, textureBox[4]);
     glBegin(GL_QUADS);            // Z Negatif
         glTexCoord2f(0.0, 0.0); glVertex3f(-t, -t, -t);     

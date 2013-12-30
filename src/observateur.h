@@ -13,17 +13,17 @@
 #endif
 
 // Defines
-#define OBS_MODE_POLAR_VIEW        0
-#define OBS_MODE_PILOT_VIEW        1
-#define OBS_MODE_KART_VIEW         2
-#define NB_OBS_MODES               3
+#define OBS_MODE_POLAR_VIEW         0
+#define OBS_MODE_PILOT_VIEW         1
+#define OBS_MODE_KART_VIEW          2
+#define NB_OBS_MODES                3
 
-#define DEFAULT_OBS_MODE        OBS_MODE_POLAR_VIEW
+#define DEFAULT_OBS_MODE            OBS_MODE_POLAR_VIEW
 
-#define DEFAULT_POLAR_DISTANCE      2.5
-#define DEFAULT_POLAR_AZIMUT        -30
+#define DEFAULT_POLAR_DISTANCE      20
+#define DEFAULT_POLAR_AZIMUT        30
 #define DEFAULT_POLAR_ELEVATION     20
-#define DEFAULT_POLAR_TWIST          0
+#define DEFAULT_POLAR_TWIST         0
 
 #define DEFAULT_PLANE_X             5
 #define DEFAULT_PLANE_Y             0

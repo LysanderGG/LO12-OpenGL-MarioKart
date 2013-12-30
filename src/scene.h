@@ -1,20 +1,3 @@
-/*
- 
-        Universite Technologique de Compiegne
-        
-        UV: LO12
-        
-        FICHIER: scene.h
- 
-        COMMENTAIRE:
-                Definition de la stucture de la scene
- 
-        AUTEURS:
-                Veronique BERGE-CHERFAOUI
-                DG
-                Olivier BEZET  A2002-A2005
-                Romain HERAULT A2005-A2006
-*/
 
 #ifndef SCENE_H
 #define SCENE_H
@@ -40,53 +23,42 @@ typedef GLint INDICE_TEXCOORD; /* indice de coordonées de texture*/
 /*---------------------------------------------------------------------*/
 
 
-typedef
-union{
-        struct
-        {
-                GLdouble x;
-                GLdouble y;
-        };
-        GLdouble vect[2];
+typedef union {
+    struct {
+        GLdouble x;
+        GLdouble y;
+    };
+    GLdouble vect[2];
 } MTEXCOORD;
 
+typedef struct {
+    char *filename;
+    GLint width;
+    GLint height;
+    GLenum format;
+    GLint internalFormat;
+    GLubyte *texels;
+    GLuint glnum;
+} MTEX;
 
-typedef struct
-{
-        char *filename;
-        GLint width;
-        GLint height;
-        GLenum format;
-        GLint internalFormat;
-        GLubyte *texels;
-        GLuint glnum;
-}
-MTEX;
-
-
-typedef
-union{
-        struct
-        {
-                GLdouble x;
-                GLdouble y;
-                GLdouble z;
-                GLdouble w;
-        };
-        GLdouble vect[4];
+typedef union {
+    struct {
+        GLdouble x;
+        GLdouble y;
+        GLdouble z;
+        GLdouble w;
+    };
+    GLdouble vect[4];
 } MCOORD;
 
-
-typedef
-union{
-        struct
-        {
-                GLfloat x;
-                GLfloat y;
-                GLfloat z;
-                GLfloat w;
-        };
-        GLfloat vect[4];
+typedef union {
+    struct {
+        GLfloat x;
+        GLfloat y;
+        GLfloat z;
+        GLfloat w;
+    };
+    GLfloat vect[4];
 } MCOORDF;
 
 /*---------------------------------------------------------------------*/
@@ -96,138 +68,114 @@ typedef GLdouble MTRANSFO[16];   /* matrice de transformation homogene 4x4 */
 
 /*---------------------------------------------------------------------*/
 
-typedef
-union{
-        struct
-        {
-                GLdouble r;     /* rouge */
-                GLdouble g;     /* vert */
-                GLdouble b;     /* bleu */
-        };
-        GLdouble rgb[3];
-}
-RGB;
+typedef union {
+    struct {
+        GLdouble r;     /* rouge */
+        GLdouble g;     /* vert */
+        GLdouble b;     /* bleu */
+    };
+    GLdouble rgb[3];
+} RGB;
 
-typedef
-union{
-        struct
-        {
-                GLdouble r;     /* rouge */
-                GLdouble g;     /* vert */
-                GLdouble b;     /* bleu */
-                GLdouble a;     /* alpha*/
-        };
-        GLdouble rgba[4];
-}
-RGBA;
+typedef union {
+    struct {
+        GLdouble r;     /* rouge */
+        GLdouble g;     /* vert */
+        GLdouble b;     /* bleu */
+        GLdouble a;     /* alpha*/
+    };
+    GLdouble rgba[4];
+} RGBA;
 
 
-typedef
-union{
-        struct
-        {
-                GLfloat r;     /* rouge */
-                GLfloat g;     /* vert */
-                GLfloat b;     /* bleu */
-        };
-        GLfloat rgb[3];
-}
-RGBF;
+typedef union {
+    struct {
+        GLfloat r;     /* rouge */
+        GLfloat g;     /* vert */
+        GLfloat b;     /* bleu */
+    };
+    GLfloat rgb[3];
+} RGBF;
 
-typedef
-union{
-        struct
-        {
-                GLfloat r;     /* rouge */
-                GLfloat g;     /* vert */
-                GLfloat b;     /* bleu */
-                GLfloat a;     /* alpha*/
-        };
-        GLfloat rgba[4];
-}
-RGBAF;
+typedef union {
+    struct {
+        GLfloat r;     /* rouge */
+        GLfloat g;     /* vert */
+        GLfloat b;     /* bleu */
+        GLfloat a;     /* alpha*/
+    };
+    GLfloat rgba[4];
+} RGBAF;
 
 /*---------------------------------------------------------------------*/
 
-typedef struct
-{
-        GLint        nbpt;     /* nombre de points constituant la face */
-        INDICE_PT *tabpt;    /* tableau des indice de poGLints constituant la face */
-        INDICE_MAT imat;     /* indice de matiere */
-        MCOORD      n;        /* normale a la face */
-        GLint        nbtc;
-        INDICE_TEXCOORD *tabtc;
-}
-FACE;
+typedef struct {
+    GLint       nbpt;       /* nombre de points constituant la face */
+    INDICE_PT   *tabpt;     /* tableau des indice de poGLints constituant la face */
+    INDICE_MAT  imat;       /* indice de matiere */
+    MCOORD      n;          /* normale a la face */
+    GLint       nbtc;
+    INDICE_TEXCOORD *tabtc;
+} FACE;
 
 /*---------------------------------------------------------------------*/
 
-typedef struct
-{
-        GLdouble alpha;          /* coeff. de transparence */
-        RGB    ambiante;       /* couleur de la reflectance ambiante */
-        RGB    diffuse;        /* couleur de la reflectance diffuse */
-        RGB    emission;       /* couleur de la reflectance emise */
-        RGB    speculaire;     /* couleur de la reflectance speculaire */
-        GLdouble brillance;      /* coeff. de brillance */
-        INDICE_TEX tex;
-}
-MATIERE;
+typedef struct {
+    GLdouble    alpha;          /* coeff. de transparence */
+    RGB         ambiante;       /* couleur de la reflectance ambiante */
+    RGB         diffuse;        /* couleur de la reflectance diffuse */
+    RGB         emission;       /* couleur de la reflectance emise */
+    RGB         speculaire;     /* couleur de la reflectance speculaire */
+    GLdouble    brillance;      /* coeff. de brillance */
+    INDICE_TEX  tex;
+} MATIERE;
 
 /*-----------------------------------------------------------------------*/
 
-typedef struct
-{
-        GLint          nbface;   /* nombre de faces constituant l'objet */
-        INDICE_FACE *tabface;  /* tableau des faces constituant l'objet */
-        MTRANSFO      transfo;  /* transfo du repere objet/repere scene */
-}
-OBJET;
+typedef struct {
+    GLint       nbface;     /* nombre de faces constituant l'objet */
+    INDICE_FACE *tabface;   /* tableau des faces constituant l'objet */
+    MTRANSFO    transfo;    /* transfo du repere objet/repere scene */
+} OBJET;
 
 /*------------------------------------------------------------------------*/
 
-typedef struct
-{
-        GLdouble k;
-        GLdouble theta;
-}
-ALLURE_FAISCEAU;
+typedef struct {
+    GLdouble k;
+    GLdouble theta;
+} ALLURE_FAISCEAU;
 
 /*-----------------------------------------------------------------------*/
 
-typedef struct
-{
-        RGB             ambiante;         /* couleur "ambiente" */
-        RGB             couleur;          /* couleur de la source */
-        MCOORD           position;         /* position de la source */
-        ALLURE_FAISCEAU allure_faisceau;  /* allure du faisceau lumineux */
-        MCOORD           direction;        /* direction du faisceau lumineux */
-        GLint        allume;
-}
-SOURCE;
+typedef struct {
+    RGB             ambiante;           /* couleur "ambiente" */
+    RGB             couleur;            /* couleur de la source */
+    MCOORD          position;           /* position de la source */
+    ALLURE_FAISCEAU allure_faisceau;    /* allure du faisceau lumineux */
+    MCOORD          direction;          /* direction du faisceau lumineux */
+    GLint           allume;
+} SOURCE;
 
 /*-------------------------------------------------------------------------*/
 
-typedef struct
-{
-        GLint       nbpt;        /* nombre de points                */
-        MCOORD*     tabpt;       /* tableau des points              */
-        GLint       nbface;      /* nombre de faces                 */
-        FACE*       tabface;     /* tableau des faces               */
-        GLint       nbmat;       /* nombre de matieres              */
-        MATIERE*    tabmat;      /* tableau des matieres            */
-        GLint       nbobj;       /* nombre d'objets                 */
-        OBJET*      tabobj;      /* tableau des objets              */
-        GLint       nbsource;    /* nombre de sources de lumiere    */
-        SOURCE*     tabsource;   /* tableau des sources de lumiere  */
-        MTRANSFO    transfo;
-        GLint       nbtex;
-        MTEX*       tabtex;
-        GLint       nbtc;
-        MTEXCOORD*  tabtc;
-        GLuint*     gltextab;
-}
-SCENE;
+typedef struct {
+    GLint       nbpt;        /* nombre de points                */
+    MCOORD*     tabpt;       /* tableau des points              */
+    GLint       nbface;      /* nombre de faces                 */
+    FACE*       tabface;     /* tableau des faces               */
+    GLint       nbmat;       /* nombre de matieres              */
+    MATIERE*    tabmat;      /* tableau des matieres            */
+    GLint       nbobj;       /* nombre d'objets                 */
+    OBJET*      tabobj;      /* tableau des objets              */
+    GLint       nbsource;    /* nombre de sources de lumiere    */
+    SOURCE*     tabsource;   /* tableau des sources de lumiere  */
+    MTRANSFO    transfo;
+    GLint       nbtex;
+    MTEX*       tabtex;
+    GLint       nbtc;
+    MTEXCOORD*  tabtc;
+    GLuint*     gltextab;
+} SCENE;
 
 /*---------------------------------------------------------------------------*/
 
@@ -250,7 +198,7 @@ SCENE;
 //Variables Globales : //
 //*********************//
 
-extern SCENE*       scene;                          /* description de la scene */
+extern SCENE*       scene;          /* description de la scene */
 
 //*********************//
 //Fonctions :          //
@@ -259,4 +207,3 @@ int getTotalNbObjects();
 
 
 #endif
-

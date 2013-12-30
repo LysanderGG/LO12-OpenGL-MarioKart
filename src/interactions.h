@@ -17,6 +17,8 @@ typedef enum {
 #define OBS_ROTATING_HEAD   5
 #define OBS_NODING_HEAD     5
 
+// ----------------------------------------------
+// Variables
 extern int g_currentObj;
 extern int g_current3DSScene;
 extern int g_isCurrentObject;
@@ -29,6 +31,8 @@ extern int g_switchLight;
 extern int g_debugLights;
 extern int g_debugRepere;
 
+// ----------------------------------------------
+// Functions
 void callKeyboardUpFunc(unsigned char key, int x, int y);
 void callKeyboardDownFunc(unsigned char key, int x, int y);
 void handleKeyboardEvents();
