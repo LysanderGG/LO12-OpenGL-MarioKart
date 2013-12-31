@@ -64,7 +64,7 @@ int init() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     def_modele(scene);
-    //animationInit(1);
+    animationInit(1);
 
     loadTextures();
     load3dsTextures();

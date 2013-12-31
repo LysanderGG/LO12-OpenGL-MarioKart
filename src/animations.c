@@ -14,27 +14,43 @@ int g_currentFrame = 0;
 int g_haltAnimation = 0;
 
 void animationInit(int frame) {
+    float tx;
+    float ty;
+    float tz;
+    float angle;
     Lib3dsNode* node;
 
     lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, frame);
 
     for(node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes;
-        node != 0 && strcmp(node->name, "$$$DUMMY") == 0;
+        node != 0 && strcmp(node->name, "$$$DUMMY") != 0;
         node = node->next);
 
     if(!node) {
         return;
     }
+    
+    tx = node->matrix[3][0];
+    ty = node->matrix[3][1];
+    tz = node->matrix[3][2];
+    //si cos et sin < 0 OU cos > 0 et sin < 0
+    if(node->matrix[0][0] < 0 && node->matrix[0][1] < 0
+        || node->matrix[0][0] > 0 && node->matrix[0][1] < 0)
+        angle = 360 - (acos(node->matrix[0][0]*5) * 180 / M_PI);
+    else
+        angle = acos(node->matrix[0][0]*5) * 180 / M_PI;
 
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[0] = node->matrix[3][0];
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[1] = node->matrix[3][1];
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[2] = node->matrix[3][2];
-    g_scenes3DS[ANIMATED_KART_ID].rotateAnimationInit[2] = acos(node->matrix[0][0]*5) * 180 / M_PI;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[0] = tx;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[1] = ty;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[2] = tz;
+    g_scenes3DS[ANIMATED_KART_ID].rotateAnimationInit[2] = angle;
 
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = node->matrix[3][0];
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimation[1] = node->matrix[3][1];
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimation[2] = node->matrix[3][2];
-    g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = acos(node->matrix[0][0]*5) * 180 / M_PI;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = tx;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimation[1] = ty;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimation[2] = tz;
+    g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = angle;
+
+    g_currentFrame = frame;
 }
 
 void animationTimer(int value) {
@@ -42,6 +58,17 @@ void animationTimer(int value) {
     //FILE *f;
 
     if (g_haltAnimation != 0) {
+        g_currentFrame = (g_currentFrame + 1) % g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->frames;
+        lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, g_currentFrame);
+
+        for(node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes;
+            node != 0 && strcmp(node->name, "$$$DUMMY") != 0;
+            node = node->next);
+
+        if(!node) {
+            return;
+        }
+
         /*if(g_currentFrame == 0) {
             f = fopen("animation0.txt", "w");
             if (f == NULL) {
@@ -49,28 +76,21 @@ void animationTimer(int value) {
                 return;
             }
             fprintf(f, "frame %d\n", g_currentFrame);
-            writeNodeMatrix(f, g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes);
+            writeNodeMatrix(f, node);
             fclose(f);
         }*/
-
-        g_currentFrame = (g_currentFrame + 1) % g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->frames;
-        
-        //printf("animation frame %d\n", g_currentFrame);
-        lib3ds_file_eval(g_scenes3DS[ANIMATED_KART_ID].lib3dsfile, g_currentFrame);
-
-        for(node = g_scenes3DS[ANIMATED_KART_ID].lib3dsfile->nodes;
-            node != 0 && strcmp(node->name, "$$$DUMMY") == 0;
-            node = node->next);
-
-        if(!node) {
-            return;
-        }
 
         g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = node->matrix[3][0];
         g_scenes3DS[ANIMATED_KART_ID].translateAnimation[1] = node->matrix[3][1];
         g_scenes3DS[ANIMATED_KART_ID].translateAnimation[2] = node->matrix[3][2];
-        g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = acos(node->matrix[0][0]*5) * 180 / M_PI;
-        
+
+        //si cos et sin < 0 OU cos > 0 et sin < 0
+        if(node->matrix[0][0] < 0 && node->matrix[0][1] < 0
+           || node->matrix[0][0] > 0 && node->matrix[0][1] < 0)
+            g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = 360 - (acos(node->matrix[0][0]*5) * 180 / M_PI);
+        else
+            g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = acos(node->matrix[0][0]*5) * 180 / M_PI;
+
         glutTimerFunc(10, animationTimer, 0);
     }
 }
