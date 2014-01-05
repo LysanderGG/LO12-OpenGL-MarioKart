@@ -101,6 +101,26 @@ void matrix4x4Product(float* a, float* b, float* res) {
     */
 }
 
+
+void mat3dsToOpenGL(Lib3dsMatrix mat3ds, GLdouble* matGL) {
+    matGL[0]  = mat3ds[0][0];
+    matGL[4]  = mat3ds[1][0];
+    matGL[8]  = mat3ds[2][0];
+    matGL[12] = mat3ds[3][0];
+    matGL[1]  = mat3ds[0][1];
+    matGL[5]  = mat3ds[1][1];
+    matGL[9]  = mat3ds[2][1];
+    matGL[13] = mat3ds[3][1];
+    matGL[2]  = mat3ds[0][2];
+    matGL[6]  = mat3ds[1][2];
+    matGL[10] = mat3ds[2][2];
+    matGL[14] = mat3ds[3][2];
+    matGL[3]  = mat3ds[0][3];
+    matGL[7]  = mat3ds[1][3];
+    matGL[11] = mat3ds[2][3];
+    matGL[15] = mat3ds[3][3];
+}
+
 char* concat(char* s1, char* s2) {
     int len1 = strlen(s1);
     int len2 = strlen(s2);
