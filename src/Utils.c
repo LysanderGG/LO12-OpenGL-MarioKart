@@ -1,9 +1,11 @@
+#include <stdlib.h>
+
 #include "Utils.h"
 
 #define _USE_MATH_DEFINES
-
 #include <math.h>
-#include <stdio.h>
+
+
 
 /* -----------------------------------------------
 Cette fonction realise la norme euclidienne d'un
@@ -61,8 +63,6 @@ void getMatrix4x4Row(float* matrix4x4, float* out_row, int lineIdx) {
     out_row[1] = matrix4x4[4  + lineIdx];
     out_row[2] = matrix4x4[8  + lineIdx];
     out_row[3] = matrix4x4[12 + lineIdx];
-
-    //printf("Row[%d] = { %4.2f, %4.2f, %4.2f, %4.2f }\n", lineIdx, out_row[0], out_row[1], out_row[2], out_row[3]);
 }
 
 // Matrix 4x4 format
@@ -72,7 +72,7 @@ void getMatrix4x4Row(float* matrix4x4, float* out_row, int lineIdx) {
 // m2  m6  m10 m14 
 // m3  m7  m11 m15
 void matrix4x4Product(float* a, float* b, float* res) {
-    int i, j;
+    int i;
 
     for(i = 0; i < 16; ++i) {
         res[i] = a[0  + i%4] * b[0 + (int)floor(i/4.0) * 4] 
@@ -80,34 +80,15 @@ void matrix4x4Product(float* a, float* b, float* res) {
                + a[8  + i%4] * b[2 + (int)floor(i/4.0) * 4]
                + a[12 + i%4] * b[3 + (int)floor(i/4.0) * 4];
     }
-
-    /*
-    printf("A = {");
-    for(i = 0; i < 4; ++i) {
-        printf("{%4.2f,%4.2f,%4.2f,%4.2f},", a[0 + i], a[4 + i], a[8 + i], a[12 + i]);
-    }
-    printf("}\n");
-
-    printf("B =");
-    for(i = 0; i < 4; ++i) {
-        printf("{%4.2f,%4.2f,%4.2f,%4.2f},", b[0 + i], b[4 + i], b[8 + i], b[12 + i]);
-    }
-    printf("}\n");
-
-    printf("RES =");
-    for(i = 0; i < 4; ++i) {
-        printf("\t%4.2f %4.2f %4.2f %4.2f\n", res[0 + i], res[4 + i], res[8 + i], res[12 + i]);
-    }
-    */
 }
 
 char* concat(char* s1, char* s2) {
     int len1 = strlen(s1);
     int len2 = strlen(s2);
-    char* result = malloc((len1+len2+1)*sizeof(result));//+1 for the zero-terminator
+    char* result = (char*)malloc((len1+len2+1)*sizeof(char)); //+1 for the zero-terminator
 
     memcpy(result, s1, len1);
-    memcpy(result+len1, s2, len2+1);//+1 to copy the null-terminator
+    memcpy(result+len1, s2, len2+1); //+1 to copy the null-terminator
 
     return result;
 }
