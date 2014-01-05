@@ -15,4 +15,8 @@ void moveKartForward(double _d);
 void moveKart(double _dx, double _dy, double _dz);
 void rotateKart(double _a);
 
+
+// Global variables
+extern int g_haltAnimation;
+
 #endif

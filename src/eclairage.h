@@ -24,4 +24,8 @@ void turnOffLight(GLuint light);
 
 void draw3DSLights(SCENE_3DS* scene3ds);
 
+// Light Management global variables
+extern GLuint g_nextLight;
+extern unsigned int g_nbLights;
+
 #endif

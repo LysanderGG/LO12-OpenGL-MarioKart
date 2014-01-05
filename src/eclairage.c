@@ -20,7 +20,11 @@
 #include "Utils.h"
 
 extern SCENE* scene;
+
+
 GLuint g_nextLight = GL_LIGHT0;
+unsigned int g_nbLights = 0;
+
 
 // Prototypes
 void calcule_normale(SCENE *scene, int i);
