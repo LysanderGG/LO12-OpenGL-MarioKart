@@ -8,6 +8,7 @@
 #define SELECTED_OBJECT_COLOR_G 0.0f
 #define SELECTED_OBJECT_COLOR_B 0.0f
 #define SELECTED_OBJECT_COLOR_A 0.4f
+#define MAX_LIGHTS              10
 
 void def_sources(SCENE *scene);
 void def_modele(SCENE *scene);
@@ -27,5 +28,6 @@ void draw3DSLights(SCENE_3DS* scene3ds);
 // Light Management global variables
 extern GLuint g_nextLight;
 extern unsigned int g_nbLights;
+extern SOURCE g_lights[MAX_LIGHTS];
 
 #endif

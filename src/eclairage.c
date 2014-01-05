@@ -22,8 +22,9 @@
 extern SCENE* scene;
 
 
-GLuint g_nextLight = GL_LIGHT0;
+GLuint g_nextLight      = GL_LIGHT0;
 unsigned int g_nbLights = 0;
+SOURCE g_lights[MAX_LIGHTS];
 
 
 // Prototypes
@@ -80,6 +81,12 @@ void def_sources(SCENE *scene) {
         source = g_nextLight;
         ++g_nextLight;
 
+        // Save datas in global variable
+        g_lights[g_nbLights].allume     = scene->tabsource[i].allume;
+        g_lights[g_nbLights].allure_faisceau = scene->tabsource[i].allure_faisceau;
+        g_lights[g_nbLights].direction  = scene->tabsource[i].direction;
+        g_lights[g_nbLights].position   = scene->tabsource[i].position;
+
         if(scene->tabsource[i].allume) {
             rgb2rgbaf(&scene->tabsource[i].ambiante, 1, &propc);
             glLightfv(source,GL_AMBIENT,propc.rgba);
@@ -121,6 +128,8 @@ void def_sources(SCENE *scene) {
         } else {
             glDisable(source);
         }
+
+        ++g_nbLights;
     }
 }
 
@@ -231,16 +240,22 @@ void def3DSSources(SCENE_3DS* scene3ds) {
             pos[3] = 1.0;
 
             glLightfv(g_nextLight, GL_DIFFUSE, diff);
+            glLightfv(g_nextLight, GL_SPECULAR, diff);
 	        glLightfv(g_nextLight, GL_POSITION, pos);
 	        glLightfv(g_nextLight, GL_AMBIENT, amb);
+
+            // Save datas in global variable
+            g_lights[g_nbLights].allume     = (light->off + 1) % 2;
+            g_lights[g_nbLights].position.x = pos[0];
+            g_lights[g_nbLights].position.y = pos[1];
+            g_lights[g_nbLights].position.z = pos[2];
+            g_lights[g_nbLights].position.w = pos[3];
 
             if(light->spot_light) {
                 tar[0] = cos(angle);
                 tar[1] = sin(angle);
                 tar[2] = 0.0f;
                 tar[3] = 1.0f;
-
-                //printf("light %d target %f, %f, %f \n", iLight, tar[0], tar[1], tar[2]);
 
                 glLightfv(g_nextLight, GL_SPOT_DIRECTION, tar);
                 fallOff[0] = light->falloff;
@@ -254,18 +269,16 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 
                 glLightfv(g_nextLight, GL_LINEAR_ATTENUATION, attenuation);
 
-                /*printf("name %s, diffuse %f %f %f, ambient %f %f %f, fallOff %f, attenuation %f\n",
-                    light->name,
-                    diff[0],
-                    diff[1],
-                    diff[2],
-                    amb[0],
-                    amb[1],
-                    amb[2],
-                    fallOff,
-                    attenuation);*/
+                // Save data in global variable
+                g_lights[g_nbLights].direction.x = tar[0];
+                g_lights[g_nbLights].direction.y = tar[1];
+                g_lights[g_nbLights].direction.z = tar[2];
+                g_lights[g_nbLights].direction.w = tar[3];
+                g_lights[g_nbLights].allure_faisceau.k     = 0.0;
+                g_lights[g_nbLights].allure_faisceau.theta = fallOff[0];
 	        }
             ++g_nextLight;
+            ++g_nbLights;
         }
     }
 
