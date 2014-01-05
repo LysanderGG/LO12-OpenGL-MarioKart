@@ -33,8 +33,6 @@
 #include "Utils.h"
 
 extern SCENE* scene;
-extern GLuint g_nextLight;
-extern int g_haltAnimation;
 
 void DrawScene_sample(float angle);
 
@@ -237,12 +235,11 @@ void idleFunc() {
 }
 
 void redefineLights() {
-    // TODO - list of lights
-    /*
+    g_nbLights  = 0;
     g_nextLight = GL_LIGHT0;
     def_sources(scene);
     def3DSSources(g_scenes3DS);
-    */
+    
 }
 
 void draw2DText(char* str) {

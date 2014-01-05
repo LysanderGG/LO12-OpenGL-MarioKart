@@ -3,8 +3,8 @@
 
 #include "scene.h"
 
-#define max(a,b) a > b ? a : b
-#define min(a,b) a < b ? a : b
+//#define max(a,b) a > b ? a : b
+//#define min(a,b) a < b ? a : b
 
 typedef float Lib3dsMatrix[4][4];
 
