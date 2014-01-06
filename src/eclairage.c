@@ -104,26 +104,6 @@ void def_sources(SCENE *scene) {
             mcoord2mcoordf(&scene->tabsource[i].direction, &propp);
             glLightfv(source,GL_SPOT_DIRECTION,propp.vect);
 
-            glDisable(GL_LIGHTING);
-            glBegin(GL_POINT);
-            glColor3f(1.0f, .0f, .0f);
-            glPointSize(50.0);
-            glVertex3f(scene->tabsource[i].position.x,
-                       scene->tabsource[i].position.y,
-                       scene->tabsource[i].position.z);
-            glEnd();
-
-            glBegin(GL_LINES);
-            glVertex3f(scene->tabsource[i].position.x,
-                       scene->tabsource[i].position.y,
-                       scene->tabsource[i].position.z);
-
-            glVertex3f(scene->tabsource[i].direction.x,
-                       scene->tabsource[i].direction.y,
-                       scene->tabsource[i].direction.z);
-            glEnd();
-            glEnable(GL_LIGHTING);
-
             glEnable(source);
         } else {
             glDisable(source);
@@ -308,7 +288,7 @@ void def3DSSelectedMatiere(Lib3dsFile* scene3ds, int i) {
 }
 
 void switchLight(GLuint light) {
-    printf("switch light %d\n", light);
+    printf("switch light %d\n", light - GL_LIGHT0);
     if(glIsEnabled(light)) {
         glDisable(light);
     } else {
@@ -322,6 +302,31 @@ void turnOnLight(GLuint light) {
 
 void turnOffLight(GLuint light) {
     glDisable(light);
+}
+
+void drawLights(SCENE* scene) {
+    int i;
+    
+    for(i = 0; i < scene->nbsource; ++i) {
+        glDisable(GL_LIGHTING);
+        glBegin(GL_POINT);
+        glColor3f(1.0f, .0f, .0f);
+        glVertex3f(scene->tabsource[i].position.x,
+                   scene->tabsource[i].position.y,
+                   scene->tabsource[i].position.z);
+        glEnd();
+
+        glBegin(GL_LINES);
+        glVertex3f(scene->tabsource[i].position.x,
+                   scene->tabsource[i].position.y,
+                   scene->tabsource[i].position.z);
+
+        glVertex3f(scene->tabsource[i].position.x + scene->tabsource[i].direction.x * 5.0,
+                   scene->tabsource[i].position.y + scene->tabsource[i].direction.y * 5.0,
+                   scene->tabsource[i].position.z + scene->tabsource[i].direction.z * 5.0);
+        glEnd();
+        glEnable(GL_LIGHTING);
+    }
 }
 
 void draw3DSLights(SCENE_3DS* scene3ds) {

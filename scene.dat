@@ -14,8 +14,8 @@
 ##DEFINTION DES OBJETS##
 ##DEFINITION DES SOURCES##
 #<source 0>#
-0.5 0.5 0.5		#couleur ambiante
-0.5 0.5 0.5		#couleur source
-10.0	-50.0	50.0	0.0	#position initiale
-0.0	180.0			#allure du faisceau (k; theta)
-0.0	0.0	1.0		#direction du faisceau
+0.1 0.1 0.1		#couleur ambiante
+0.2 0.2 0.2		#couleur source
+0.0	0.0	100.0 0.0	#position initiale
+5.0	45.0		#allure du faisceau (k; theta)
+0.1	0.1	-1.0		#direction du faisceau

@@ -23,6 +23,7 @@ void switchLight(GLuint light);
 void turnOnLight(GLuint light);
 void turnOffLight(GLuint light);
 
+void drawLights(SCENE* scene);
 void draw3DSLights(SCENE_3DS* scene3ds);
 
 // Light Management global variables

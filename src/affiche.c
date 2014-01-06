@@ -100,7 +100,7 @@ void dessine_face(INDICE_FACE iface, int _differentColorForEachVertex)
     }
 
     glEnd();
-    glDisable( GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
 }
 
 /*****************************************************************************/
@@ -239,7 +239,6 @@ void redefineLights() {
     g_nextLight = GL_LIGHT0;
     def_sources(scene);
     def3DSSources(g_scenes3DS);
-    
 }
 
 void draw2DText(char* str) {
@@ -294,6 +293,7 @@ void draw() {
 
     // Dessine les sources lumineuses (vecteurs dans la direction de la source).
     if(g_debugLights) {
+        drawLights(scene);
         draw3DSLights(g_scenes3DS);
     }
 
