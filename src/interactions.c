@@ -37,9 +37,6 @@ void callSpecialFunc(int key, int x, int y) {
 
     // Global modifications
     switch(key) {
-        case GLUT_KEY_F10: /* rotate selon direction axe z */
-            rotateZ(sens * OBS_ROTATING_Z);
-            break;
         case GLUT_KEY_LEFT:
             rotateHead(OBS_ROTATING_HEAD);
             break;
@@ -79,10 +76,18 @@ void callSpecialFunc(int key, int x, int y) {
             }
             redefineLights();
             break;
+        case GLUT_KEY_F10:
+            switchLight(g_scenes3DS[ANIMATED_KART_ID].lights[0]);
+            switchLight(g_scenes3DS[ANIMATED_KART_ID].lights[1]);
+            redefineLights();
+            break;
         case GLUT_KEY_F11: /* turn on or off kart's lights */
             switchLight(g_scenes3DS[KART_ID].lights[0]);
             switchLight(g_scenes3DS[KART_ID].lights[1]);
             redefineLights();
+            break;
+        case GLUT_KEY_F12: /* rotate selon direction axe z */
+            rotateZ(sens * OBS_ROTATING_Z);
             break;
     }
 
@@ -292,7 +297,9 @@ void print_help() {
               "F5: tourne l'objet selon axe y\n"
               "F6: tourne l'objet selon axe z\n"
               "F9: allumer/eteindre la source a l'infini\n"
-              "F10:   l'observateur tourne autour de l'axe z de la scene\n"
+              "F10:   allumer/eteindre le kart anime\n"
+              "F11:   allumer/eteindre le kart bougeable\n"
+              "F12:   l'observateur tourne autour de l'axe z de la scene\n"
               "LEFT:  l'observateur tourne la tete a droite\n"
               "RIGHT: l'observateur tourne la tete a gauche\n"
               "UP:    l'observateur leve la tete\n"
