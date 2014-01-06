@@ -20,9 +20,9 @@
 
 #define DEFAULT_OBS_MODE            OBS_MODE_POLAR_VIEW
 
-#define DEFAULT_POLAR_DISTANCE      20
+#define DEFAULT_POLAR_DISTANCE      100
 #define DEFAULT_POLAR_AZIMUT        30
-#define DEFAULT_POLAR_ELEVATION     20
+#define DEFAULT_POLAR_ELEVATION     30
 #define DEFAULT_POLAR_TWIST         0
 
 #define DEFAULT_PLANE_X             5
@@ -34,7 +34,7 @@
 
 #define KART_VIEW_X_OFFSET 0
 #define KART_VIEW_Y_OFFSET 0
-#define KART_VIEW_Z_OFFSET 0
+#define KART_VIEW_Z_OFFSET 7
 
 // Variables globales
 extern char*  g_obsModeTitles[3];
