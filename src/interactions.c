@@ -10,17 +10,18 @@
 #include "skybox.h"
 
 extern int g_haltAnimation;
-int g_currentObj = -1;
-int g_current3DSScene = 0;
-int g_isCurrentObject = 0;
+int g_currentObj        = -1;
+int g_current3DSScene   = 0;
+int g_isCurrentObject   = 0;
 EMouseButton g_mouseCurrentButton = NONE;
-int g_mousePreviousX = 0;
-int g_mousePreviousY = 0;
-int g_switchLight = 1;
+int g_mousePreviousX    = 0;
+int g_mousePreviousY    = 0;
+int g_switchLight       = 1;
 int g_dayTime = DAY;
 unsigned char g_eventList[EVENT_LIST_MAX_SIZE];
-unsigned int  g_eventListSize = 0;
+unsigned int  g_eventListSize  = 0;
 int           g_eventDirection = 1;
+int           g_isShiftDown    = 0;
 
 // debug variables
 int g_debugLights = 1;
@@ -131,10 +132,11 @@ void callKeyboardUpFunc(unsigned char key, int x, int y) {
 void callKeyboardDownFunc(unsigned char key, int x, int y) {
     switch (key) {
         case ' ':
-            g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + g_eventDirection) % (getTotalNbObjects() + 1));
+            /*g_currentObj = ((g_currentObj + getTotalNbObjects() + 1 + g_eventDirection) % (getTotalNbObjects() + 1));
             if(g_currentObj == getTotalNbObjects()) {
                 g_currentObj = -1;
-            }
+            }*/
+            addToEventList(key);
             break;
         case 'h':
         case 'H':
@@ -148,6 +150,11 @@ void callKeyboardDownFunc(unsigned char key, int x, int y) {
         case 'o':
         case 'O':
             changeMode();
+            break;
+        case 'l':
+        case 'L':
+            g_debugLights ^= 1;
+            g_debugRepere ^= 1;
             break;
         case 'z':
         case 'Z':
@@ -208,26 +215,37 @@ void removeFromEventList(unsigned char key) {
     }
 }
 
+int isInEventList(unsigned char key) {
+    unsigned int i;
+    for(i = 0; i < g_eventListSize; ++i) {
+        if(key == g_eventList[i]) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void handleKeyboardEvents() {
     unsigned int i;
     unsigned char key;
+    float speedModificator = 1.0f;
 
-    //printf("Event List : { ");
+    if(isInEventList(' ')) {
+        speedModificator = 5.0f;
+    }
 
     // Parse event list
     for(i = 0; i < g_eventListSize; ++i) {
         key = g_eventList[i];
 
-        //printf("%d ", key);
-
         switch (key) {
             case 'z':
             case 'Z':
-                moveKartForward(TRANSLATING);
+                moveKartForward(speedModificator * TRANSLATING);
                 break;
             case 's':
             case 'S':
-                moveKartForward(-TRANSLATING);
+                moveKartForward(- speedModificator * TRANSLATING);
                 break;
             case 'q':
             case 'Q':
@@ -237,15 +255,10 @@ void handleKeyboardEvents() {
             case 'D':
                 rotateKart(-ROTATING);
                 break;
-            case 'm':
-            case 'M':
-                g_haltAnimation ^= 1;
-                glutTimerFunc(10, animationTimer, 0);
+            default:
                 break;
         }
     }
-
-    //printf("} \n");
 
     glutPostRedisplay();
 }
@@ -290,20 +303,24 @@ void print_help() {
     char* s = "***************************\n"
               "*** Touches de controle ***\n"
               "***************************\n"
-              "F1: avance l'objet selon direction axe x\n"
-              "F2: avance l'objet selon direction axe y\n"
-              "F3: avance l'objet selon direction axe z\n"
-              "F4: tourne l'objet selon axe x\n"
-              "F5: tourne l'objet selon axe y\n"
-              "F6: tourne l'objet selon axe z\n"
-              "F9: allumer/eteindre la source a l'infini\n"
-              "F10:   allumer/eteindre le kart anime\n"
-              "F11:   allumer/eteindre le kart bougeable\n"
-              "F12:   l'observateur tourne autour de l'axe z de la scene\n"
-              "LEFT:  l'observateur tourne la tete a droite\n"
+              "### Sources lumineuses\n"
+              "F9   : allumer/eteindre la source a l'infini\n"
+              "F10  : allumer/eteindre le kart anime\n"
+              "F11  : allumer/eteindre le kart bougeable\n"
+              "### Observateur\n"
+              "F12  : l'observateur tourne autour de l'axe z de la scene\n"
+              "LEFT : l'observateur tourne la tete a droite\n"
               "RIGHT: l'observateur tourne la tete a gauche\n"
-              "UP:    l'observateur leve la tete\n"
-              "DOWN:  l'observateur baisse la tete\n"
+              "UP   : l'observateur leve la tete\n"
+              "DOWN : l'observateur baisse la tete\n"
+              "### Kart\n"
+              "Z/S  : avancer/reculer\n"
+              "Q/D  : tourner vers la gauche/droite\n"
+              "SPACE: avancer/reculer plus vite\n"
+              "### Sources lumineuses\n"
+              "L    : afficher/cacher les dessins de debug\n"
+              "M    : demarrer/arreter l'animation\n"
+              "O    : Changer le mode de l'observateur\n"
               "*****************************\n"
               "*** Commandes a la souris ***\n"
               "*****************************\n"

@@ -26,6 +26,7 @@ extern EMouseButton g_mouseCurrentButton;
 extern int g_mousePreviousX;
 extern int g_mousePreviousY;
 extern int g_switchLight;
+extern int g_isShiftDown;
 
 // debug variables
 extern int g_debugLights;
@@ -42,6 +43,7 @@ void callMotionFunc(int x, int y);
 
 void addToEventList(unsigned char key);
 void removeFromEventList(unsigned char key);
+int isInEventList(unsigned char key);
 
 void print_help();
 
