@@ -100,6 +100,10 @@ void saveCameraMatrix() {
 }
 
 void recomputeLightMatrices() {
+    if(!USE_SHADOW_MODEL) {
+        return;
+    }
+
     glPushMatrix();
 
     glLoadIdentity();

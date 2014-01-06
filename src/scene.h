@@ -198,6 +198,8 @@ typedef struct {
 #define DEFAULT_PERSPECTIVE_NEAR    1.0
 #define DEFAULT_PERSPECTIVE_FAR     1000.0
 
+#define USE_SHADOW_MODEL        0
+
 //*********************//
 //Variables Globales : //
 //*********************//

@@ -16,24 +16,6 @@ img/3d/animation.3ds
 # Rotate
 0.0 0.0 0.0
 
-# Kart 
-img/3d/kart.3ds
-# Scale
-1.0
-# Translate
-0.0 0.0 3.0
-# Rotate
-0.0 0.0 0.0
-
-# Kart 
-img/3d/tuyau.3ds
-# Scale
-0.1
-# Translate
--7.0 -2.0 0.0
-# Rotate
-0.0 0.0 0.0
-
 img/3d/sand.3ds
 1.0
 0.0 0.0 -2.0

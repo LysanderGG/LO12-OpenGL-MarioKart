@@ -275,7 +275,18 @@ void draw() {
     
     dessine_box();
 
-    drawSceneWithShadow();
+    if(USE_SHADOW_MODEL) {
+        drawSceneWithShadow();
+    } else {
+        glEnable(GL_TEXTURE_2D);
+        glMatrixMode(GL_PROJECTION);
+        glLoadMatrixf(g_cameraProjectionMatrix);
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadMatrixf(g_cameraViewMatrix);
+
+        dessine_scene();
+    }
 
     if(g_debugRepere) {
         dessine_repere();
