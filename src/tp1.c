@@ -34,15 +34,6 @@
 #include "SceneUtils.h"
 #include "texture.h"
 
-//**************//
-//DEFINITIONS : //
-//**************//
-
-#define PROJECT_NAME "scene"
-#define EXT_3DS "_3ds"
-#define FILE_EXT ".dat"
-#define MODELE_FILE_NAME "random_models.dat"
-
 
 /*******************************************************************************/
 /*                      Initialisations pour GL et Glut                        */
@@ -105,27 +96,15 @@ int main(int argc, char**argv) {
         return -1;
     }
 
-    if(read_scene_file_3ds(g_scenes3DS, filename_3ds, &g_nbScenes3DS)) {
+    if(read_scene_file_3ds(filename_3ds)) {
         printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename_3ds);
         return -1;
     }
 
-    for(i = 0; i < g_nbScenes3DS; ++i) {
-        printf("3DS Scene\n");
-        printf("Scene #%d\n", i);
-        printf("  libs3dsfile: %p\n", g_scenes3DS[i].lib3dsfile);
-        printf("  lights   : %x %x\n", g_scenes3DS[i].lights[0], g_scenes3DS[i].lights[1]);
-        printf("  Scale    : %4.2f\n", g_scenes3DS[i].scale);
-        printf("  Translate: %4.2f %4.2f %4.2f\n", g_scenes3DS[i].translate[0], g_scenes3DS[i].translate[1], g_scenes3DS[i].translate[2]);
-        printf("  Rotate   : %4.2f %4.2f %4.2f\n", g_scenes3DS[i].rotate[0], g_scenes3DS[i].rotate[1], g_scenes3DS[i].rotate[2]);
-    }
-    if(load_3ds_models_and_randomize(g_scenes3DS, filename_models, &nb3DSRandomObjects)) {
+    if(load_3ds_models_and_randomize(filename_models)) {
         printf("Il y a un probleme: je ne peux pas lire le fichier: %s\n", filename_models);
         return -1;
     }
-
-    // Add Random 3DS objects to the number of scenes.
-    g_nbScenes3DS += nb3DSRandomObjects;
 
     for(i = 0; i < g_nbScenes3DS; ++i) {
         printf("3DS Scene\n");

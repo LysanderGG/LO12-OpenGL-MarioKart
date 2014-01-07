@@ -26,9 +26,10 @@
 #include <string.h>
 #include <time.h>
 
+#include "DatUtils.h"
 #include "scene.h"
 #include "SceneUtils.h"
-#include "DatUtils.h"
+#include "texture.h"
 
 #ifdef _MSC_VER
 #define SNPRINTF _snprintf
@@ -434,7 +435,7 @@ void trim(char * s) {
     memmove(s, p, l + 1);
 }
 
-int read_scene_file_3ds(SCENE_3DS* scene, char *filename, int* out_nbScenes) {
+int read_scene_file_3ds(char *filename) {
     FILE *file;                        /* identificateur du fichier */
     int   i, line = 0;
     char  buffer[100];
@@ -470,7 +471,7 @@ int read_scene_file_3ds(SCENE_3DS* scene, char *filename, int* out_nbScenes) {
             fgets(buffer, 100, file);
         }
         // Fill Scale
-        scene[scene3dsIdx].scale = atof(buffer);
+        g_scenes3DS[scene3dsIdx].scale = atof(buffer);
 
         // Load new line
         fgets(buffer, 100, file);
@@ -480,7 +481,7 @@ int read_scene_file_3ds(SCENE_3DS* scene, char *filename, int* out_nbScenes) {
         // Fill Translate
         s = strtok(buffer, " ");
         for(i = 0; s != NULL; ++i) {
-            scene[scene3dsIdx].translate[i] = atof(s);
+            g_scenes3DS[scene3dsIdx].translate[i] = atof(s);
             s = strtok(NULL, " ");
         }
 
@@ -492,15 +493,15 @@ int read_scene_file_3ds(SCENE_3DS* scene, char *filename, int* out_nbScenes) {
         // Fill Rotate
         s = strtok(buffer, " ");
         for(i = 0; s != NULL; ++i) {
-            scene[scene3dsIdx].rotate[i] = atof(s);
+            g_scenes3DS[scene3dsIdx].rotate[i] = atof(s);
             s = strtok(NULL, " ");
         }
 
         // Debug printf
         printf("FILENAME : %s - SCALE : %4.2f - TRANSLATE %4.2f %4.2f %4.2f - ROTATE %4.2f %4.2f %4.2f\n"
-            , filename3ds, scene[scene3dsIdx].scale
-            , scene[scene3dsIdx].translate[0], scene[scene3dsIdx].translate[1], scene[scene3dsIdx].translate[2]
-            , scene[scene3dsIdx].rotate[0], scene[scene3dsIdx].rotate[1], scene[scene3dsIdx].rotate[2]);
+            , filename3ds, g_scenes3DS[scene3dsIdx].scale
+            , g_scenes3DS[scene3dsIdx].translate[0], g_scenes3DS[scene3dsIdx].translate[1], g_scenes3DS[scene3dsIdx].translate[2]
+            , g_scenes3DS[scene3dsIdx].rotate[0], g_scenes3DS[scene3dsIdx].rotate[1], g_scenes3DS[scene3dsIdx].rotate[2]);
 
         // Load 3DS scene
         if(scene3dsIdx >= NB_MAX_3DS_SCENES) {
@@ -508,20 +509,32 @@ int read_scene_file_3ds(SCENE_3DS* scene, char *filename, int* out_nbScenes) {
             return(-1);
         }
 
-        if(charge_scene3ds(filename3ds, &scene[scene3dsIdx].lib3dsfile) != -1) {
+        if(charge_scene3ds(filename3ds, &g_scenes3DS[scene3dsIdx].lib3dsfile) != -1) {
             ++scene3dsIdx;
         }
     }
 
-    *out_nbScenes = scene3dsIdx;
+    g_nbScenes3DS = scene3dsIdx;
 
     return 0;
+}
+
+void reload_random_objects(char* filename) {
+    // First clean previous objects
+    memset(g_scenes3DS + (g_nbScenes3DS - g_nbRandomObjects), 0, g_nbRandomObjects * sizeof(SCENE_3DS));
+    
+    // Reinit variables
+    g_nbScenes3DS -= g_nbRandomObjects;
+    g_nbRandomObjects = 0;
+    // Load random objects
+    load_3ds_models_and_randomize(filename);
+    load3dsTextures();
 }
 
 /*
  *
  */
-int load_3ds_models_and_randomize(SCENE_3DS* models, char* filename, int* out_nbScenes) {
+int load_3ds_models_and_randomize(char* filename) {
     FILE *file;                        /* identificateur du fichier */
     int   i;
     char  buffer[100];
@@ -596,29 +609,31 @@ int load_3ds_models_and_randomize(SCENE_3DS* models, char* filename, int* out_nb
         // Random Model
         modele3DSIdx = rand() % nbModeles3DS;
         // Copy the information of the model.
-        models[objectIndex].lib3dsfile = tmp3DSLibFiles[modele3DSIdx];
-        models[objectIndex].scale      = tmp3DSScale[modele3DSIdx];
+        g_scenes3DS[objectIndex].lib3dsfile = tmp3DSLibFiles[modele3DSIdx];
+        g_scenes3DS[objectIndex].scale      = tmp3DSScale[modele3DSIdx];
         // Random translation
-        models[objectIndex].translate[0]   = rand() % (SCENE_X_MAX + 1 - SCENE_X_MIN) + SCENE_X_MIN;
-        models[objectIndex].translate[1]   = rand() % (SCENE_Y_MAX + 1 - SCENE_Y_MIN) + SCENE_Y_MIN;
-        models[objectIndex].translate[2]   = 0.0f;
+        g_scenes3DS[objectIndex].translate[0]   = rand() % (SCENE_X_MAX + 1 - SCENE_X_MIN) + SCENE_X_MIN;
+        g_scenes3DS[objectIndex].translate[1]   = rand() % (SCENE_Y_MAX + 1 - SCENE_Y_MIN) + SCENE_Y_MIN;
+        g_scenes3DS[objectIndex].translate[2]   = 0.0f;
         // No rotation
-        models[objectIndex].rotate[0]      = 0.0f;
-        models[objectIndex].rotate[1]      = 0.0f;
-        models[objectIndex].rotate[2]      = 0.0f;
+        g_scenes3DS[objectIndex].rotate[0]      = 0.0f;
+        g_scenes3DS[objectIndex].rotate[1]      = 0.0f;
+        g_scenes3DS[objectIndex].rotate[2]      = 0.0f;
         
         printf("\n");
         printf("Generated object [%d]: \n", objectIndex - g_nbScenes3DS);
         printf("  Model    : %d\n", modele3DSIdx);
-        printf("  Scale    : %4.2f\n", models[objectIndex].scale);
-        printf("  Translate: %4.2f %4.2f %4.2f\n", models[objectIndex].translate[0], models[objectIndex].translate[1], models[objectIndex].translate[2]);
-        printf("  Rotate   : %4.2f %4.2f %4.2f\n", models[objectIndex].rotate[0], models[objectIndex].rotate[1], models[objectIndex].rotate[2]);
+        printf("  Scale    : %4.2f\n", g_scenes3DS[objectIndex].scale);
+        printf("  Translate: %4.2f %4.2f %4.2f\n", g_scenes3DS[objectIndex].translate[0], g_scenes3DS[objectIndex].translate[1], g_scenes3DS[objectIndex].translate[2]);
+        printf("  Rotate   : %4.2f %4.2f %4.2f\n", g_scenes3DS[objectIndex].rotate[0], g_scenes3DS[objectIndex].rotate[1], g_scenes3DS[objectIndex].rotate[2]);
 
         ++objectIndex;
     }
     printf("---------------------------------------------\n");
 
-    *out_nbScenes = nbObjects;
+    // Add Random 3DS objects to the number of scenes.
+    g_nbScenes3DS += nbObjects;
+    g_nbRandomObjects = nbObjects;
 
     return 0;
 }

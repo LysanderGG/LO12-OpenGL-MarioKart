@@ -182,6 +182,10 @@ typedef struct {
 //*********************//
 //Defines :            //
 //*********************//
+#define PROJECT_NAME        "scene"
+#define EXT_3DS             "_3ds"
+#define FILE_EXT            ".dat"
+#define MODELE_FILE_NAME    "random_models.dat"
 
 #define KART_ID                 0
 #define ANIMATED_KART_ID        1

@@ -8,6 +8,7 @@
 
 extern SCENE_3DS       g_scenes3DS[NB_MAX_3DS_SCENES];
 extern int             g_nbScenes3DS;
+extern int             g_nbRandomObjects;
 
 int loadTextures() {
     int i = 0;

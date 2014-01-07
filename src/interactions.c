@@ -7,6 +7,7 @@
 #include "interactions.h"
 #include "observateur.h"
 #include "scene.h"
+#include "SceneUtils.h"
 #include "skybox.h"
 
 extern int g_haltAnimation;
@@ -150,6 +151,10 @@ void callKeyboardDownFunc(unsigned char key, int x, int y) {
         case 'o':
         case 'O':
             changeMode();
+            break;
+        case 'r':
+        case 'R':
+            reload_random_objects(MODELE_FILE_NAME);
             break;
         case 'l':
         case 'L':

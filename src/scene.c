@@ -22,6 +22,7 @@
 SCENE*          scene;
 SCENE_3DS       g_scenes3DS[NB_MAX_3DS_SCENES];
 int             g_nbScenes3DS = 0;
+int             g_nbRandomObjects = 0;
 
 int getTotalNbObjects() {
     int res, i;
