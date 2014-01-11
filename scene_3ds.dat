@@ -3,12 +3,12 @@ img/3d/kart.3ds
 # Scale
 1.0
 # Translate
--10.0 -67.0 0.0
+110.0 220.0 0.0
 # Rotate
-0.0 0.0 0.0
+0.0 0.0 180.0
 
 # Kart anime
-img/3d/animation.3ds
+img/3d/animationField.3ds
 # Scale
 1.0
 # Translate
@@ -16,7 +16,12 @@ img/3d/animation.3ds
 # Rotate
 0.0 0.0 0.0
 
-img/3d/sand.3ds
+img/3d/field.3ds
 1.0
-0.0 0.0 -2.0
+0.0 0.0 0.0
+0.0 0.0 0.0
+
+img/3d/arrival.3ds
+1.0
+0.0 0.0 0.0
 0.0 0.0 0.0

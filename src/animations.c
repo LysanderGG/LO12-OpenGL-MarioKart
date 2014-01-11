@@ -40,9 +40,9 @@ void animationInit(int frame) {
     else
         angle = acos(node->matrix[0][0]*5) * 180 / M_PI;
 
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[0] = tx;
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[1] = ty;
-    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[2] = tz;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[0] = 0;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[1] = 0;
+    g_scenes3DS[ANIMATED_KART_ID].translateAnimationInit[2] = 0;
     g_scenes3DS[ANIMATED_KART_ID].rotateAnimationInit[2] = angle;
 
     g_scenes3DS[ANIMATED_KART_ID].translateAnimation[0] = tx;
