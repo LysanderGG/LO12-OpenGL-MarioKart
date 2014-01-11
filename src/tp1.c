@@ -123,7 +123,7 @@ int main(int argc, char**argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);     /* mode rgb */
     glutInitWindowSize(800, 600);   /* taille de la fenetre ecran */
-    glutCreateWindow("Mario Kart LO12");
+    glutCreateWindow("Mario Kart LO12 (polar view)");
 
     if(init() == -1) {
         return -1;
@@ -138,7 +138,6 @@ int main(int argc, char**argv) {
     glutMouseFunc(callMouseFunc);
     glutMotionFunc(callMotionFunc);
 
-    //glutTimerFunc(10, animationTimer, 0);
     glutMainLoop();
     return 0;
 }

@@ -207,16 +207,16 @@ void def3DSSources(SCENE_3DS* scene3ds) {
 	        }
 	        diff[3] = amb[3] = 1.0;
 
-            angle = scene3ds[iScene].rotate[2] * M_PI / 180.0f;
+            angle = (scene3ds[iScene].rotate[2] - scene3ds->rotateAnimationInit[2] + scene3ds->rotateAnimation[2]) * M_PI / 180.0f;
 
              // Vector coordinates afer rotation
             newX = v[0] * cos(angle) - v[1] * sin(angle);
             newY = v[0] * sin(angle) + v[1] * cos(angle);
 
             // Light source point position
-            pos[0] = newX + scene3ds[iScene].translate[0];
-            pos[1] = newY + scene3ds[iScene].translate[1];
-            pos[2] = v[2] + scene3ds[iScene].translate[2];
+            pos[0] = newX + scene3ds[iScene].translate[0] + (-scene3ds[iScene].translateAnimationInit[0] + scene3ds[iScene].translateAnimation[0]) * scene3ds->scale;
+            pos[1] = newY + scene3ds[iScene].translate[1] + (-scene3ds[iScene].translateAnimationInit[1] + scene3ds[iScene].translateAnimation[1]) * scene3ds->scale;
+            pos[2] = v[2] + scene3ds[iScene].translate[2] + (-scene3ds[iScene].translateAnimationInit[2] + scene3ds[iScene].translateAnimation[2]) * scene3ds->scale;
             pos[3] = 1.0;
 
             glLightfv(g_nextLight, GL_DIFFUSE, diff);

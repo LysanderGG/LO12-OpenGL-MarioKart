@@ -6,6 +6,7 @@
 
 #include "affiche.h"
 #include "animations.h"
+#include "eclairage.h"
 #include "observateur.h"
 #include "scene3ds.h"
 #include "Utils.h"
@@ -51,6 +52,7 @@ void animationInit(int frame) {
     g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = angle;
 
     g_currentFrame = frame;
+    redefineLights();
 }
 
 void animationTimer(int value) {
@@ -91,6 +93,7 @@ void animationTimer(int value) {
         else
             g_scenes3DS[ANIMATED_KART_ID].rotateAnimation[2] = acos(node->matrix[0][0]*5) * 180 / M_PI;
 
+        redefineLights();
         glutTimerFunc(10, animationTimer, 0);
     }
 }
