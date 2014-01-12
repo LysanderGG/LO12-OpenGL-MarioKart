@@ -219,6 +219,7 @@ void reshape(int _w, int _h) {
     if(_h < 1) { _h = 1; }
 
     //Save new window size
+    glViewport (0, 0, (GLsizei) _w, (GLsizei) _h); 
     g_windowWidth = _w, g_windowHeight = _h;
 
     glPushMatrix();
