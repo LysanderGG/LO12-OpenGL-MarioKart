@@ -8,6 +8,7 @@
 #include "animations.h"
 #include "eclairage.h"
 #include "observateur.h"
+#include "scene.h"
 #include "scene3ds.h"
 #include "Utils.h"
 
@@ -153,10 +154,12 @@ void moveKartForward(double _d) {
     dy = _d * sin(g_scenes3DS[KART_ID].rotate[2] * M_PI / 180.0);
     dz = 0.0f;
 
-    g_scenes3DS[KART_ID].translate[0] += dx;
-    g_scenes3DS[KART_ID].translate[1] += dy;
-    g_scenes3DS[KART_ID].translate[2] += dz;
-
+    if(g_scenes3DS[KART_ID].translate[0] + dx < SCENE_X_MAX && g_scenes3DS[KART_ID].translate[0] + dx > SCENE_X_MIN
+       && g_scenes3DS[KART_ID].translate[1] + dy < SCENE_Y_MAX && g_scenes3DS[KART_ID].translate[1] + dy > SCENE_Y_MIN) {
+        g_scenes3DS[KART_ID].translate[0] += dx;
+        g_scenes3DS[KART_ID].translate[1] += dy;
+        g_scenes3DS[KART_ID].translate[2] += dz;
+    }
     recomputeView();
 }
 

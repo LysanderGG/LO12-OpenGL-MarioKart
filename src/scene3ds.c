@@ -92,11 +92,11 @@ void dessineFace(SCENE_3DS* scene3ds, Lib3dsMesh * Obj, int iFace) {
             x = Obj->vertices[ Obj->faces[iFace].index[i] ][0];
             y = Obj->vertices[ Obj->faces[iFace].index[i] ][1];
             z = Obj->vertices[ Obj->faces[iFace].index[i] ][2];
-            if(Obj->texcos != NULL) {
-                texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
-                texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
-                glTexCoord2d(texx, texy);
-            }
+
+            texx = Obj->texcos[ Obj->faces[iFace].index[i] ][0];
+            texy = Obj->texcos[ Obj->faces[iFace].index[i] ][1];
+            glTexCoord2d(texx, texy);
+
             glVertex3d(x,y,z);
         }
         glEnd();
