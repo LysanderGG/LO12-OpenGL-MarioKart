@@ -29,10 +29,52 @@ void prod_vectoriel(MCOORD u, MCOORD v, MCOORD *w) {
     w->z = u.x * v.y - u.y * v.x;
 }
 
+int prod_scalaire(MCOORD u, MCOORD v) {
+    return u.x*v.x + u.y*v.y + u.z*v.z;
+}
+
 void calcule_vecteur(MCOORD p1, MCOORD p2, MCOORD *v) {
     v->x = p2.x - p1.x;
     v->y = p2.y - p1.y;
     v->z = p2.z - p1.z;
+}
+
+/*
+* Check if M is in the triangle ABC.
+* Return 1 if it is, otherwise 0
+*/
+int isInTriangle(MCOORD A, MCOORD B, MCOORD C, MCOORD M) {
+    MCOORD vect1;
+    MCOORD vect2;
+    MCOORD vect3;
+    MCOORD pvect1;
+    MCOORD pvect2;
+
+    calcule_vecteur(A, B, &vect1);
+    calcule_vecteur(A, M, &vect2);
+    calcule_vecteur(A, C, &vect3);
+    prod_vectoriel(vect1, vect2, &pvect1);
+    prod_vectoriel(vect2, vect3, &pvect2);
+    if(prod_scalaire(pvect1, pvect2) < 0)
+        return 0;
+
+    calcule_vecteur(B, A, &vect1);
+    calcule_vecteur(B, M, &vect2);
+    calcule_vecteur(B, C, &vect3);
+    prod_vectoriel(vect1, vect2, &pvect1);
+    prod_vectoriel(vect2, vect3, &pvect2);
+    if(prod_scalaire(pvect1, pvect2) < 0)
+        return 0;
+
+    calcule_vecteur(C, A, &vect1);
+    calcule_vecteur(C, M, &vect2);
+    calcule_vecteur(C, B, &vect3);
+    prod_vectoriel(vect1, vect2, &pvect1);
+    prod_vectoriel(vect2, vect3, &pvect2);
+    if(prod_scalaire(pvect1, pvect2) < 0)
+        return 0;
+
+    return 1;
 }
 
 void normalise(MCOORD *v) {

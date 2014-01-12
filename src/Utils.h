@@ -10,7 +10,9 @@ typedef float Lib3dsMatrix[4][4];
 
 void calcule_normales(SCENE *scene);
 void calcule_vecteur(MCOORD p1, MCOORD p2, MCOORD *v);
+int prod_scalaire(MCOORD u, MCOORD v);
 void prod_vectoriel(MCOORD u, MCOORD v, MCOORD *w);
+int isInTriangle(MCOORD A, MCOORD B, MCOORD C, MCOORD M);
 void normalise(MCOORD *v);
 
 void getMatrix4x4Row(float* matrix4x4, float* out_row, int lineIdx);

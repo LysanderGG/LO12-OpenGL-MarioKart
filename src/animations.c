@@ -149,13 +149,51 @@ void rotate(OBJET* _obj, double _ax, double _ay, double _az) {
  */
 void moveKartForward(double _d) {
     double dx, dy, dz;
+    MCOORD K;
+    /*
+    int iMesh;
+    int iFace;
+    Lib3dsMesh* mesh;
+    MCOORD A;
+    MCOORD B;
+    MCOORD C;
+    */
 
     dx = _d * cos(g_scenes3DS[KART_ID].rotate[2] * M_PI / 180.0);
     dy = _d * sin(g_scenes3DS[KART_ID].rotate[2] * M_PI / 180.0);
     dz = 0.0f;
+    
+    K.x = g_scenes3DS[KART_ID].translate[0] + dx;
+    K.y = g_scenes3DS[KART_ID].translate[1] + dy;
+    K.z = g_scenes3DS[KART_ID].translate[2] + dz;
+    /*
+    //find the face equivalent to the position of the kart
+    //check if this face is above z=0
+    for(iMesh = 0; iMesh< g_scenes3DS[FIELD_ID].lib3dsfile->nmeshes; iMesh++) {
+        mesh = g_scenes3DS[FIELD_ID].lib3dsfile->meshes[iMesh];
+        for(iFace = 0; iFace < mesh->nfaces; ++iFace) {
+            A.x = mesh->vertices[ mesh->faces[iFace].index[0] ][0];
+            A.y = mesh->vertices[ mesh->faces[iFace].index[0] ][1];
+            A.z = mesh->vertices[ mesh->faces[iFace].index[0] ][2];
 
-    if(g_scenes3DS[KART_ID].translate[0] + dx < SCENE_X_MAX && g_scenes3DS[KART_ID].translate[0] + dx > SCENE_X_MIN
-       && g_scenes3DS[KART_ID].translate[1] + dy < SCENE_Y_MAX && g_scenes3DS[KART_ID].translate[1] + dy > SCENE_Y_MIN) {
+            B.x = mesh->vertices[ mesh->faces[iFace].index[1] ][0];
+            B.y = mesh->vertices[ mesh->faces[iFace].index[1] ][1];
+            B.z = mesh->vertices[ mesh->faces[iFace].index[1] ][2];
+
+            C.x = mesh->vertices[ mesh->faces[iFace].index[2] ][0];
+            C.y = mesh->vertices[ mesh->faces[iFace].index[2] ][1];
+            C.z = mesh->vertices[ mesh->faces[iFace].index[2] ][2];
+
+            if(isInTriangle(A, B, C, K) == 1 && (A.z > 0 || B.z > 0 || C.z > 0)){
+                printf("A:%f, B:%f, C:%f", A.z, B.z, C.z);
+                return;
+            }
+        }
+    }
+    */
+
+    if(K.x < SCENE_X_MAX && K.x > SCENE_X_MIN
+       && K.y < SCENE_Y_MAX && K.y > SCENE_Y_MIN) {
         g_scenes3DS[KART_ID].translate[0] += dx;
         g_scenes3DS[KART_ID].translate[1] += dy;
         g_scenes3DS[KART_ID].translate[2] += dz;
