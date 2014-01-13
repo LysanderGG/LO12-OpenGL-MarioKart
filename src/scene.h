@@ -192,8 +192,8 @@ typedef struct {
 #define FIELD_ID                2
 #define NB_MAX_3DS_SCENES       100
 #define NB_MAX_3DS_MODELS       10
-#define NB_MIN_RANDOM_OBJECTS   10
-#define NB_MAX_RANDOM_OBJECTS   20
+#define NB_MIN_RANDOM_OBJECTS   15
+#define NB_MAX_RANDOM_OBJECTS   30
 #define SCENE_X_MIN             -395
 #define SCENE_X_MAX             +395
 #define SCENE_Y_MIN             -395
