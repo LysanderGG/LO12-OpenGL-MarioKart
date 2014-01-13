@@ -194,10 +194,10 @@ typedef struct {
 #define NB_MAX_3DS_MODELS       10
 #define NB_MIN_RANDOM_OBJECTS   10
 #define NB_MAX_RANDOM_OBJECTS   20
-#define SCENE_X_MIN             -260
-#define SCENE_X_MAX             +260
-#define SCENE_Y_MIN             -260
-#define SCENE_Y_MAX             +260
+#define SCENE_X_MIN             -395
+#define SCENE_X_MAX             +395
+#define SCENE_Y_MIN             -395
+#define SCENE_Y_MAX             +395
 
 #define DEFAULT_PERSPECTIVE_FOVY    45.0
 #define DEFAULT_PERSPECTIVE_NEAR    1.0
